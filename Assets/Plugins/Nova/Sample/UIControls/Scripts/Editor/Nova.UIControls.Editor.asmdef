@@ -1,0 +1,25 @@
+{
+  "name": "Nova.UIControls.Editor",
+  "rootNamespace": "",
+  "references": [
+    "GUID:552447fb6cdb3d34b969d73c1b33b7d8",
+    "GUID:d3646cb6c22de2d4e9ab342c87024f8e"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [
+    {
+      "name": "com.unity.modules.animation",
+      "expression": "1.0.0",
+      "define": "PACKAGE_ANIMATION"
+    }
+  ],
+  "noEngineReferences": false
+}

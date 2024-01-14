@@ -1,0 +1,34 @@
+#pragma kernel Blur
+
+#pragma multi_compile_local __ COLOR_ADJUSTMENT_ON
+#pragma multi_compile_local __ LINEAR_SPACE
+
+#include "UnityCG.cginc"
+#include "../BlurFilters.cginc"
+
+sampler2D _Input;
+RWTexture2D<float4> _Output;
+
+float4 _BlurBox;
+float4 _UVScale;
+float4 _Offset;
+
+[numthreads(8, 8, 1)]
+void Blur (uint2 id : SV_DispatchThreadID)
+{
+	uint2 pos = id + _Offset.xy;
+	half2 blurUV = (pos + 0.5) * _UVScale.xy;
+
+	half4x2 uvs = half4x2(blurUV, blurUV, blurUV, blurUV);
+	half4x2 offsets = half4x2(_BlurBox.xy, _BlurBox.zy, _BlurBox.xw, _BlurBox.zw);
+
+	half4x2 boxUVs = uvs + offsets;
+
+	float4 color = BlurSample(_Input, boxUVs);
+
+	#if defined(LINEAR_SPACE)
+	color.xyz = LinearToGammaSpace(color.xyz);
+	#endif
+
+	_Output[pos] = color;
+}
