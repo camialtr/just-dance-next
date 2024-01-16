@@ -290,7 +290,10 @@ public static class Mapping
             List<Lyrics> lyrics = new();
             for (int i = 0; i < songJson.lyrics.Count; i++)
             {
-                lyrics.Add(new() { time = (songJson.lyrics[i].time) / 1000f, duration = songJson.lyrics[i].duration / 1000f, text = songJson.lyrics[i].text, isLineEnding = songJson.lyrics[i].isLineEnding });
+                if (!string.IsNullOrWhiteSpace(songJson.lyrics[i].text))
+                {
+                    lyrics.Add(new() { time = (songJson.lyrics[i].time) / 1000f, duration = songJson.lyrics[i].duration / 1000f, text = songJson.lyrics[i].text, isLineEnding = songJson.lyrics[i].isLineEnding });
+                }
             }
 
             //Generates Pictos

@@ -14,11 +14,12 @@ public class Game : MonoBehaviour
     [SerializeField] MediaElements mediaElements;
     [SerializeField] LyricElements lyricElements;
 
-    Stopwatch timeManager = new();
+    readonly Stopwatch timeManager = new();
 
     private async void Start()
     {
         string path = Application.persistentDataPath;
+        LeanTween.init(3000);
 
         musicTrack = await Task.Run(async() => JsonConvert.DeserializeObject<MusicTrack>(await File.ReadAllTextAsync(Path.Combine(path, "Maps", mapName, "musictrack.json"))));
         timeline = await Task.Run(async () => JsonConvert.DeserializeObject<Timeline>(await File.ReadAllTextAsync(Path.Combine(path, "Maps", mapName, "timeline.json"))));

@@ -83,6 +83,7 @@ public class Lyric : MonoBehaviour
     {
         coloredText.color = lyricColor;
         LeanTween.value(0f, 1f, 0.2f).setOnUpdate(UpdateAlpha);
+        LeanTween.value(0f, 1f, 0.2f).setOnUpdate(UpdateAlpha);
         LeanTween.moveLocalY(gameObject, 48f, 0.2f).setOnComplete(() =>
         {
             gameObject.GetComponent<ClipMask>().Tint = new Color(1f, 1f, 1f, 1f);

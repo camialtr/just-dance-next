@@ -23,11 +23,7 @@ public class LyricElements : MonoBehaviour
 
     private void Update()
     {
-        if (timeManager == null)
-        {
-            return;
-        }
-
+        if (timeManager == null) { return; }
         if (!showNext && timeManager.ElapsedMilliseconds / 1000f >= nextTime + musicTrack.beats[musicTrack.startBeat] - 3f)
         {
             lyrics[actualLine - 1].Show();
@@ -63,15 +59,12 @@ public class LyricElements : MonoBehaviour
                         lyrics[actualLine].musicTrack = musicTrack;
                         startOfLine = false;
                     }
-                    if (timeline.lyrics[actualLyric].isLineEnding == 0)
+
+                    lyrics[actualLine].name += timeline.lyrics[actualLyric].text;
+                    lyrics[actualLine].AddContent(timeline.lyrics[actualLyric].text, timeline.lyrics[actualLyric].time, timeline.lyrics[actualLyric].duration);
+
+                    if (timeline.lyrics[actualLyric].isLineEnding == 1)
                     {
-                        lyrics[actualLine].name += timeline.lyrics[actualLyric].text;
-                        lyrics[actualLine].AddContent(timeline.lyrics[actualLyric].text, timeline.lyrics[actualLyric].time, timeline.lyrics[actualLyric].duration);
-                    }
-                    else if (timeline.lyrics[actualLyric].isLineEnding == 1)
-                    {
-                        lyrics[actualLine].name += timeline.lyrics[actualLyric].text;
-                        lyrics[actualLine].AddContent(timeline.lyrics[actualLyric].text, timeline.lyrics[actualLyric].time, timeline.lyrics[actualLyric].duration);
                         if (nextTime + musicTrack.beats[musicTrack.startBeat] > 3f && timeManager.ElapsedMilliseconds / 1000f >= nextTime + musicTrack.beats[musicTrack.startBeat] - 3f)
                         {
                             lyrics[actualLine].Show();
@@ -80,9 +73,11 @@ public class LyricElements : MonoBehaviour
                         {
                             showNext = false;
                         }
+
                         startOfLine = true;
                         if (actualLyric == timeline.lyrics.Count - 1) { lastLyric = true; }
                         actualLyric++; actualLine++;
+
                         break;
                     }
                 }
