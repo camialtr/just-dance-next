@@ -1,6 +1,7 @@
 using System.IO;
 using UnityEngine;
 using Newtonsoft.Json;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 public class Game : MonoBehaviour
@@ -11,6 +12,9 @@ public class Game : MonoBehaviour
     Timeline timeline;
 
     [SerializeField] MediaElements mediaElements;
+    [SerializeField] LyricElements lyricElements;
+
+    Stopwatch timeManager = new();
 
     private async void Start()
     {
@@ -20,6 +24,11 @@ public class Game : MonoBehaviour
         timeline = await Task.Run(async () => JsonConvert.DeserializeObject<Timeline>(await File.ReadAllTextAsync(Path.Combine(path, "Maps", mapName, "timeline.json"))));
 
         mediaElements.LoadMediaAssets(mapName);
+
+        lyricElements.musicTrack = musicTrack;
+        lyricElements.timeline = timeline;
+        lyricElements.lyricColor = new Color(timeline.lyricColor[0], timeline.lyricColor[1], timeline.lyricColor[2], 1f);
+        lyricElements.timeManager = timeManager;
     }
 
     private void Update()
@@ -27,6 +36,7 @@ public class Game : MonoBehaviour
         if (mediaElements.isLoaded && !mediaElements.isPlaying)
         {
             mediaElements.Play(musicTrack);
+            timeManager.Start();
         }
     }
 }

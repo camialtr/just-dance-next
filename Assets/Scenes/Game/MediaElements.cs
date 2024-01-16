@@ -2,7 +2,6 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.Video;
 using System.Collections;
-using System.Threading.Tasks;
 using UnityEngine.Networking;
 
 public class MediaElements : MonoBehaviour

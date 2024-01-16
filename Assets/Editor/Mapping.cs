@@ -188,7 +188,7 @@ public static class Mapping
             //Instantiates Timeline and organize the content based on it time values
             Timeline timeline = new()
             {
-                lyricsColor = new List<float>()
+                lyricColor = new List<float>()
                 {
                     (float)ubiSongDesc.COMPONENTS[0].DefaultColors.lyrics[1],
                     (float)ubiSongDesc.COMPONENTS[0].DefaultColors.lyrics[2],
@@ -278,6 +278,7 @@ public static class Mapping
                 endBeat = songJson.beats.Count - 1,
                 beats = new()
             };
+            musicTrack.beats.Add(0);
             for (int i = 0; i < songJson.beats.Count; i++)
             {
                 musicTrack.beats.Add((songJson.beats[i]) / 1000f);
@@ -338,7 +339,7 @@ public static class Mapping
             ColorUtility.TryParseHtmlString(songJson.lyricsColor, out Color lyricsColor);
             Timeline timeline = new()
             {
-                lyricsColor = new List<float>()
+                lyricColor = new List<float>()
                 {
                     lyricsColor.r,
                     lyricsColor.g,

@@ -21,7 +21,7 @@ public struct MusicTrack
 
 public struct Timeline
 {
-    public List<float> lyricsColor;
+    public List<float> lyricColor;
     public List<Lyrics> lyrics;
     public List<Moves> moves;
     public List<Pictos> pictos;
