@@ -20,7 +20,7 @@ MonoBehaviour:
     EdgeSoftenWidth: 1
     UIBlock3DCornerDivisions: 8
     UIBlock3DEdgeDivisions: 8
-    UIBlock2DLightingModels: 1
+    UIBlock2DLightingModels: 11
     TextBlockLightingModels: 1
     UIBlock3DLightingModels: 2
     ClickFrameDeltaThreshold: 1

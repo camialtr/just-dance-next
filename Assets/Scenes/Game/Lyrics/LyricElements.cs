@@ -13,10 +13,10 @@ public class LyricElements : MonoBehaviour
 
     readonly List<Lyric> lyrics = new();
 
-    int actualLyric = 0;
+    int atualLyric = 0;
     bool startOfLine = true; 
     float nextTime = 0f; 
-    int actualLine = 0; 
+    int atualLine = 0; 
     bool lastLyric = false; 
     bool lyricsEnded = false;
     bool showNext = true;
@@ -24,50 +24,52 @@ public class LyricElements : MonoBehaviour
     private void Update()
     {
         if (timeManager == null) { return; }
+
         if (!showNext && timeManager.ElapsedMilliseconds / 1000f >= nextTime + musicTrack.beats[musicTrack.startBeat] - 3f)
         {
-            lyrics[actualLine - 1].Show();
+            lyrics[atualLine - 1].Show();
             showNext = true;
         }
+
         if (timeManager.ElapsedMilliseconds / 1000f >= nextTime + musicTrack.beats[musicTrack.startBeat] && !lyricsEnded)
         {
             if (!lastLyric)
             {
-                if (actualLine > 0)
+                if (atualLine > 0)
                 {
-                    lyrics[actualLine - 1].Release();
+                    lyrics[atualLine - 1].Release();
                 }
-                if (actualLine > 1 && lyrics[actualLine - 2].hided == false)
+                if (atualLine > 1 && lyrics[atualLine - 2].hided == false)
                 {
-                    lyrics[actualLine - 2].Hide();
+                    lyrics[atualLine - 2].Hide();
                 }
-                if (actualLine > 2)
+                if (atualLine > 2)
                 {
-                    lyrics[actualLine - 3].destroy = true;
-                    lyrics[actualLine - 3] = null;
+                    lyrics[atualLine - 3].destroy = true;
+                    lyrics[atualLine - 3] = null;
                 }
                 lyrics.Add(Instantiate(lyricPrefab).GetComponent<Lyric>());
-                lyrics[actualLine].transform.SetParent(gameObject.transform, false);
-                for (; actualLyric < timeline.lyrics.Count; actualLyric++)
+                lyrics[atualLine].transform.SetParent(gameObject.transform, false);
+                for (; atualLyric < timeline.lyrics.Count; atualLyric++)
                 {
                     if (startOfLine)
                     {
-                        lyrics[actualLine].name = null;
-                        nextTime = timeline.lyrics[actualLyric].time;
-                        lyrics[actualLine].lyricColor = lyricColor;
-                        lyrics[actualLine].timeManager = timeManager;
-                        lyrics[actualLine].musicTrack = musicTrack;
+                        lyrics[atualLine].name = null;
+                        nextTime = timeline.lyrics[atualLyric].time;
+                        lyrics[atualLine].lyricColor = lyricColor;
+                        lyrics[atualLine].timeManager = timeManager;
+                        lyrics[atualLine].musicTrack = musicTrack;
                         startOfLine = false;
                     }
 
-                    lyrics[actualLine].name += timeline.lyrics[actualLyric].text;
-                    lyrics[actualLine].AddContent(timeline.lyrics[actualLyric].text, timeline.lyrics[actualLyric].time, timeline.lyrics[actualLyric].duration);
+                    lyrics[atualLine].name += timeline.lyrics[atualLyric].text;
+                    lyrics[atualLine].AddContent(timeline.lyrics[atualLyric].text, timeline.lyrics[atualLyric].time, timeline.lyrics[atualLyric].duration);
 
-                    if (timeline.lyrics[actualLyric].isLineEnding == 1)
+                    if (timeline.lyrics[atualLyric].isLineEnding == 1)
                     {
                         if (nextTime + musicTrack.beats[musicTrack.startBeat] > 3f && timeManager.ElapsedMilliseconds / 1000f >= nextTime + musicTrack.beats[musicTrack.startBeat] - 3f)
                         {
-                            lyrics[actualLine].Show();
+                            lyrics[atualLine].Show();
                         }
                         else
                         {
@@ -75,8 +77,8 @@ public class LyricElements : MonoBehaviour
                         }
 
                         startOfLine = true;
-                        if (actualLyric == timeline.lyrics.Count - 1) { lastLyric = true; }
-                        actualLyric++; actualLine++;
+                        if (atualLyric == timeline.lyrics.Count - 1) { lastLyric = true; }
+                        atualLyric++; atualLine++;
 
                         break;
                     }
@@ -86,7 +88,7 @@ public class LyricElements : MonoBehaviour
             {
                 if (timeManager.ElapsedMilliseconds / 1000f >= nextTime + musicTrack.beats[musicTrack.startBeat] && lastLyric)
                 {
-                    lyrics[actualLine - 1].Release();
+                    lyrics[atualLine - 1].Release();
                     lyricsEnded = true;
                 }
             }

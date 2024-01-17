@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5466903904222933703}
   - component: {fileID: 9155280772238097079}
   - component: {fileID: 6138601600985586482}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Text Mask
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -254,7 +254,7 @@ GameObject:
   - component: {fileID: 5466140449788982813}
   - component: {fileID: 701427086031549976}
   - component: {fileID: 9006116312054863501}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Colored Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -617,7 +617,7 @@ GameObject:
   - component: {fileID: 6393767088471545092}
   - component: {fileID: 4422527413687360282}
   - component: {fileID: 5706917185890381862}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -980,7 +980,7 @@ GameObject:
   - component: {fileID: 6133458771656282122}
   - component: {fileID: 8929113873089657682}
   - component: {fileID: 276038394534310952}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Lyric
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1227,4 +1227,4 @@ MonoBehaviour:
   textMask: {fileID: 9155280772238097079}
   lyricColor: {r: 0, g: 0, b: 0, a: 0}
   hided: 0
-  allowDestroy: 0
+  destroy: 0
