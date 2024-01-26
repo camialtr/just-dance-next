@@ -29,7 +29,7 @@ public class Game : MonoBehaviour
 
         mediaElements.LoadMediaAssets(mapName);
 
-        Color accentColor = new Color(timeline.lyricColor[0], timeline.lyricColor[1], timeline.lyricColor[2], 1f);
+        Color accentColor = new(timeline.lyricColor[0], timeline.lyricColor[1], timeline.lyricColor[2], 1f);
 
         lyricElements.musicTrack = musicTrack;
         lyricElements.timeline = timeline;

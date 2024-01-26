@@ -403,7 +403,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 707ed455a41cdab4797d8bbc0562aa2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapName: sayonararetake
+  mapName: conaltura
   mediaElements: {fileID: 1758172482}
   lyricElements: {fileID: 1517680010}
   pictoElements: {fileID: 994340862}
@@ -1378,7 +1378,7 @@ Camera:
   m_TargetEye: 0
   m_HDR: 0
   m_AllowMSAA: 0
-  m_AllowDynamicResolution: 1
+  m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 0
   m_StereoConvergence: 10
@@ -1629,19 +1629,19 @@ MonoBehaviour:
       Color: {r: 0, g: 0, b: 0, a: 0.5}
       Center:
         X:
-          Raw: -0.47041902
+          Raw: -0.47222918
           Type: 1
         Y:
-          Raw: -0.0034572482
+          Raw: -0.00023924113
           Type: 1
       Radius:
         X:
-          Raw: 0.68831927
+          Raw: 0.4251154
           Type: 1
         Y:
-          Raw: 0.9891201
+          Raw: 0.2330347
           Type: 1
-      Rotation: 0
+      Rotation: -90
       Enabled: 1
     Border:
       Color: {r: 1, g: 1, b: 1, a: 1}
@@ -3894,10 +3894,10 @@ MonoBehaviour:
       Color: {r: 0, g: 0, b: 0, a: 0.5}
       Center:
         X:
-          Raw: 0.46026707
+          Raw: 0.5080949
           Type: 1
         Y:
-          Raw: -0.4747249
+          Raw: -0.5129256
           Type: 1
       Radius:
         X:
@@ -5399,19 +5399,19 @@ MonoBehaviour:
       Color: {r: 0, g: 0, b: 0, a: 0.75}
       Center:
         X:
-          Raw: -0.38940653
+          Raw: -0.41803366
           Type: 1
         Y:
-          Raw: -0.4279428
+          Raw: -0.42551938
           Type: 1
       Radius:
         X:
-          Raw: 1.1626374
+          Raw: 1.1626332
           Type: 1
         Y:
-          Raw: 0.46048024
+          Raw: 0.3292837
           Type: 1
-      Rotation: 0
+      Rotation: 0.1607111
       Enabled: 1
     Border:
       Color: {r: 1, g: 1, b: 1, a: 1}
