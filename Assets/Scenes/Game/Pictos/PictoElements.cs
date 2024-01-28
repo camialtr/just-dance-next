@@ -67,8 +67,8 @@ public class PictoElements : MonoBehaviour
 
             if (songDesc.numCoach > 1)
             {
-                picto.picto.Size.X = (384f);
-                picto.shadow.Size.X = (384f);
+                picto.picto.Size.X = 384f;
+                picto.shadow.Size.X = 384f;
             }
 
             picto.picto.SetImage(pictos[atualPicto]);
