@@ -4,9 +4,11 @@ using UnityEngine.SceneManagement;
 
 public class TitleManager : MonoBehaviour
 {
+    BackgroundManager background;
+
     private void Start()
     {
-
+        background = GameObject.FindWithTag("Background").GetComponent<BackgroundManager>();
     }
 
     private void Update()
@@ -29,5 +31,10 @@ public class TitleManager : MonoBehaviour
         {
             yield return null;
         }
+    }
+
+    public void HideBackgroundGradient()
+    {
+        background.HideGradient();
     }
 }
