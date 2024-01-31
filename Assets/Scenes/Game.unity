@@ -403,7 +403,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 707ed455a41cdab4797d8bbc0562aa2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapName: fire
+  mapName: allthestars
   mediaElements: {fileID: 1758172482}
   lyricElements: {fileID: 1517680010}
   pictoElements: {fileID: 994340862}

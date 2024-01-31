@@ -6,6 +6,8 @@ public class BootManager : MonoBehaviour
 {
     private void Start()
     {
+        Screen.fullScreen = true;
+        Screen.SetResolution(Screen.currentResolution.width, Screen.currentResolution.height, true);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }

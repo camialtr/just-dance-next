@@ -2,8 +2,15 @@ using UnityEngine;
 
 public class MenuAudioManager : MonoBehaviour
 {
+    [SerializeField] AudioSource menuAudio;
+
     private void Start()
     {
-        GameObject.DontDestroyOnLoad(this);
+        DontDestroyOnLoad(this);
+    }
+
+    public void StopAudio()
+    {
+        menuAudio.Stop();
     }
 }

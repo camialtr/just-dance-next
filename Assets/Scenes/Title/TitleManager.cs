@@ -5,6 +5,10 @@ using UnityEngine.SceneManagement;
 public class TitleManager : MonoBehaviour
 {
     BackgroundManager background;
+    [SerializeField] AudioSource menuAudio;
+    [SerializeField] AudioSource logoAudio;
+    [SerializeField] Animator titleAnimator;
+    bool canStart = false;
 
     private void Start()
     {
@@ -13,9 +17,12 @@ public class TitleManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Return))
+        if (canStart)
         {
-            LoadConnection();
+            if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+            {
+                titleAnimator.Play("Title-Exit");
+            }
         }
     }
 
@@ -33,8 +40,28 @@ public class TitleManager : MonoBehaviour
         }
     }
 
-    public void HideBackgroundGradient()
+    public void ShowBkgGradient()
+    {
+        background.ShowGradient();
+    }
+
+    public void HideBkgGradient()
     {
         background.HideGradient();
+    }
+
+    public void PlayMenuAudio()
+    {
+        menuAudio.Play();
+    }
+
+    public void PlayLogoAudio()
+    {
+        logoAudio.Play();
+    }
+
+    public void EnableStart()
+    {
+        canStart = true;
     }
 }

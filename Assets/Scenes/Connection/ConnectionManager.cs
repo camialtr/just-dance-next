@@ -24,6 +24,7 @@ public class ConnectionManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Return))
         {
+            GameObject.FindGameObjectWithTag("MenuAudio").GetComponent<MenuAudioManager>().StopAudio();
             SceneManager.LoadScene("Game");
         }
     }

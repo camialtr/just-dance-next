@@ -19,8 +19,13 @@ public class BackgroundManager : MonoBehaviour
         }
     }
 
+    public void ShowGradient()
+    {
+        animator.Play("Show-Gradient");
+    }
+
     public void HideGradient()
     {
-        animator.Play("Hide_Gradient");
+        animator.Play("Hide-Gradient");
     }
 }
