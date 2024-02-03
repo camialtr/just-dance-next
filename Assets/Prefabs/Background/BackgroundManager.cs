@@ -9,10 +9,21 @@ public class BackgroundManager : MonoBehaviour
     private void Start()
     {
         DontDestroyOnLoad(this);
+        Screen.SetResolution(3840, 2160, true);
     }
 
     private void Update()
     {
+        if (!Screen.fullScreen)
+        {
+            Screen.SetResolution(3840, 2160, true);
+        }
+
+        if (Cursor.visible)
+        {
+            Cursor.visible = false;
+        }
+
         if (screenSpace.TargetCamera == null)
         {
             screenSpace.TargetCamera = Camera.main;

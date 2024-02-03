@@ -403,7 +403,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 707ed455a41cdab4797d8bbc0562aa2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapName: allthestars
+  mapName: stuckonafeeling
   mediaElements: {fileID: 1758172482}
   lyricElements: {fileID: 1517680010}
   pictoElements: {fileID: 994340862}
@@ -1378,7 +1378,7 @@ Camera:
   m_TargetEye: 0
   m_HDR: 0
   m_AllowMSAA: 0
-  m_AllowDynamicResolution: 0
+  m_AllowDynamicResolution: 1
   m_ForceIntoRT: 0
   m_OcclusionCulling: 0
   m_StereoConvergence: 10
@@ -1636,12 +1636,12 @@ MonoBehaviour:
           Type: 1
       Radius:
         X:
-          Raw: 0.4251154
+          Raw: 0.13779691
           Type: 1
         Y:
-          Raw: 0.2330347
+          Raw: 1.269833
           Type: 1
-      Rotation: -90
+      Rotation: 0
       Enabled: 1
     Border:
       Color: {r: 1, g: 1, b: 1, a: 1}
@@ -5406,12 +5406,12 @@ MonoBehaviour:
           Type: 1
       Radius:
         X:
-          Raw: 1.1626332
+          Raw: 1.1626298
           Type: 1
         Y:
-          Raw: 0.3292837
+          Raw: 0.7226075
           Type: 1
-      Rotation: 0.1607111
+      Rotation: 0
       Enabled: 1
     Border:
       Color: {r: 1, g: 1, b: 1, a: 1}

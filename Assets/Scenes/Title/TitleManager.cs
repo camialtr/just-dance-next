@@ -1,34 +1,64 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using System.Threading.Tasks;
 
 public class TitleManager : MonoBehaviour
 {
     BackgroundManager background;
-    [SerializeField] AudioSource menuAudio;
+    [SerializeField] MenuAudioManager menuAudio;
     [SerializeField] AudioSource logoAudio;
+    [SerializeField] AudioSource selectAudio;
+    [SerializeField] AudioSource exitAudio;
     [SerializeField] Animator titleAnimator;
-    bool canStart = false;
+    [SerializeField] Animator popupAnimator;
+    [SerializeField] AudioSource popupEnter;
+    [SerializeField] AudioSource popupExit;
+    bool canInteract = false;
+    bool popupShowed = false;
 
     private void Start()
     {
-        background = GameObject.FindWithTag("Background").GetComponent<BackgroundManager>();
+        background = GameObject.FindGameObjectWithTag("Background").GetComponent<BackgroundManager>();
     }
 
-    private void Update()
+    private async void Update()
     {
-        if (canStart)
+        if (canInteract)
         {
-            if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+            if (popupShowed)
             {
-                titleAnimator.Play("Title-Exit");
+                if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+                {
+                    Application.Quit();
+                }
+                if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Backspace))
+                {
+                    popupAnimator.Play("Popup-Exit");
+                    popupShowed = false;
+                    canInteract = false;
+                    popupExit.Play();
+                    await Task.Delay(500);
+                    canInteract = true;
+                }
+            }
+            else
+            {
+                if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+                {
+                    titleAnimator.Play("Title-Exit");
+                }
+                if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Backspace))
+                {
+                    popupAnimator.Play("Popup-Enter");
+                    popupShowed = true;
+                    canInteract = false;
+                    popupEnter.Play();
+                    await Task.Delay(500);
+                    canInteract = true;
+                }
             }
         }
-    }
-
-    public void LoadConnection()
-    {
-        StartCoroutine(LoadConnectionAsync());
     }
 
     private IEnumerator LoadConnectionAsync()
@@ -40,28 +70,36 @@ public class TitleManager : MonoBehaviour
         }
     }
 
-    public void ShowBkgGradient()
+    public void EnterAnimationEvent01()
     {
-        background.ShowGradient();
-    }
-
-    public void HideBkgGradient()
-    {
+        menuAudio.PlayAudio();
+        logoAudio.Play();
         background.HideGradient();
     }
 
-    public void PlayMenuAudio()
+    public void EnterAnimationEvent02()
     {
-        menuAudio.Play();
+        canInteract = true;
     }
 
-    public void PlayLogoAudio()
+    public void ExitAnimationEvent01()
     {
-        logoAudio.Play();
+        selectAudio.Play();
     }
 
-    public void EnableStart()
+    public void ExitAnimationEvent02()
     {
-        canStart = true;
+        background.ShowGradient();
+        exitAudio.Play();
+    }
+
+    public void ExitAnimationEvent03()
+    {
+        StartCoroutine(LoadConnectionAsync());
+    }
+
+    public void PopupAnimationEvent01()
+    {
+        canInteract = true;
     }
 }

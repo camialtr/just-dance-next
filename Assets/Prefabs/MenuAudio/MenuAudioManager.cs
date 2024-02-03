@@ -7,6 +7,13 @@ public class MenuAudioManager : MonoBehaviour
     private void Start()
     {
         DontDestroyOnLoad(this);
+        menuAudio.Play();
+        menuAudio.Stop();
+    }
+
+    public void PlayAudio()
+    {
+        menuAudio.Play();
     }
 
     public void StopAudio()

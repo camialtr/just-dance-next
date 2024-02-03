@@ -104,6 +104,6 @@ Material:
     - _Base_Color_2: {r: 0.07731159, g: 0, b: 0.19245279, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _Glitter_Color: {r: 0.6070943, g: 0, b: 1, a: 1}
+    - _Glitter_Color: {r: 0.60784316, g: 0, b: 1, a: 1}
     - _Noise_Scale: {r: 0.7, g: 0.7, b: 0, a: 0}
   m_BuildTextureStacks: []
