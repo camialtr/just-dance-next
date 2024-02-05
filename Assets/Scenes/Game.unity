@@ -138,7 +138,7 @@ GameObject:
   - component: {fileID: 208594861}
   - component: {fileID: 208594866}
   m_Layer: 5
-  m_Name: UI
+  m_Name: UI-Game
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -403,7 +403,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 707ed455a41cdab4797d8bbc0562aa2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapName: stuckonafeeling
+  mapName: flashpose
   mediaElements: {fileID: 1758172482}
   lyricElements: {fileID: 1517680010}
   pictoElements: {fileID: 994340862}

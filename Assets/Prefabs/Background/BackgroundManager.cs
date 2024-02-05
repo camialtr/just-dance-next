@@ -5,29 +5,29 @@ public class BackgroundManager : MonoBehaviour
 {
     [SerializeField] ScreenSpace screenSpace;
     [SerializeField] Animator animator;
-
-    private void Start()
-    {
-        DontDestroyOnLoad(this);
-        Screen.SetResolution(3840, 2160, true);
-    }
+    [SerializeField] AudioSource menuAudio;
 
     private void Update()
     {
         if (!Screen.fullScreen)
         {
-            Screen.SetResolution(3840, 2160, true);
+            Screen.SetResolution(1920, 1080, true);
         }
 
         if (Cursor.visible)
         {
             Cursor.visible = false;
         }
+    }
 
-        if (screenSpace.TargetCamera == null)
-        {
-            screenSpace.TargetCamera = Camera.main;
-        }
+    public void PlayMenuAudio()
+    {
+        menuAudio.Play();
+    }
+
+    public void StopMenuAudio()
+    {
+        menuAudio.Stop();
     }
 
     public void ShowGradient()
