@@ -7,19 +7,6 @@ public class BackgroundManager : MonoBehaviour
     [SerializeField] Animator animator;
     [SerializeField] AudioSource menuAudio;
 
-    private void Update()
-    {
-        if (!Screen.fullScreen)
-        {
-            Screen.SetResolution(1920, 1080, true);
-        }
-
-        if (Cursor.visible)
-        {
-            Cursor.visible = false;
-        }
-    }
-
     public void PlayMenuAudio()
     {
         menuAudio.Play();

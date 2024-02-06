@@ -10,26 +10,45 @@ public class TitleManager : MonoBehaviour
     [SerializeField] AudioSource selectAudio;
     [SerializeField] AudioSource exitAudio;
     [SerializeField] Animator titleAnimator;
+    [SerializeField] Animator overlayAnimator;
     [SerializeField] GameObject gameUI;
     bool canInteract = false;
+    bool popupShowed = false;
 
-    private void Update()
+    private async void Update()
     {
         if (canInteract)
         {
-            if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+            if (!popupShowed)
             {
-                titleAnimator.Play("Title-Exit");
+                if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+                {
+                    titleAnimator.Play("Title-Exit");
+                }
+                if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Backspace))
+                {
+                    overlayAnimator.Play("Popup-Quit-Enter");
+                    popupShowed = true;
+                    canInteract = false;
+                    await Task.Delay(400);
+                    canInteract = true;
+                }
             }
-        }
-    }
-
-    private IEnumerator LoadConnectionAsync()
-    {
-        AsyncOperation loadSceneAsyncOperation = SceneManager.LoadSceneAsync("Connection");
-        while (!loadSceneAsyncOperation.isDone)
-        {
-            yield return null;
+            else
+            {
+                if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+                {
+                    Application.Quit();
+                }
+                if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Backspace))
+                {
+                    overlayAnimator.Play("Popup-Quit-Exit");
+                    popupShowed = false;
+                    canInteract = false;
+                    await Task.Delay(333);
+                    canInteract = true;
+                }
+            }
         }
     }
 
@@ -60,6 +79,7 @@ public class TitleManager : MonoBehaviour
     public void ExitAnimationEvent03()
     {
         Instantiate(gameUI);
+        background.gameObject.SetActive(false);
         Destroy(gameObject);
     }
 
