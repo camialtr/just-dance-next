@@ -11,15 +11,15 @@ public class TitleManager : MonoBehaviour
     [SerializeField] AudioSource exitAudio;
     [SerializeField] Animator titleAnimator;
     [SerializeField] Animator overlayAnimator;
-    [SerializeField] GameObject gameUI;
+    [SerializeField] GameObject connectionUI;
     bool canInteract = false;
-    bool popupShowed = false;
+    bool exitPopupShowed = false;
 
     private async void Update()
     {
         if (canInteract)
         {
-            if (!popupShowed)
+            if (!exitPopupShowed)
             {
                 if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
                 {
@@ -28,7 +28,7 @@ public class TitleManager : MonoBehaviour
                 if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Backspace))
                 {
                     overlayAnimator.Play("Popup-Quit-Enter");
-                    popupShowed = true;
+                    exitPopupShowed = true;
                     canInteract = false;
                     await Task.Delay(400);
                     canInteract = true;
@@ -43,7 +43,7 @@ public class TitleManager : MonoBehaviour
                 if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Backspace))
                 {
                     overlayAnimator.Play("Popup-Quit-Exit");
-                    popupShowed = false;
+                    exitPopupShowed = false;
                     canInteract = false;
                     await Task.Delay(333);
                     canInteract = true;
@@ -78,8 +78,7 @@ public class TitleManager : MonoBehaviour
 
     public void ExitAnimationEvent03()
     {
-        Instantiate(gameUI);
-        background.gameObject.SetActive(false);
+        Instantiate(connectionUI);
         Destroy(gameObject);
     }
 
