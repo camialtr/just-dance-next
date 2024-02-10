@@ -19,13 +19,28 @@ public class TitleManager : MonoBehaviour
     {
         if (canInteract)
         {
-            if (!exitPopupShowed)
+            if (exitPopupShowed)
+            {
+                if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+                {
+                    Application.Quit();
+                }
+                else if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Backspace))
+                {
+                    overlayAnimator.Play("Popup-Quit-Exit");
+                    exitPopupShowed = false;
+                    canInteract = false;
+                    await Task.Delay(333);
+                    canInteract = true;
+                }                
+            }
+            else
             {
                 if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
                 {
                     titleAnimator.Play("Title-Exit");
                 }
-                if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Backspace))
+                else if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Backspace))
                 {
                     overlayAnimator.Play("Popup-Quit-Enter");
                     exitPopupShowed = true;
@@ -34,55 +49,38 @@ public class TitleManager : MonoBehaviour
                     canInteract = true;
                 }
             }
-            else
-            {
-                if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
-                {
-                    Application.Quit();
-                }
-                if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Backspace))
-                {
-                    overlayAnimator.Play("Popup-Quit-Exit");
-                    exitPopupShowed = false;
-                    canInteract = false;
-                    await Task.Delay(333);
-                    canInteract = true;
-                }
-            }
         }
     }
 
-    public void EnterAnimationEvent01()
+    void EnterAnimationEvent01()
     {
         background.PlayMenuAudio();
         logoAudio.Play();
-        background.HideGradient();
     }
 
-    public void EnterAnimationEvent02()
+    void EnterAnimationEvent02()
     {
         canInteract = true;
     }
 
-    public void ExitAnimationEvent01()
+    void ExitAnimationEvent01()
     {
+        canInteract = false;
         selectAudio.Play();
     }
 
-    public void ExitAnimationEvent02()
-    {
-        background.StopMenuAudio();
-        background.ShowGradient();
+    void ExitAnimationEvent02()
+    {        
         exitAudio.Play();
     }
 
-    public void ExitAnimationEvent03()
+    void ExitAnimationEvent03()
     {
-        Instantiate(connectionUI);
+        connectionUI.SetActive(true);
         Destroy(gameObject);
     }
 
-    public void PopupAnimationEvent01()
+    void PopupAnimationEvent01()
     {
         canInteract = true;
     }

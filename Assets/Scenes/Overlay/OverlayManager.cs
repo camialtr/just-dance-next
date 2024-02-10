@@ -18,12 +18,12 @@ public class OverlayManager : MonoBehaviour
         }
     }
 
-    public void EnterAnimationEvent()
+    void EnterAnimationEvent()
     {
         popupEnterAudio.Play();
     }
 
-    public void ExitAnimationEvent()
+    void ExitAnimationEvent()
     {
         popupExitAudio.Play();
     }

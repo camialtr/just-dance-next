@@ -2,15 +2,24 @@ using Nova;
 using System.Net;
 using UnityEngine;
 using System.Net.Sockets;
+using System.Threading.Tasks;
 
 public class ConnectionManager : MonoBehaviour
 {
+    [SerializeField] BackgroundManager background;
     [SerializeField] TextBlock IPAdress;
     [SerializeField] Animator connectionAnimator;
+    [SerializeField] Animator overlayAnimator;
     [SerializeField] UIBlock2D selectorUIBlock;
+    [SerializeField] AudioSource enterAudio;
+    [SerializeField] AudioSource exitAudio;
+    [SerializeField] AudioSource selectAudio;
     [SerializeField] AudioSource toggleUpAudio;
     [SerializeField] AudioSource toggleDownAudio;
-    bool canInteract = true;
+    [SerializeField] GameObject gameUI;
+    bool canInteract = false;
+    bool exitPopupShowed = false;
+    bool playerPopupShowed = false;
     uint selectedSlot = 0;
 
     private void Start()
@@ -25,31 +34,115 @@ public class ConnectionManager : MonoBehaviour
         }
     }
 
-    private void Update()
+    private async void Update()
     {
         if (canInteract)
         {
-            if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
+            if (exitPopupShowed)
             {
-                uint lastSelectedSlot = selectedSlot;
-                if (selectedSlot != 4)
+                if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
                 {
-                    selectedSlot++;
+                    Application.Quit();
                 }
-                ToggleSelection(lastSelectedSlot);
-                toggleDownAudio.Play();
+                else if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Backspace))
+                {
+                    overlayAnimator.Play("Popup-Quit-Exit");
+                    exitPopupShowed = false;
+                    canInteract = false;
+                    await Task.Delay(333);
+                    canInteract = true;
+                }
             }
-            else if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
+            else if (playerPopupShowed)
             {
-                uint lastSelectedSlot = selectedSlot;
-                if (selectedSlot != 0)
+
+            }
+            else
+            {
+                if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
                 {
-                    selectedSlot--;
+                    switch (selectedSlot)
+                    {
+                        case 0:
+                            
+                            break;
+                        case 1:
+                            
+                            break;
+                        case 2:
+                            
+                            break;
+                        case 3:
+                            
+                            break;
+                        case 4:
+                            canInteract = false;
+                            selectAudio.Play();
+                            selectorUIBlock.gameObject.transform.localScale = new Vector3(0.97f, 0.93f, 1f);
+                            LeanTween.cancelAll();
+                            LeanTween.scaleX(selectorUIBlock.gameObject, 1f, 0.2f);
+                            LeanTween.scaleY(selectorUIBlock.gameObject, 1f, 0.2f).setOnComplete(() =>
+                            {
+                                exitAudio.Play();
+                                connectionAnimator.Play("Connection-Exit");
+                                LeanTween.scaleX(selectorUIBlock.gameObject, 1.02f, 0.2f);
+                                LeanTween.scaleY(selectorUIBlock.gameObject, 1.1f, 0.2f);
+                                LeanTween.value(5f, 0f, 0.2f).setOnUpdate((float value) =>
+                                {
+                                    selectorUIBlock.Border.Width = value;
+                                });
+                            });
+                            break;
+                    }
                 }
-                ToggleSelection(lastSelectedSlot);
-                toggleUpAudio.Play();
+                else if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Backspace))
+                {
+                    overlayAnimator.Play("Popup-Quit-Enter");
+                    exitPopupShowed = true;
+                    canInteract = false;
+                    await Task.Delay(400);
+                    canInteract = true;
+                }
+                else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
+                {
+                    uint lastSelectedSlot = selectedSlot;
+                    if (selectedSlot != 4)
+                    {
+                        selectedSlot++;
+                    }
+                    ToggleSelection(lastSelectedSlot);
+                    toggleDownAudio.Play();
+                }
+                else if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
+                {
+                    uint lastSelectedSlot = selectedSlot;
+                    if (selectedSlot != 0)
+                    {
+                        selectedSlot--;
+                    }
+                    ToggleSelection(lastSelectedSlot);
+                    toggleUpAudio.Play();
+                }
             }
         }
+    }
+
+    void EnterAnimationEvent01()
+    {
+        enterAudio.Play();
+    }
+
+    void EnterAnimationEvent02()
+    {
+        LeanTween.value(0f, 5f, 0.2f).setOnUpdate((float value) =>
+        {
+            selectorUIBlock.Border.Width = value;
+        });
+    }
+
+    void EnterAnimationEvent03()
+    {
+        canInteract = true;
     }
 
     void ToggleSelection(uint lastSelectedSlot)
@@ -103,5 +196,11 @@ public class ConnectionManager : MonoBehaviour
                 selectorUIBlock.Position = new(385f, -464.172f, 0f);
                 break;
         }
+    }
+
+    void ExitAnimationEvent()
+    {
+        Instantiate(gameUI);
+        Destroy(gameObject);
     }
 }
