@@ -11,11 +11,16 @@ public static class Dancer01Server
     private static TcpListener tcpListener;
     private static TcpClient tcpClient;
     private static Thread listenerThread;
+    private static string localIP;
 
+    public static bool connected = false;
+    public static bool breakThread = false;
+    public static bool threadBreaked = false;
     public static NetworkData networkData;
 
-    public static void Connect()
+    public static void Connect(string ip)
     {
+        localIP = ip;
         listenerThread = new(new ThreadStart(Listen))
         {
             IsBackground = true
@@ -23,12 +28,19 @@ public static class Dancer01Server
         listenerThread.Start();
     }
 
+    public static void Disconnect()
+    {
+        listenerThread.Abort();
+        threadBreaked = false;
+    }
+
     private static void Listen()
     {
         try
         {
-            tcpListener = new TcpListener(IPAddress.Parse("192.168.1.6"), 13001);
+            tcpListener = new TcpListener(IPAddress.Parse(localIP), 13001);
             tcpListener.Start();
+            Debug.Log("Server is listening");
             byte[] bytes = new byte[100];
             while (true)
             {
@@ -47,8 +59,41 @@ public static class Dancer01Server
                             Debug.Log(clientMessage);
                         }
                         catch { }
+                        if (!connected) { connected = true; }
+                        if (breakThread)
+                        {
+                            break;
+                        }
+                    }
+                    if (breakThread)
+                    {
+                        tcpListener.Stop();
+                        tcpClient.Close();
+                        connected = false;
+                        breakThread = false;
+                        threadBreaked = true;
+                        break;
                     }
                 }
+            }
+        }
+        catch (SocketException socketException)
+        {
+            Debug.LogError("SocketException " + socketException.ToString());
+        }
+    }
+
+    public static void SendMessage()
+    {
+        if (tcpClient == null) { return; }
+        try
+        {
+            NetworkStream stream = tcpClient.GetStream();
+            if (stream.CanWrite)
+            {
+                string networkMessage = "";
+                byte[] message = Encoding.UTF8.GetBytes(networkMessage);
+                stream.Write(message, 0, message.Length);
             }
         }
         catch (SocketException socketException)

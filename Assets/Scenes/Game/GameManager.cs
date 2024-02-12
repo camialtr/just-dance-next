@@ -20,8 +20,7 @@ public class Game : MonoBehaviour
 
     private async void Start()
     {
-        string path = Application.persistentDataPath;
-        LeanTween.init(3000);
+        string path = Application.persistentDataPath;        
 
         songDesc = await Task.Run(async () => JsonConvert.DeserializeObject<SongDesc>(await File.ReadAllTextAsync(Path.Combine(path, "Maps", mapName, "songdesc.json"))));
         musicTrack = await Task.Run(async() => JsonConvert.DeserializeObject<MusicTrack>(await File.ReadAllTextAsync(Path.Combine(path, "Maps", mapName, "musictrack.json"))));

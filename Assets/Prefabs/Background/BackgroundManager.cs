@@ -5,6 +5,11 @@ public class BackgroundManager : MonoBehaviour
 {
     [SerializeField] AudioSource menuAudio;
 
+    private void Start()
+    {
+        LeanTween.init(5000);
+    }
+
     public void PlayMenuAudio()
     {
         menuAudio.Play();

@@ -609,7 +609,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &8494148609409133069
 Transform:
   m_ObjectHideFlags: 0
@@ -1455,9 +1455,9 @@ MonoBehaviour:
     LightingModel: 0
     ShadowCastingMode: 2
     ReceiveShadows: 1
-  PreviewSize: {x: 1, y: 1, z: 0}
+  PreviewSize: {x: 1920, y: 1080, z: 0}
   visuals:
-    Color: {r: 1, g: 1, b: 1, a: 0}
+    Color: {r: 0.2392157, g: 0.054901965, b: 0.34509805, a: 0}
     CornerRadius:
       Raw: 25
       Type: 0
@@ -1473,29 +1473,29 @@ MonoBehaviour:
       FillAngle: 90
       Enabled: 0
     Gradient:
-      Color: {r: 0, g: 0.058823533, b: 0.15294118, a: 1}
+      Color: {r: 0, g: 0.054901965, b: 0.14117648, a: 1}
       Center:
         X:
-          Raw: -0.27266878
+          Raw: 0.00015693605
           Type: 1
         Y:
-          Raw: -0.7320387
+          Raw: -0.50129646
           Type: 1
       Radius:
         X:
-          Raw: 1.5673032
+          Raw: 0.7748115
           Type: 1
         Y:
-          Raw: 2.2936075
+          Raw: 3.0757556
           Type: 1
-      Rotation: 313.26657
+      Rotation: 0
       Enabled: 1
     Border:
       Color: {r: 0.035948712, g: 0.10416842, b: 0.19245279, a: 1}
       Width:
         Raw: 5
         Type: 0
-      Enabled: 1
+      Enabled: 0
       Direction: 2
     Shadow:
       Color: {r: 0, g: 0, b: 0, a: 0.5}
