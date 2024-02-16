@@ -6,21 +6,30 @@ using Newtonsoft.Json;
 using System.Threading;
 using System.Net.Sockets;
 
-public static class Dancer01Server
+public static class Server
 {
-    private static TcpListener tcpListener;
-    private static TcpClient tcpClient;
-    private static Thread listenerThread;
-    private static string localIP;
+    public static DancerServer[] Dancer = new DancerServer[4] { new(), new(), new(), new() };
+}
 
-    public static bool connected = false;
-    public static bool breakThread = false;
-    public static bool threadBreaked = false;
-    public static NetworkData networkData;
+public class DancerServer
+{
+    private TcpListener tcpListener;
+    private TcpClient tcpClient;
+    private Thread listenerThread;
+    private string localIP;
+    private int localPort;
 
-    public static void Connect(string ip)
+    public bool connected = false;
+    public bool breakThread = false;
+    public bool threadBreaked = false;
+    public bool isQuitting = false;
+    public NetworkData networkData;
+
+    public void Connect(string ip, int playerIndex)
     {
         localIP = ip;
+        localPort = 13000 + playerIndex;
+        Debug.LogError(localPort);
         listenerThread = new(new ThreadStart(Listen))
         {
             IsBackground = true
@@ -28,23 +37,22 @@ public static class Dancer01Server
         listenerThread.Start();
     }
 
-    public static void Disconnect()
+    public void Disconnect()
     {
         listenerThread.Abort();
         threadBreaked = false;
     }
 
-    private static void Listen()
+    private async void Listen()
     {
         try
         {
-            tcpListener = new TcpListener(IPAddress.Parse(localIP), 13001);
+            tcpListener = new TcpListener(IPAddress.Parse(localIP), localPort);
             tcpListener.Start();
-            Debug.Log("Server is listening");
             byte[] bytes = new byte[100];
             while (true)
             {
-                using (tcpClient = tcpListener.AcceptTcpClient())
+                using (tcpClient = await tcpListener.AcceptTcpClientAsync())
                 {
                     using NetworkStream stream = tcpClient.GetStream();
                     int length;
@@ -83,7 +91,7 @@ public static class Dancer01Server
         }
     }
 
-    public static void SendMessage()
+    public void SendMessage()
     {
         if (tcpClient == null) { return; }
         try

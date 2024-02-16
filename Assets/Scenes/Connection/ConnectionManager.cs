@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 public class ConnectionManager : MonoBehaviour
 {
     [SerializeField] BackgroundManager background;
-    [SerializeField] TextBlock IPAdress;
+    [SerializeField] TextBlock ipAdress;
     [SerializeField] Animator connectionAnimator;
     [SerializeField] Animator overlayAnimator;
     [SerializeField] UIBlock2D selectorUIBlock;
@@ -16,79 +16,45 @@ public class ConnectionManager : MonoBehaviour
     [SerializeField] AudioSource selectAudio;
     [SerializeField] AudioSource toggleUpAudio;
     [SerializeField] AudioSource toggleDownAudio;
-    [SerializeField] AudioSource pConnectedAudio;
+    [SerializeField] AudioSource connectedAudio;
     [SerializeField] GameObject enterButton;
     [SerializeField] TextBlock enterText;
-    [SerializeField] UIBlock2D p01LoadingUIBlock;
-    [SerializeField] UIBlock2D p01ConnectedUIBlock;
+    [SerializeField] UIBlock2D[] loadingUIBlock;
+    [SerializeField] UIBlock2D[] connectedUIBlock;
+    bool[] playerConnected;
     bool canInteract = false;
     bool exitPopupShowed = false;
     uint selectedSlot = 0;
 
-    bool p01Connected = false;
-    bool p02Connected = false;
-    bool p03Connected = false;
-    bool p04Connected = false;
-
     private void Start()
     {
+        playerConnected = new bool[4] { false, false, false, false };
         IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
         foreach (IPAddress ip in host.AddressList)
         {
             if (ip.AddressFamily == AddressFamily.InterNetwork)
             {
-                IPAdress.Text = ip.ToString();
+                ipAdress.Text = ip.ToString();
             }
         }
     }
 
     private async void Update()
     {
-        if (Dancer01Server.connected && !Dancer01Server.breakThread && !p01Connected)
+        for (int i = 0; i < 4; i++)
         {
-            p01Connected = true;
-            LeanTween.scaleX(p01LoadingUIBlock.gameObject, 0.3f, 0.1f);
-            LeanTween.scaleY(p01LoadingUIBlock.gameObject, 0.3f, 0.1f);
-            LeanTween.value(1f, 0f, 0.1f).setOnUpdate((float value) =>
+            if (!Server.Dancer[i].isQuitting && !Server.Dancer[i].breakThread)
             {
-                p01LoadingUIBlock.Color = new(1f, 1f, 1f, value);
-            }).setOnComplete(() =>
-            {
-                pConnectedAudio.Play();
-                p01ConnectedUIBlock.gameObject.transform.localScale = new(0.3f, 0.3f, 1f);
-                ToggleEnter();
-                LeanTween.scaleX(p01ConnectedUIBlock.gameObject, 0.4f, 0.1f);
-                LeanTween.scaleY(p01ConnectedUIBlock.gameObject, 0.4f, 0.1f);
-                LeanTween.value(0f, 1f, 0.1f).setOnUpdate((float value) =>
+                if (Server.Dancer[i].connected && !playerConnected[i])
                 {
-                    p01ConnectedUIBlock.Color = new(1f, 1f, 1f, value);
-                });
-            });
-        }
-
-        if (!Dancer01Server.connected && !Dancer01Server.breakThread && Dancer01Server.threadBreaked)
-        {
-            Dancer01Server.Disconnect();
-            LeanTween.scaleX(p01ConnectedUIBlock.gameObject, 0.3f, 0.1f);
-            LeanTween.scaleY(p01ConnectedUIBlock.gameObject, 0.3f, 0.1f);
-            LeanTween.value(1f, 0f, 0.1f).setOnUpdate((float value) =>
-            {
-                p01ConnectedUIBlock.Color = new(1f, 1f, 1f, value);
-            }).setOnComplete(() =>
-            {
-                pConnectedAudio.Play();
-                p01LoadingUIBlock.gameObject.transform.localScale = new(0.3f, 0.3f, 1f);
-                ToggleEnter();
-                LeanTween.scaleX(p01LoadingUIBlock.gameObject, 0.4f, 0.1f);
-                LeanTween.scaleY(p01LoadingUIBlock.gameObject, 0.4f, 0.1f);
-                LeanTween.value(0f, 1f, 0.1f).setOnUpdate((float value) =>
+                    ToggleConnection(i, true);
+                }
+                if (!Server.Dancer[i].connected && Server.Dancer[i].threadBreaked)
                 {
-                    p01LoadingUIBlock.Color = new(1f, 1f, 1f, value);
-                });
-            });
-            Dancer01Server.Connect(IPAdress.Text);
+                    ToggleConnection(i, false);
+                }
+            }
         }
-
         if (canInteract)
         {
             if (exitPopupShowed)
@@ -113,10 +79,10 @@ public class ConnectionManager : MonoBehaviour
                     switch (selectedSlot)
                     {
                         case 0:
-                            if (p01Connected)
+                            if (playerConnected[0])
                             {
-                                Dancer01Server.breakThread = true;
-                                p01Connected = false;
+                                Server.Dancer[0].breakThread = true;
+                                playerConnected[0] = false;
                                 selectAudio.Play();
                                 selectorUIBlock.gameObject.transform.localScale = new Vector3(0.985f, 0.965f, 1f);
                                 LeanTween.cancelAll();
@@ -125,13 +91,40 @@ public class ConnectionManager : MonoBehaviour
                             }
                             break;
                         case 1:
-                            
+                            if (playerConnected[1])
+                            {
+                                Server.Dancer[1].breakThread = true;
+                                playerConnected[1] = false;
+                                selectAudio.Play();
+                                selectorUIBlock.gameObject.transform.localScale = new Vector3(0.985f, 0.965f, 1f);
+                                LeanTween.cancelAll();
+                                LeanTween.scaleX(selectorUIBlock.gameObject, 1f, 0.2f);
+                                LeanTween.scaleY(selectorUIBlock.gameObject, 1f, 0.2f);
+                            }
                             break;
                         case 2:
-                            
+                            if (playerConnected[2])
+                            {
+                                Server.Dancer[2].breakThread = true;
+                                playerConnected[2] = false;
+                                selectAudio.Play();
+                                selectorUIBlock.gameObject.transform.localScale = new Vector3(0.985f, 0.965f, 1f);
+                                LeanTween.cancelAll();
+                                LeanTween.scaleX(selectorUIBlock.gameObject, 1f, 0.2f);
+                                LeanTween.scaleY(selectorUIBlock.gameObject, 1f, 0.2f);
+                            }
                             break;
                         case 3:
-                            
+                            if (playerConnected[3])
+                            {
+                                Server.Dancer[3].breakThread = true;
+                                playerConnected[3] = false;
+                                selectAudio.Play();
+                                selectorUIBlock.gameObject.transform.localScale = new Vector3(0.985f, 0.965f, 1f);
+                                LeanTween.cancelAll();
+                                LeanTween.scaleX(selectorUIBlock.gameObject, 1f, 0.2f);
+                                LeanTween.scaleY(selectorUIBlock.gameObject, 1f, 0.2f);
+                            }
                             break;
                         case 4:
                             canInteract = false;
@@ -201,7 +194,10 @@ public class ConnectionManager : MonoBehaviour
     void EnterAnimationEvent03()
     {
         canInteract = true;
-        Dancer01Server.Connect(IPAdress.Text);
+        for (int i = 0; i < 4; i++)
+        {
+            Server.Dancer[i].Connect(ipAdress.Text, i);
+        }        
     }
 
     void ToggleSelection(uint lastSelectedSlot)
@@ -263,19 +259,19 @@ public class ConnectionManager : MonoBehaviour
         switch (selectedSlot)
         {
             case 0:
-                enterButton.SetActive(p01Connected);
+                enterButton.SetActive(playerConnected[0]);
                 enterText.Text = "Disconect";
                 break;
             case 1:
-                enterButton.SetActive(p02Connected);
+                enterButton.SetActive(playerConnected[1]);
                 enterText.Text = "Disconect";
                 break;
             case 2:
-                enterButton.SetActive(p03Connected);
+                enterButton.SetActive(playerConnected[2]);
                 enterText.Text = "Disconect";
                 break;
             case 3:
-                enterButton.SetActive(p04Connected);
+                enterButton.SetActive(playerConnected[3]);
                 enterText.Text = "Disconect";
                 break;
             case 4:
@@ -285,9 +281,62 @@ public class ConnectionManager : MonoBehaviour
         }
     }
 
+    void ToggleConnection(int index, bool connected)
+    {
+        if (connected)
+        {
+            playerConnected[index] = true;
+            LeanTween.scaleX(loadingUIBlock[index].gameObject, 0.3f, 0.1f);
+            LeanTween.scaleY(loadingUIBlock[index].gameObject, 0.3f, 0.1f);
+            LeanTween.value(1f, 0f, 0.1f).setOnUpdate((float value) =>
+            {
+                loadingUIBlock[index].Color = new(1f, 1f, 1f, value);
+            }).setOnComplete(() =>
+            {
+                connectedAudio.Play();
+                connectedUIBlock[index].gameObject.transform.localScale = new(0.3f, 0.3f, 1f);
+                ToggleEnter();
+                LeanTween.scaleX(connectedUIBlock[index].gameObject, 0.4f, 0.1f);
+                LeanTween.scaleY(connectedUIBlock[index].gameObject, 0.4f, 0.1f);
+                LeanTween.value(0f, 1f, 0.1f).setOnUpdate((float value) =>
+                {
+                    connectedUIBlock[index].Color = new(1f, 1f, 1f, value);
+                });
+            });
+        }
+        else
+        {
+            Server.Dancer[index].Disconnect();
+            LeanTween.scaleX(connectedUIBlock[index].gameObject, 0.3f, 0.1f);
+            LeanTween.scaleY(connectedUIBlock[index].gameObject, 0.3f, 0.1f);
+            LeanTween.value(1f, 0f, 0.1f).setOnUpdate((float value) =>
+            {
+                connectedUIBlock[index].Color = new(1f, 1f, 1f, value);
+            }).setOnComplete(() =>
+            {
+                connectedAudio.Play();
+                loadingUIBlock[index].gameObject.transform.localScale = new(0.3f, 0.3f, 1f);
+                ToggleEnter();
+                LeanTween.scaleX(loadingUIBlock[index].gameObject, 0.4f, 0.1f);
+                LeanTween.scaleY(loadingUIBlock[index].gameObject, 0.4f, 0.1f);
+                LeanTween.value(0f, 1f, 0.1f).setOnUpdate((float value) =>
+                {
+                    loadingUIBlock[index].Color = new(1f, 1f, 1f, value);
+                });
+            });
+            Server.Dancer[index].Connect(ipAdress.Text, index);
+        }        
+    }
+
     void ExitAnimationEvent()
     {
-        //Next Scene
+        for (int i = 0; i < 4; i++)
+        {
+            if (!Server.Dancer[i].connected)
+            {
+                Server.Dancer[i].Disconnect();
+            }
+        }
         background.StopMenuAudio();
         Destroy(gameObject);
     }
