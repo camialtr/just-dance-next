@@ -26,9 +26,12 @@ public class ConnectionManager : MonoBehaviour
     bool exitPopupShowed = false;
     uint selectedSlot = 0;
 
+    LTDescr[] selectorAnimations;
+
     private void Start()
     {
         playerConnected = new bool[4] { false, false, false, false };
+        selectorAnimations = new LTDescr[3] { new(), new(), new() };
         IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
         foreach (IPAddress ip in host.AddressList)
         {
@@ -81,56 +84,31 @@ public class ConnectionManager : MonoBehaviour
                         case 0:
                             if (playerConnected[0])
                             {
-                                Server.Dancer[0].breakThread = true;
-                                playerConnected[0] = false;
-                                selectAudio.Play();
-                                selectorUIBlock.gameObject.transform.localScale = new Vector3(0.985f, 0.965f, 1f);
-                                LeanTween.cancelAll();
-                                LeanTween.scaleX(selectorUIBlock.gameObject, 1f, 0.2f);
-                                LeanTween.scaleY(selectorUIBlock.gameObject, 1f, 0.2f);
+                                DisconnectPlayer(0);
                             }
                             break;
                         case 1:
                             if (playerConnected[1])
                             {
-                                Server.Dancer[1].breakThread = true;
-                                playerConnected[1] = false;
-                                selectAudio.Play();
-                                selectorUIBlock.gameObject.transform.localScale = new Vector3(0.985f, 0.965f, 1f);
-                                LeanTween.cancelAll();
-                                LeanTween.scaleX(selectorUIBlock.gameObject, 1f, 0.2f);
-                                LeanTween.scaleY(selectorUIBlock.gameObject, 1f, 0.2f);
+                                DisconnectPlayer(1);
                             }
                             break;
                         case 2:
                             if (playerConnected[2])
                             {
-                                Server.Dancer[2].breakThread = true;
-                                playerConnected[2] = false;
-                                selectAudio.Play();
-                                selectorUIBlock.gameObject.transform.localScale = new Vector3(0.985f, 0.965f, 1f);
-                                LeanTween.cancelAll();
-                                LeanTween.scaleX(selectorUIBlock.gameObject, 1f, 0.2f);
-                                LeanTween.scaleY(selectorUIBlock.gameObject, 1f, 0.2f);
+                                DisconnectPlayer(1);
                             }
                             break;
                         case 3:
                             if (playerConnected[3])
                             {
-                                Server.Dancer[3].breakThread = true;
-                                playerConnected[3] = false;
-                                selectAudio.Play();
-                                selectorUIBlock.gameObject.transform.localScale = new Vector3(0.985f, 0.965f, 1f);
-                                LeanTween.cancelAll();
-                                LeanTween.scaleX(selectorUIBlock.gameObject, 1f, 0.2f);
-                                LeanTween.scaleY(selectorUIBlock.gameObject, 1f, 0.2f);
+                                DisconnectPlayer(3);
                             }
                             break;
                         case 4:
                             canInteract = false;
                             selectAudio.Play();
                             selectorUIBlock.gameObject.transform.localScale = new Vector3(0.97f, 0.93f, 1f);
-                            LeanTween.cancelAll();
                             LeanTween.scaleX(selectorUIBlock.gameObject, 1f, 0.2f);
                             LeanTween.scaleY(selectorUIBlock.gameObject, 1f, 0.2f).setOnComplete(() =>
                             {
@@ -202,20 +180,23 @@ public class ConnectionManager : MonoBehaviour
 
     void ToggleSelection(uint lastSelectedSlot)
     {
-        LeanTween.cancelAll();
+        for (int i = 0; i < 3; i++)
+        {
+            LeanTween.cancel(selectorAnimations[i].uniqueId);
+        }
         DefineSlotPosition(lastSelectedSlot);
-        LeanTween.scaleX(selectorUIBlock.gameObject, 1.02f, 0.2f);
-        LeanTween.scaleY(selectorUIBlock.gameObject, 1.1f, 0.2f);
-        LeanTween.value(5f, 0f, 0.2f).setOnUpdate((float value) =>
+        selectorAnimations[0] = LeanTween.scaleX(selectorUIBlock.gameObject, 1.02f, 0.2f);
+        selectorAnimations[1] = LeanTween.scaleY(selectorUIBlock.gameObject, 1.1f, 0.2f);
+        selectorAnimations[2] = LeanTween.value(5f, 0f, 0.2f).setOnUpdate((float value) =>
         {
             selectorUIBlock.Border.Width = value;
         }).setOnComplete(() =>
         {
             DefineSlotPosition(selectedSlot);
             ToggleEnter();
-            LeanTween.scaleX(selectorUIBlock.gameObject, 1f, 0.2f);
-            LeanTween.scaleY(selectorUIBlock.gameObject, 1f, 0.2f);
-            LeanTween.value(0f, 5f, 0.2f).setOnUpdate((float value) =>
+            selectorAnimations[0] = LeanTween.scaleX(selectorUIBlock.gameObject, 1f, 0.2f);
+            selectorAnimations[1] = LeanTween.scaleY(selectorUIBlock.gameObject, 1f, 0.2f);
+            selectorAnimations[2] = LeanTween.value(0f, 5f, 0.2f).setOnUpdate((float value) =>
             {
                 selectorUIBlock.Border.Width = value;
             });
@@ -322,10 +303,26 @@ public class ConnectionManager : MonoBehaviour
                 LeanTween.value(0f, 1f, 0.1f).setOnUpdate((float value) =>
                 {
                     loadingUIBlock[index].Color = new(1f, 1f, 1f, value);
+                }).setOnComplete(() =>
+                {
+                    Server.Dancer[index].Connect(ipAdress.Text, index);
+                    canInteract = true;
                 });
-            });
-            Server.Dancer[index].Connect(ipAdress.Text, index);
+            });            
         }        
+    }
+
+    void DisconnectPlayer(int index)
+    {
+        canInteract = false;
+        selectAudio.Play();
+        selectorUIBlock.gameObject.transform.localScale = new Vector3(0.985f, 0.965f, 1f);
+        LeanTween.scaleX(selectorUIBlock.gameObject, 1f, 0.2f);
+        LeanTween.scaleY(selectorUIBlock.gameObject, 1f, 0.2f).setOnComplete(() =>
+        {
+            Server.Dancer[index].breakThread = true;
+            playerConnected[index] = false;
+        });
     }
 
     void ExitAnimationEvent()

@@ -29,7 +29,6 @@ public class DancerServer
     {
         localIP = ip;
         localPort = 13000 + playerIndex;
-        Debug.LogError(localPort);
         listenerThread = new(new ThreadStart(Listen))
         {
             IsBackground = true
