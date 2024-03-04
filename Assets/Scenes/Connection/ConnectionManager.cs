@@ -22,6 +22,7 @@ public class ConnectionManager : MonoBehaviour
     [SerializeField] UIBlock2D[] loadingUIBlock;
     [SerializeField] UIBlock2D[] connectedUIBlock;
     [SerializeField] GameObject gameUI;
+
     bool[] playerConnected;
     bool canInteract = false;
     bool exitPopupShowed = false;
@@ -200,7 +201,10 @@ public class ConnectionManager : MonoBehaviour
         canInteract = true;
         for (int i = 0; i < 4; i++)
         {
-            Server.Dancer[i].Connect(ipAdress.Text, i);
+            if (!playerConnected[i])
+            {
+                Server.Dancer[i].Connect(ipAdress.Text, i);
+            }            
         }        
     }
 
@@ -360,9 +364,9 @@ public class ConnectionManager : MonoBehaviour
                 Server.Dancer[i].Disconnect();
             }
         }
-        Instantiate(gameUI);
+        Instantiate(gameUI).GetComponent<GameManager>().connectionUI = gameObject;
         background.StopMenuAudio();
         background.gameObject.SetActive(false);
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 }

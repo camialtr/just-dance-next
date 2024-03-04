@@ -3971,6 +3971,7 @@ MonoBehaviour:
   mediaElements: {fileID: 3647079623669546389}
   lyricElements: {fileID: 508647073146781671}
   pictoElements: {fileID: 5591572341452875945}
+  connectionUI: {fileID: 6543517384467166990, guid: fd7446d91b005ff4a9bec3e61b289a73, type: 3}
 --- !u!1 &6885642126956992303
 GameObject:
   m_ObjectHideFlags: 0

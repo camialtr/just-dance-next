@@ -5,6 +5,7 @@ using UnityEngine;
 using Newtonsoft.Json;
 using System.Threading;
 using System.Net.Sockets;
+using System.Threading.Tasks;
 
 public static class Server
 {
@@ -41,6 +42,12 @@ public class DancerServer
 
     public void Disconnect()
     {
+        tcpListener.Stop();
+        try
+        {
+            tcpClient.Close();
+        }
+        catch { }
         listenerThread.Abort();
         threadBreaked = false;
     }

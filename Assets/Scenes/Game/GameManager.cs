@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
-public class Game : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
     public string mapName;
 
@@ -15,6 +15,8 @@ public class Game : MonoBehaviour
     [SerializeField] MediaElements mediaElements;
     [SerializeField] LyricElements lyricElements;
     [SerializeField] PictoElements pictoElements;
+
+    [SerializeField] public GameObject connectionUI;
 
     readonly Stopwatch timeManager = new();
 
@@ -50,6 +52,11 @@ public class Game : MonoBehaviour
         {
             mediaElements.Play(musicTrack);
             timeManager.Start();
+        }
+        if (InputManager.Undo())
+        {
+            connectionUI.SetActive(true);
+            gameObject.SetActive(false);
         }
     }
 }

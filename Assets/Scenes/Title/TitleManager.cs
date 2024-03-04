@@ -21,11 +21,11 @@ public class TitleManager : MonoBehaviour
         {
             if (exitPopupShowed)
             {
-                if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+                if (InputManager.Select())
                 {
                     Application.Quit();
                 }
-                else if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Backspace))
+                else if (InputManager.Undo())
                 {
                     overlayAnimator.Play("Popup-Quit-Exit");
                     exitPopupShowed = false;
@@ -36,11 +36,11 @@ public class TitleManager : MonoBehaviour
             }
             else
             {
-                if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+                if (InputManager.Select())
                 {
                     titleAnimator.Play("Title-Exit");
                 }
-                else if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Backspace))
+                else if (InputManager.Undo())
                 {
                     overlayAnimator.Play("Popup-Quit-Enter");
                     exitPopupShowed = true;
