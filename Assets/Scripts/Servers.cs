@@ -8,6 +8,7 @@ using System.Net.Sockets;
 
 public static class Server
 {
+    public static int mainDancer = -1;
     public static DancerServer[] Dancer = new DancerServer[4] { new(), new(), new(), new() };
 }
 
@@ -23,7 +24,9 @@ public class DancerServer
     public bool breakThread = false;
     public bool threadBreaked = false;
     public bool isQuitting = false;
+
     public NetworkData networkData;
+    public bool newInput;
 
     public void Connect(string ip, int playerIndex)
     {
@@ -63,7 +66,7 @@ public class DancerServer
                         try
                         {
                             networkData = JsonConvert.DeserializeObject<NetworkData>(clientMessage.Replace("*", ""));
-                            Debug.Log(clientMessage);
+                            newInput = true;
                         }
                         catch { }
                         if (!connected) { connected = true; }
@@ -115,5 +118,16 @@ public struct NetworkData
     public float x;
     public float y;
     public float z;
-    public uint selectedCoach;
+    public NetworkInput networkInput;
+}
+
+public enum NetworkInput
+{
+    None,
+    Undo,
+    Select,
+    Up,
+    Down,
+    Left,
+    Right
 }

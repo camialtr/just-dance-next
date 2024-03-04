@@ -320,6 +320,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 88288687437761349, guid: 71e05712a83c7944e9dbad6b41c699f4, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 88288687437761349, guid: 71e05712a83c7944e9dbad6b41c699f4, type: 3}
       propertyPath: m_LocalPosition.z
       value: -10
       objectReference: {fileID: 0}
@@ -421,6 +425,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9115343484999253767, guid: 71e05712a83c7944e9dbad6b41c699f4, type: 3}
       propertyPath: blurRadius
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9115343484999253767, guid: 71e05712a83c7944e9dbad6b41c699f4, type: 3}
+      propertyPath: BlurDownscaleFactor
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

@@ -609,7 +609,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8494148609409133069
 Transform:
   m_ObjectHideFlags: 0
@@ -1476,26 +1476,26 @@ MonoBehaviour:
       Color: {r: 0, g: 0.054901965, b: 0.14117648, a: 1}
       Center:
         X:
-          Raw: 0.00015693605
+          Raw: -0.27795237
           Type: 1
         Y:
-          Raw: -0.50129646
+          Raw: -0.62098897
           Type: 1
       Radius:
         X:
-          Raw: 0.7748115
+          Raw: 2.0256848
           Type: 1
         Y:
-          Raw: 3.0757556
+          Raw: 2.5227919
           Type: 1
-      Rotation: 0
+      Rotation: 329.25333
       Enabled: 1
     Border:
       Color: {r: 0.035948712, g: 0.10416842, b: 0.19245279, a: 1}
       Width:
         Raw: 5
         Type: 0
-      Enabled: 0
+      Enabled: 1
       Direction: 2
     Shadow:
       Color: {r: 0, g: 0, b: 0, a: 0.5}

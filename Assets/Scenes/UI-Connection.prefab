@@ -10457,6 +10457,7 @@ MonoBehaviour:
   - {fileID: 6181316242471524815}
   - {fileID: 518759593205924950}
   - {fileID: 7354475057472254630}
+  gameUI: {fileID: 0}
 --- !u!82 &3054934920193970098
 AudioSource:
   m_ObjectHideFlags: 0
@@ -14047,7 +14048,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: Enter the following IP on your phone and select one between the available
-    dancers
+    dancers. This device and your smartphone needs to be on the same wi-fi for this
+    to work.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 454c33542e4fbd643b8b9a19158db5d6, type: 2}
   m_sharedMaterial: {fileID: -8542367003121419544, guid: 454c33542e4fbd643b8b9a19158db5d6, type: 2}

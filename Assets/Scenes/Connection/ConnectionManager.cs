@@ -21,6 +21,7 @@ public class ConnectionManager : MonoBehaviour
     [SerializeField] TextBlock enterText;
     [SerializeField] UIBlock2D[] loadingUIBlock;
     [SerializeField] UIBlock2D[] connectedUIBlock;
+    [SerializeField] GameObject gameUI;
     bool[] playerConnected;
     bool canInteract = false;
     bool exitPopupShowed = false;
@@ -50,11 +51,36 @@ public class ConnectionManager : MonoBehaviour
             {
                 if (Server.Dancer[i].connected && !playerConnected[i])
                 {
+                    bool firstConnected = true;
+                    for (int ii = 0; ii < 4; ii++)
+                    {
+                        if (playerConnected[ii])
+                        {
+                            firstConnected = false;
+                        }
+                    }
+                    if (firstConnected)
+                    {
+                        Server.mainDancer = i;
+                    }
                     ToggleConnection(i, true);
                 }
                 if (!Server.Dancer[i].connected && Server.Dancer[i].threadBreaked)
                 {
-                    ToggleConnection(i, false);
+                    bool noController = true;
+                    for (int ii = 0; ii < 4; ii++)
+                    {
+                        if (playerConnected[ii] && i != ii)
+                        {
+                            Server.mainDancer = ii;
+                            noController = false;
+                        }
+                    }
+                    if (noController)
+                    {
+                        Server.mainDancer = -1;
+                    }
+                    ToggleConnection(i, false);                    
                 }
             }
         }
@@ -62,11 +88,11 @@ public class ConnectionManager : MonoBehaviour
         {
             if (exitPopupShowed)
             {
-                if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+                if (InputManager.Select())
                 {
                     Application.Quit();
                 }
-                else if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Backspace))
+                else if (InputManager.Undo())
                 {
                     overlayAnimator.Play("Popup-Quit-Exit");
                     exitPopupShowed = false;
@@ -77,7 +103,7 @@ public class ConnectionManager : MonoBehaviour
             }
             else
             {
-                if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+                if (InputManager.Select())
                 {
                     switch (selectedSlot)
                     {
@@ -124,7 +150,7 @@ public class ConnectionManager : MonoBehaviour
                             break;
                     }
                 }
-                else if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Backspace))
+                else if (InputManager.Undo())
                 {
                     overlayAnimator.Play("Popup-Quit-Enter");
                     exitPopupShowed = true;
@@ -132,7 +158,7 @@ public class ConnectionManager : MonoBehaviour
                     await Task.Delay(400);
                     canInteract = true;
                 }
-                else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
+                else if (InputManager.Down())
                 {
                     uint lastSelectedSlot = selectedSlot;
                     if (selectedSlot != 4)
@@ -142,7 +168,7 @@ public class ConnectionManager : MonoBehaviour
                     ToggleSelection(lastSelectedSlot);
                     toggleDownAudio.Play();
                 }
-                else if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
+                else if (InputManager.Up())
                 {
                     uint lastSelectedSlot = selectedSlot;
                     if (selectedSlot != 0)
@@ -241,19 +267,19 @@ public class ConnectionManager : MonoBehaviour
         {
             case 0:
                 enterButton.SetActive(playerConnected[0]);
-                enterText.Text = "Disconect";
+                enterText.Text = "Disconnect";
                 break;
             case 1:
                 enterButton.SetActive(playerConnected[1]);
-                enterText.Text = "Disconect";
+                enterText.Text = "Disconnect";
                 break;
             case 2:
                 enterButton.SetActive(playerConnected[2]);
-                enterText.Text = "Disconect";
+                enterText.Text = "Disconnect";
                 break;
             case 3:
                 enterButton.SetActive(playerConnected[3]);
-                enterText.Text = "Disconect";
+                enterText.Text = "Disconnect";
                 break;
             case 4:
                 enterButton.SetActive(true);
@@ -334,7 +360,9 @@ public class ConnectionManager : MonoBehaviour
                 Server.Dancer[i].Disconnect();
             }
         }
+        Instantiate(gameUI);
         background.StopMenuAudio();
+        background.gameObject.SetActive(false);
         Destroy(gameObject);
     }
 }
