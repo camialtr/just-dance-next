@@ -63,6 +63,7 @@ public class ConnectionManager : MonoBehaviour
                     if (firstConnected)
                     {
                         Server.mainDancer = i;
+                        Debug.Log(Server.mainDancer);
                     }
                     ToggleConnection(i, true);
                 }
@@ -80,6 +81,7 @@ public class ConnectionManager : MonoBehaviour
                     if (noController)
                     {
                         Server.mainDancer = -1;
+                        Debug.Log(Server.mainDancer);
                     }
                     ToggleConnection(i, false);                    
                 }
@@ -123,7 +125,7 @@ public class ConnectionManager : MonoBehaviour
                         case 2:
                             if (playerConnected[2])
                             {
-                                DisconnectPlayer(1);
+                                DisconnectPlayer(2);
                             }
                             break;
                         case 3:
@@ -190,7 +192,11 @@ public class ConnectionManager : MonoBehaviour
 
     void EnterAnimationEvent02()
     {
-        LeanTween.value(0f, 5f, 0.2f).setOnUpdate((float value) =>
+        DefineSlotPosition(selectedSlot);
+        ToggleEnter();
+        selectorAnimations[0] = LeanTween.scaleX(selectorUIBlock.gameObject, 1f, 0.2f);
+        selectorAnimations[1] = LeanTween.scaleY(selectorUIBlock.gameObject, 1f, 0.2f);
+        selectorAnimations[2] = LeanTween.value(0f, 5f, 0.2f).setOnUpdate((float value) =>
         {
             selectorUIBlock.Border.Width = value;
         });
@@ -204,8 +210,8 @@ public class ConnectionManager : MonoBehaviour
             if (!playerConnected[i])
             {
                 Server.Dancer[i].Connect(ipAdress.Text, i);
-            }            
-        }        
+            }
+        }
     }
 
     void ToggleSelection(uint lastSelectedSlot)
@@ -296,6 +302,7 @@ public class ConnectionManager : MonoBehaviour
     {
         if (connected)
         {
+            canInteract = false;
             playerConnected[index] = true;
             LeanTween.scaleX(loadingUIBlock[index].gameObject, 0.3f, 0.1f);
             LeanTween.scaleY(loadingUIBlock[index].gameObject, 0.3f, 0.1f);
@@ -312,6 +319,9 @@ public class ConnectionManager : MonoBehaviour
                 LeanTween.value(0f, 1f, 0.1f).setOnUpdate((float value) =>
                 {
                     connectedUIBlock[index].Color = new(1f, 1f, 1f, value);
+                }).setOnComplete(() =>
+                {
+                    canInteract = true;
                 });
             });
         }

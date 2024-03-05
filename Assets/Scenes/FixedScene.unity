@@ -277,7 +277,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6959648645189992151, guid: dfdd9dde9f3bbe6479524214ea2ce4ee, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8233261022000549764, guid: dfdd9dde9f3bbe6479524214ea2ce4ee, type: 3}
       propertyPath: targetCamera
@@ -720,7 +720,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6543517384467166990, guid: fd7446d91b005ff4a9bec3e61b289a73, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8192760434673898947, guid: fd7446d91b005ff4a9bec3e61b289a73, type: 3}
       propertyPath: m_AnchoredPosition.y

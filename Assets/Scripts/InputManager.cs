@@ -8,10 +8,13 @@ public static class InputManager
         {
             return true;
         }
-        if (Server.mainDancer != -1 && Server.Dancer[Server.mainDancer].newInput)
+        if (Server.mainDancer != -1 && Server.Dancer[Server.mainDancer].networkData.newInput)
         {
-            Server.Dancer[Server.mainDancer].newInput = false;
-            return Server.Dancer[Server.mainDancer].networkData.networkInput == NetworkInput.Undo;
+            if (Server.Dancer[Server.mainDancer].networkData.networkInput == NetworkInput.Undo)
+            {
+                Server.Dancer[Server.mainDancer].networkData.newInput = false;
+                return true;
+            }
         }
         return false;
     }
@@ -22,10 +25,13 @@ public static class InputManager
         {
             return true;
         }
-        if (Server.mainDancer != -1 && Server.Dancer[Server.mainDancer].newInput)
+        if (Server.mainDancer != -1 && Server.Dancer[Server.mainDancer].networkData.newInput)
         {
-            Server.Dancer[Server.mainDancer].newInput = false;
-            return Server.Dancer[Server.mainDancer].networkData.networkInput == NetworkInput.Select;
+            if (Server.Dancer[Server.mainDancer].networkData.networkInput == NetworkInput.Select)
+            {
+                Server.Dancer[Server.mainDancer].networkData.newInput = false;
+                return true;
+            }
         }
         return false;
     }
@@ -36,10 +42,13 @@ public static class InputManager
         {
             return true;
         }
-        if (Server.mainDancer != -1 && Server.Dancer[Server.mainDancer].newInput)
+        if (Server.mainDancer != -1 && Server.Dancer[Server.mainDancer].networkData.newInput)
         {
-            Server.Dancer[Server.mainDancer].newInput = false;
-            return Server.Dancer[Server.mainDancer].networkData.networkInput == NetworkInput.Up;
+            if (Server.Dancer[Server.mainDancer].networkData.networkInput == NetworkInput.Up)
+            {
+                Server.Dancer[Server.mainDancer].networkData.newInput = false;
+                return true;
+            }
         }
         return false;
     }
@@ -50,10 +59,13 @@ public static class InputManager
         {
             return true;
         }
-        if (Server.mainDancer != -1 && Server.Dancer[Server.mainDancer].newInput)
+        if (Server.mainDancer != -1 && Server.Dancer[Server.mainDancer].networkData.newInput)
         {
-            Server.Dancer[Server.mainDancer].newInput = false;
-            return Server.Dancer[Server.mainDancer].networkData.networkInput == NetworkInput.Down;
+            if (Server.Dancer[Server.mainDancer].networkData.networkInput == NetworkInput.Down)
+            {
+                Server.Dancer[Server.mainDancer].networkData.newInput = false;
+                return true;
+            }
         }
         return false;
     }
@@ -64,10 +76,13 @@ public static class InputManager
         {
             return true;
         }
-        if (Server.mainDancer != -1 && Server.Dancer[Server.mainDancer].newInput)
+        if (Server.mainDancer != -1 && Server.Dancer[Server.mainDancer].networkData.newInput)
         {
-            Server.Dancer[Server.mainDancer].newInput = false;
-            return Server.Dancer[Server.mainDancer].networkData.networkInput == NetworkInput.Left;
+            if (Server.Dancer[Server.mainDancer].networkData.networkInput == NetworkInput.Left)
+            {
+                Server.Dancer[Server.mainDancer].networkData.newInput = false;
+                return true;
+            }
         }
         return false;
     }
@@ -78,10 +93,13 @@ public static class InputManager
         {
             return true;
         }
-        if (Server.mainDancer != -1 && Server.Dancer[Server.mainDancer].newInput)
+        if (Server.mainDancer != -1 && Server.Dancer[Server.mainDancer].networkData.newInput)
         {
-            Server.Dancer[Server.mainDancer].newInput = false;
-            return Server.Dancer[Server.mainDancer].networkData.networkInput == NetworkInput.Right;
+            if (Server.Dancer[Server.mainDancer].networkData.networkInput == NetworkInput.Right)
+            {
+                Server.Dancer[Server.mainDancer].networkData.newInput = false;
+                return true;
+            }
         }
         return false;
     }

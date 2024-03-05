@@ -27,7 +27,6 @@ public class DancerServer
     public bool isQuitting = false;
 
     public NetworkData networkData;
-    public bool newInput;
 
     public void Connect(string ip, int playerIndex)
     {
@@ -43,11 +42,6 @@ public class DancerServer
     public void Disconnect()
     {
         tcpListener.Stop();
-        try
-        {
-            tcpClient.Close();
-        }
-        catch { }
         listenerThread.Abort();
         threadBreaked = false;
     }
@@ -73,12 +67,13 @@ public class DancerServer
                         try
                         {
                             networkData = JsonConvert.DeserializeObject<NetworkData>(clientMessage.Replace("*", ""));
-                            newInput = true;
+                            //Debug.LogError(clientMessage);                            
                         }
                         catch { }
-                        if (!connected) { connected = true; }
+                        if (!connected) { SendMessage("0"); connected = true; }
                         if (breakThread)
                         {
+                            SendMessage("1");
                             break;
                         }
                     }
@@ -98,9 +93,10 @@ public class DancerServer
         {
             Debug.LogError("SocketException " + socketException.ToString());
         }
+        catch (ObjectDisposedException disposedException) { }
     }
 
-    public void SendMessage()
+    public void SendMessage(string networkMessage)
     {
         if (tcpClient == null) { return; }
         try
@@ -108,7 +104,6 @@ public class DancerServer
             NetworkStream stream = tcpClient.GetStream();
             if (stream.CanWrite)
             {
-                string networkMessage = "";
                 byte[] message = Encoding.UTF8.GetBytes(networkMessage);
                 stream.Write(message, 0, message.Length);
             }
@@ -117,6 +112,7 @@ public class DancerServer
         {
             Debug.LogError("SocketException " + socketException.ToString());
         }
+        catch (ObjectDisposedException disposedException) { }
     }
 }
 
@@ -125,6 +121,7 @@ public struct NetworkData
     public float x;
     public float y;
     public float z;
+    public bool newInput;
     public NetworkInput networkInput;
 }
 
