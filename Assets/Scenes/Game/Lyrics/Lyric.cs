@@ -58,7 +58,7 @@ public class Lyric : MonoBehaviour
 
         if (destroy)
         {
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
     }
 

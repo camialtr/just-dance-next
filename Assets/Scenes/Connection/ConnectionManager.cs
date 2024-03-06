@@ -1,17 +1,11 @@
 using Nova;
 using System.Net;
 using UnityEngine;
+using Unity.Netcode;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 using Unity.Netcode.Transports.UTP;
-using Unity.Netcode;
-using Unity.Networking.Transport.Relay;
-using Unity.Services.Authentication;
-using Unity.Services.Core;
-using Unity.Services.Relay.Models;
-using Unity.Services.Relay;
-using TMPro;
-using Nova.TMP;
+
 
 public class ConnectionManager : MonoBehaviour
 {
@@ -39,16 +33,20 @@ public class ConnectionManager : MonoBehaviour
 
     LTDescr[] selectorAnimations;
 
-    private async void Start()
+    private void Start()
     {
         playerConnected = new bool[4] { false, false, false, false };
         selectorAnimations = new LTDescr[3] { new(), new(), new() };
-        await UnityServices.InitializeAsync();
-        await AuthenticationService.Instance.SignInAnonymouslyAsync();
-        Allocation allocation = await RelayService.Instance.CreateAllocationAsync(4);
-        NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new RelayServerData(allocation, "dtls"));
-        relayCode.Text = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
-        NetworkManager.Singleton.StartHost();
+        IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
+        foreach (IPAddress ip in host.AddressList)
+        {
+            if (ip.AddressFamily == AddressFamily.InterNetwork)
+            {
+                relayCode.Text = ip.ToString();
+            }
+        }
+        NetworkManager.Singleton.gameObject.GetComponent<UnityTransport>().ConnectionData.Address = relayCode.Text;
+        NetworkManager.Singleton.StartServer();
     }
 
     private async void Update()
