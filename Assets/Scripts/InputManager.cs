@@ -8,14 +8,6 @@ public static class InputManager
         {
             return true;
         }
-        if (Server.mainDancer != -1 && Server.Dancer[Server.mainDancer].networkData.newInput)
-        {
-            if (Server.Dancer[Server.mainDancer].networkData.networkInput == NetworkInput.Undo)
-            {
-                Server.Dancer[Server.mainDancer].networkData.newInput = false;
-                return true;
-            }
-        }
         return false;
     }
 
@@ -24,14 +16,6 @@ public static class InputManager
         if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
         {
             return true;
-        }
-        if (Server.mainDancer != -1 && Server.Dancer[Server.mainDancer].networkData.newInput)
-        {
-            if (Server.Dancer[Server.mainDancer].networkData.networkInput == NetworkInput.Select)
-            {
-                Server.Dancer[Server.mainDancer].networkData.newInput = false;
-                return true;
-            }
         }
         return false;
     }
@@ -42,14 +26,6 @@ public static class InputManager
         {
             return true;
         }
-        if (Server.mainDancer != -1 && Server.Dancer[Server.mainDancer].networkData.newInput)
-        {
-            if (Server.Dancer[Server.mainDancer].networkData.networkInput == NetworkInput.Up)
-            {
-                Server.Dancer[Server.mainDancer].networkData.newInput = false;
-                return true;
-            }
-        }
         return false;
     }
 
@@ -58,14 +34,6 @@ public static class InputManager
         if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
         {
             return true;
-        }
-        if (Server.mainDancer != -1 && Server.Dancer[Server.mainDancer].networkData.newInput)
-        {
-            if (Server.Dancer[Server.mainDancer].networkData.networkInput == NetworkInput.Down)
-            {
-                Server.Dancer[Server.mainDancer].networkData.newInput = false;
-                return true;
-            }
         }
         return false;
     }
@@ -76,14 +44,6 @@ public static class InputManager
         {
             return true;
         }
-        if (Server.mainDancer != -1 && Server.Dancer[Server.mainDancer].networkData.newInput)
-        {
-            if (Server.Dancer[Server.mainDancer].networkData.networkInput == NetworkInput.Left)
-            {
-                Server.Dancer[Server.mainDancer].networkData.newInput = false;
-                return true;
-            }
-        }
         return false;
     }
 
@@ -92,14 +52,6 @@ public static class InputManager
         if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
         {
             return true;
-        }
-        if (Server.mainDancer != -1 && Server.Dancer[Server.mainDancer].networkData.newInput)
-        {
-            if (Server.Dancer[Server.mainDancer].networkData.networkInput == NetworkInput.Right)
-            {
-                Server.Dancer[Server.mainDancer].networkData.newInput = false;
-                return true;
-            }
         }
         return false;
     }

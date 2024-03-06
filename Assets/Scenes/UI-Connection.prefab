@@ -36,7 +36,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -223, y: -11.72}
+  m_AnchoredPosition: {x: -223, y: -12}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &4222575744751302708
@@ -123,7 +123,7 @@ MonoBehaviour:
         Raw: -223
         Type: 0
       Y:
-        Raw: -11.72
+        Raw: -12
         Type: 0
       Z:
         Raw: 0
@@ -291,7 +291,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 111.111.1.1
+  m_text: Acquiring...
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: bf799700cfcde6b4db83fd2efa607264, type: 2}
   m_sharedMaterial: {fileID: -2485357769138455470, guid: bf799700cfcde6b4db83fd2efa607264, type: 2}
@@ -300,8 +300,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 16777215
+  m_fontColor: {r: 1, g: 1, b: 1, a: 0}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -3596,7 +3596,7 @@ Transform:
   m_GameObject: {fileID: 1776348091988249988}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -491, y: 207.285, z: 0}
+  m_LocalPosition: {x: -441, y: 207.285, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3649,7 +3649,7 @@ MonoBehaviour:
         Type: 0
     Position:
       X:
-        Raw: -491
+        Raw: -441
         Type: 0
       Y:
         Raw: 207.285
@@ -10435,7 +10435,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   background: {fileID: 0}
-  ipAdress: {fileID: 4369934337866513112}
+  relayCode: {fileID: 4369934337866513112}
   connectionAnimator: {fileID: 6641646737902602664}
   overlayAnimator: {fileID: 0}
   selectorUIBlock: {fileID: 3478537780022226684}
@@ -11822,7 +11822,7 @@ Transform:
   m_GameObject: {fileID: 7385810509661131489}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -491, y: 87.285, z: 0}
+  m_LocalPosition: {x: -441, y: 87.285, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -11875,7 +11875,7 @@ MonoBehaviour:
         Type: 0
     Position:
       X:
-        Raw: -491
+        Raw: -441
         Type: 0
       Y:
         Raw: 87.285
@@ -12432,7 +12432,7 @@ Transform:
   m_GameObject: {fileID: 8123576222295010054}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 50, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -12477,7 +12477,7 @@ MonoBehaviour:
         Type: 0
     Position:
       X:
-        Raw: 50
+        Raw: 0
         Type: 0
       Y:
         Raw: 0
@@ -14047,8 +14047,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Enter the following IP on your phone and select one between the available
-    dancers. \nBoth devices needs to be connected to the same wi-fi."
+  m_text: Enter the code on your phone and select one between the available dancers.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 454c33542e4fbd643b8b9a19158db5d6, type: 2}
   m_sharedMaterial: {fileID: -8542367003121419544, guid: 454c33542e4fbd643b8b9a19158db5d6, type: 2}
@@ -14148,7 +14147,7 @@ Transform:
   m_GameObject: {fileID: 8640567030583446974}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -491, y: -32.715, z: 0}
+  m_LocalPosition: {x: -466, y: -32.715, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -14201,7 +14200,7 @@ MonoBehaviour:
         Type: 0
     Position:
       X:
-        Raw: -491
+        Raw: -466
         Type: 0
       Y:
         Raw: -32.715

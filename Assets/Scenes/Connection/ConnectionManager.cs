@@ -3,11 +3,20 @@ using System.Net;
 using UnityEngine;
 using System.Net.Sockets;
 using System.Threading.Tasks;
+using Unity.Netcode.Transports.UTP;
+using Unity.Netcode;
+using Unity.Networking.Transport.Relay;
+using Unity.Services.Authentication;
+using Unity.Services.Core;
+using Unity.Services.Relay.Models;
+using Unity.Services.Relay;
+using TMPro;
+using Nova.TMP;
 
 public class ConnectionManager : MonoBehaviour
 {
     [SerializeField] BackgroundManager background;
-    [SerializeField] TextBlock ipAdress;
+    [SerializeField] TextBlock relayCode;
     [SerializeField] Animator connectionAnimator;
     [SerializeField] Animator overlayAnimator;
     [SerializeField] UIBlock2D selectorUIBlock;
@@ -30,63 +39,20 @@ public class ConnectionManager : MonoBehaviour
 
     LTDescr[] selectorAnimations;
 
-    private void Start()
+    private async void Start()
     {
         playerConnected = new bool[4] { false, false, false, false };
         selectorAnimations = new LTDescr[3] { new(), new(), new() };
-        IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
-        foreach (IPAddress ip in host.AddressList)
-        {
-            if (ip.AddressFamily == AddressFamily.InterNetwork)
-            {
-                ipAdress.Text = ip.ToString();
-            }
-        }
+        await UnityServices.InitializeAsync();
+        await AuthenticationService.Instance.SignInAnonymouslyAsync();
+        Allocation allocation = await RelayService.Instance.CreateAllocationAsync(4);
+        NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new RelayServerData(allocation, "dtls"));
+        relayCode.Text = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
+        NetworkManager.Singleton.StartHost();
     }
 
     private async void Update()
     {
-        for (int i = 0; i < 4; i++)
-        {
-            if (!Server.Dancer[i].isQuitting && !Server.Dancer[i].breakThread)
-            {
-                if (Server.Dancer[i].connected && !playerConnected[i])
-                {
-                    bool firstConnected = true;
-                    for (int ii = 0; ii < 4; ii++)
-                    {
-                        if (playerConnected[ii])
-                        {
-                            firstConnected = false;
-                        }
-                    }
-                    if (firstConnected)
-                    {
-                        Server.mainDancer = i;
-                        Debug.Log(Server.mainDancer);
-                    }
-                    ToggleConnection(i, true);
-                }
-                if (!Server.Dancer[i].connected && Server.Dancer[i].threadBreaked)
-                {
-                    bool noController = true;
-                    for (int ii = 0; ii < 4; ii++)
-                    {
-                        if (playerConnected[ii] && i != ii)
-                        {
-                            Server.mainDancer = ii;
-                            noController = false;
-                        }
-                    }
-                    if (noController)
-                    {
-                        Server.mainDancer = -1;
-                        Debug.Log(Server.mainDancer);
-                    }
-                    ToggleConnection(i, false);                    
-                }
-            }
-        }
         if (canInteract)
         {
             if (exitPopupShowed)
@@ -111,28 +77,16 @@ public class ConnectionManager : MonoBehaviour
                     switch (selectedSlot)
                     {
                         case 0:
-                            if (playerConnected[0])
-                            {
-                                DisconnectPlayer(0);
-                            }
+                            
                             break;
                         case 1:
-                            if (playerConnected[1])
-                            {
-                                DisconnectPlayer(1);
-                            }
+                            
                             break;
                         case 2:
-                            if (playerConnected[2])
-                            {
-                                DisconnectPlayer(2);
-                            }
+                            
                             break;
                         case 3:
-                            if (playerConnected[3])
-                            {
-                                DisconnectPlayer(3);
-                            }
+                            
                             break;
                         case 4:
                             canInteract = false;
@@ -205,13 +159,6 @@ public class ConnectionManager : MonoBehaviour
     void EnterAnimationEvent03()
     {
         canInteract = true;
-        for (int i = 0; i < 4; i++)
-        {
-            if (!playerConnected[i])
-            {
-                Server.Dancer[i].Connect(ipAdress.Text, i);
-            }
-        }
     }
 
     void ToggleSelection(uint lastSelectedSlot)
@@ -298,60 +245,6 @@ public class ConnectionManager : MonoBehaviour
         }
     }
 
-    void ToggleConnection(int index, bool connected)
-    {
-        if (connected)
-        {
-            canInteract = false;
-            playerConnected[index] = true;
-            LeanTween.scaleX(loadingUIBlock[index].gameObject, 0.3f, 0.1f);
-            LeanTween.scaleY(loadingUIBlock[index].gameObject, 0.3f, 0.1f);
-            LeanTween.value(1f, 0f, 0.1f).setOnUpdate((float value) =>
-            {
-                loadingUIBlock[index].Color = new(1f, 1f, 1f, value);
-            }).setOnComplete(() =>
-            {
-                connectedAudio.Play();
-                connectedUIBlock[index].gameObject.transform.localScale = new(0.3f, 0.3f, 1f);
-                ToggleEnter();
-                LeanTween.scaleX(connectedUIBlock[index].gameObject, 0.4f, 0.1f);
-                LeanTween.scaleY(connectedUIBlock[index].gameObject, 0.4f, 0.1f);
-                LeanTween.value(0f, 1f, 0.1f).setOnUpdate((float value) =>
-                {
-                    connectedUIBlock[index].Color = new(1f, 1f, 1f, value);
-                }).setOnComplete(() =>
-                {
-                    canInteract = true;
-                });
-            });
-        }
-        else
-        {
-            Server.Dancer[index].Disconnect();
-            LeanTween.scaleX(connectedUIBlock[index].gameObject, 0.3f, 0.1f);
-            LeanTween.scaleY(connectedUIBlock[index].gameObject, 0.3f, 0.1f);
-            LeanTween.value(1f, 0f, 0.1f).setOnUpdate((float value) =>
-            {
-                connectedUIBlock[index].Color = new(1f, 1f, 1f, value);
-            }).setOnComplete(() =>
-            {
-                connectedAudio.Play();
-                loadingUIBlock[index].gameObject.transform.localScale = new(0.3f, 0.3f, 1f);
-                ToggleEnter();
-                LeanTween.scaleX(loadingUIBlock[index].gameObject, 0.4f, 0.1f);
-                LeanTween.scaleY(loadingUIBlock[index].gameObject, 0.4f, 0.1f);
-                LeanTween.value(0f, 1f, 0.1f).setOnUpdate((float value) =>
-                {
-                    loadingUIBlock[index].Color = new(1f, 1f, 1f, value);
-                }).setOnComplete(() =>
-                {
-                    Server.Dancer[index].Connect(ipAdress.Text, index);
-                    canInteract = true;
-                });
-            });            
-        }        
-    }
-
     void DisconnectPlayer(int index)
     {
         canInteract = false;
@@ -360,20 +253,13 @@ public class ConnectionManager : MonoBehaviour
         LeanTween.scaleX(selectorUIBlock.gameObject, 1f, 0.2f);
         LeanTween.scaleY(selectorUIBlock.gameObject, 1f, 0.2f).setOnComplete(() =>
         {
-            Server.Dancer[index].breakThread = true;
-            playerConnected[index] = false;
+            //Server.Dancer[index].breakThread = true;
+            //playerConnected[index] = false;
         });
     }
 
     void ExitAnimationEvent()
     {
-        for (int i = 0; i < 4; i++)
-        {
-            if (!Server.Dancer[i].connected)
-            {
-                Server.Dancer[i].Disconnect();
-            }
-        }
         Instantiate(gameUI).GetComponent<GameManager>().connectionUI = gameObject;
         background.StopMenuAudio();
         background.gameObject.SetActive(false);
