@@ -51,15 +51,26 @@ public class ConnectionManager : MonoBehaviour
 
     private async void Update()
     {
+        for (int i = 0; i < 4; i++)
+        {
+            if (!playerConnected[i] && DancerIdentifier.dancers[i] != null)
+            {
+                ToggleConnection(i, true);
+            }
+            if (playerConnected[i] && DancerIdentifier.dancers[i] == null)
+            {
+                ToggleConnection(i, false);
+            }
+        }
         if (canInteract)
         {
             if (exitPopupShowed)
             {
-                if (InputManager.Select())
+                if (InputManager.Select() && InputManager.source == InputManager.controller | InputManager.source == InputSource.Local)
                 {
                     Application.Quit();
                 }
-                else if (InputManager.Undo())
+                else if (InputManager.Undo() && InputManager.source == InputManager.controller | InputManager.source == InputSource.Local)
                 {
                     overlayAnimator.Play("Popup-Quit-Exit");
                     exitPopupShowed = false;
@@ -70,21 +81,21 @@ public class ConnectionManager : MonoBehaviour
             }
             else
             {
-                if (InputManager.Select())
+                if (InputManager.Select() && InputManager.source == InputManager.controller | InputManager.source == InputSource.Local)
                 {
                     switch (selectedSlot)
                     {
                         case 0:
-                            
+                            DisconnectPlayer(1);
                             break;
                         case 1:
-                            
+                            DisconnectPlayer(2);
                             break;
                         case 2:
-                            
+                            DisconnectPlayer(3);
                             break;
                         case 3:
-                            
+                            DisconnectPlayer(4);
                             break;
                         case 4:
                             canInteract = false;
@@ -105,7 +116,7 @@ public class ConnectionManager : MonoBehaviour
                             break;
                     }
                 }
-                else if (InputManager.Undo())
+                else if (InputManager.Undo() && InputManager.source == InputManager.controller | InputManager.source == InputSource.Local)
                 {
                     overlayAnimator.Play("Popup-Quit-Enter");
                     exitPopupShowed = true;
@@ -113,17 +124,7 @@ public class ConnectionManager : MonoBehaviour
                     await Task.Delay(400);
                     canInteract = true;
                 }
-                else if (InputManager.Down())
-                {
-                    uint lastSelectedSlot = selectedSlot;
-                    if (selectedSlot != 4)
-                    {
-                        selectedSlot++;
-                    }
-                    ToggleSelection(lastSelectedSlot);
-                    toggleDownAudio.Play();
-                }
-                else if (InputManager.Up())
+                else if (InputManager.Up() && InputManager.source == InputManager.controller | InputManager.source == InputSource.Local)
                 {
                     uint lastSelectedSlot = selectedSlot;
                     if (selectedSlot != 0)
@@ -132,6 +133,16 @@ public class ConnectionManager : MonoBehaviour
                     }
                     ToggleSelection(lastSelectedSlot);
                     toggleUpAudio.Play();
+                }
+                else if (InputManager.Down() && InputManager.source == InputManager.controller | InputManager.source == InputSource.Local)
+                {
+                    uint lastSelectedSlot = selectedSlot;
+                    if (selectedSlot != 4)
+                    {
+                        selectedSlot++;
+                    }
+                    ToggleSelection(lastSelectedSlot);
+                    toggleDownAudio.Play();
                 }
             }
         }
@@ -243,6 +254,72 @@ public class ConnectionManager : MonoBehaviour
         }
     }
 
+    void ToggleConnection(int index, bool connected)
+    {
+        if (connected)
+        {
+            canInteract = false;
+            playerConnected[index] = true;
+            if (InputManager.controller == InputSource.Local || DancerIdentifier.dancers[(int)InputManager.controller - 1] == null)
+            {
+                InputManager.controller = (InputSource)index + 1;
+            }
+            LeanTween.scaleX(loadingUIBlock[index].gameObject, 0.3f, 0.1f);
+            LeanTween.scaleY(loadingUIBlock[index].gameObject, 0.3f, 0.1f);
+            LeanTween.value(1f, 0f, 0.1f).setOnUpdate((float value) =>
+            {
+                loadingUIBlock[index].Color = new(1f, 1f, 1f, value);
+            }).setOnComplete(() =>
+            {
+                connectedAudio.Play();
+                connectedUIBlock[index].gameObject.transform.localScale = new(0.3f, 0.3f, 1f);
+                ToggleEnter();
+                LeanTween.scaleX(connectedUIBlock[index].gameObject, 0.4f, 0.1f);
+                LeanTween.scaleY(connectedUIBlock[index].gameObject, 0.4f, 0.1f);
+                LeanTween.value(0f, 1f, 0.1f).setOnUpdate((float value) =>
+                {
+                    connectedUIBlock[index].Color = new(1f, 1f, 1f, value);
+                }).setOnComplete(() =>
+                {
+                    canInteract = true;
+                });
+            });
+        }
+        else
+        {
+            canInteract = false;
+            playerConnected[index] = false;
+            for (int i = 0; i < 4; i++)
+            {
+                if (playerConnected[i])
+                {
+                    InputManager.controller = (InputSource)i + 1;
+                    break;
+                }
+            }
+            LeanTween.scaleX(connectedUIBlock[index].gameObject, 0.3f, 0.1f);
+            LeanTween.scaleY(connectedUIBlock[index].gameObject, 0.3f, 0.1f);
+            LeanTween.value(1f, 0f, 0.1f).setOnUpdate((float value) =>
+            {
+                connectedUIBlock[index].Color = new(1f, 1f, 1f, value);
+            }).setOnComplete(() =>
+            {
+                connectedAudio.Play();
+                loadingUIBlock[index].gameObject.transform.localScale = new(0.3f, 0.3f, 1f);
+                ToggleEnter();
+                LeanTween.scaleX(loadingUIBlock[index].gameObject, 0.4f, 0.1f);
+                LeanTween.scaleY(loadingUIBlock[index].gameObject, 0.4f, 0.1f);
+                LeanTween.value(0f, 1f, 0.1f).setOnUpdate((float value) =>
+                {
+                    loadingUIBlock[index].Color = new(1f, 1f, 1f, value);
+                }).setOnComplete(() =>
+                {
+                    canInteract = true;
+                });
+            });
+        }
+    }
+
     void DisconnectPlayer(int index)
     {
         canInteract = false;
@@ -251,8 +328,7 @@ public class ConnectionManager : MonoBehaviour
         LeanTween.scaleX(selectorUIBlock.gameObject, 1f, 0.2f);
         LeanTween.scaleY(selectorUIBlock.gameObject, 1f, 0.2f).setOnComplete(() =>
         {
-            //Server.Dancer[index].breakThread = true;
-            //playerConnected[index] = false;
+            NetworkManager.Singleton.DisconnectClient(DancerIdentifier.dancers[index - 1].OwnerClientId);
         });
     }
 
@@ -263,4 +339,10 @@ public class ConnectionManager : MonoBehaviour
         background.gameObject.SetActive(false);
         gameObject.SetActive(false);
     }
+}
+
+public static class DancerIdentifier
+{
+    public static int index = 0;
+    public static Dancer[] dancers = new Dancer[4] { null, null, null, null };
 }

@@ -3,42 +3,48 @@ using Unity.Netcode;
 
 public class Dancer : NetworkBehaviour
 {
-    [SerializeField] NetworkVariable<ulong> dancerCID = new(readPerm: NetworkVariableReadPermission.Everyone, writePerm: NetworkVariableWritePermission.Owner);
-
     private void Start()
     {
         if (!IsServer && IsOwner)
         {
-            gameObject.name = "Dancer " + DancerIndex.value;
-            SetDancerNameServerRpc(DancerIndex.value);
+            ConfigureDancerServerRpc(DancerIdentifier.index);
         }
     }
 
     private void Update()
     {
-        if (IsServer)
-        {
-            //Debug.Log("Sended by Server: " + NetworkManager.Singleton.NetworkConfig.NetworkTransport.GetCurrentRtt(OwnerClientId));
-        }
         if (!IsServer && IsOwner)
         {
             if (InputManager.input != NetworkInput.None)
             {
-                InputUndoServerRpc(InputManager.input);
-                InputManager.input = NetworkInput.None;                
+                InputServerRpc(DancerIdentifier.index, InputManager.input);
+                InputManager.input = NetworkInput.None;
             }
         }
     }
 
     [ServerRpc]
-    void SetDancerNameServerRpc(int dancerIndex)
+    void ConfigureDancerServerRpc(int dancerIndex)
     {
         gameObject.name = "Dancer " + dancerIndex;
+        if (DancerIdentifier.dancers[dancerIndex -1] == null)
+        {
+            DancerIdentifier.dancers[dancerIndex - 1] = this;
+        }
+        else
+        {
+            NetworkManager.Singleton.DisconnectClient(OwnerClientId);
+        }
+        for (int i = 0; i < 4; i++)
+        {
+            Debug.Log(DancerIdentifier.dancers[i]);
+        }
     }
 
     [ServerRpc]
-    public void InputUndoServerRpc(NetworkInput input)
+    public void InputServerRpc(int dancerIndex,NetworkInput input)
     {
+        InputManager.source = (InputSource)dancerIndex;
         InputManager.input = input;
-    }
+    }    
 }

@@ -274,6 +274,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 681011831597037391, guid: 6aa72e39ac1b90446a43c4cc8e4a3703, type: 3}
+      propertyPath: Loop
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1372889149603293416, guid: 6aa72e39ac1b90446a43c4cc8e4a3703, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.009259259
@@ -1060,7 +1064,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9115343484999253767, guid: 71e05712a83c7944e9dbad6b41c699f4, type: 3}
       propertyPath: blurRadius
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 9115343484999253767, guid: 71e05712a83c7944e9dbad6b41c699f4, type: 3}
       propertyPath: BlurDownscaleFactor

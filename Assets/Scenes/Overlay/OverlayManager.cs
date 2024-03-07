@@ -22,16 +22,12 @@ public class OverlayManager : MonoBehaviour
         if (Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.WindowsPlayer)
         {
             LeanTween.init(5000);
-            if (Cursor.visible)
+            if (Application.platform == RuntimePlatform.WindowsPlayer)
             {
                 Cursor.visible = false;
             }
             titleUI.SetActive(true);
             Destroy(mobileConnectionUI);
-            //mobileConnectionUI.SetActive(true);
-            //Destroy(connectionUI);
-            //Destroy(titleUI);
-            //Destroy(gameObject);
         }
     }
 

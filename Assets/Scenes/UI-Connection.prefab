@@ -2840,7 +2840,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: You can continue even without connect a player
+  m_text: All devices needs to be to the same Wi-Fi to connect
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 454c33542e4fbd643b8b9a19158db5d6, type: 2}
   m_sharedMaterial: {fileID: -8542367003121419544, guid: 454c33542e4fbd643b8b9a19158db5d6, type: 2}

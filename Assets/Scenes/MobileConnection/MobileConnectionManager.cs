@@ -23,6 +23,38 @@ public class MobileConnectionManager : MonoBehaviour
 
     [SerializeField] TextBlock inputText;
 
+    private void Start()
+    {
+        NetworkManager.Singleton.OnClientConnectedCallback += Singleton_OnClientConnectedCallback;
+        NetworkManager.Singleton.OnClientDisconnectCallback += Singleton_OnClientDisconnectCallback;
+    }
+
+    private void Singleton_OnClientConnectedCallback(ulong obj)
+    {
+        dancer01.SetActive(false);
+        dancer02.SetActive(false);
+        dancer03.SetActive(false);
+        dancer04.SetActive(false);
+        undo.SetActive(true);
+        select.SetActive(true);
+        up.SetActive(true);
+        down.SetActive(true);
+        left.SetActive(true);
+        right.SetActive(true);
+    }
+
+    private void Singleton_OnClientDisconnectCallback(ulong obj)
+    {
+        input.SetActive(true);
+        connect.SetActive(true);
+        undo.SetActive(false);
+        select.SetActive(false);
+        up.SetActive(false);
+        down.SetActive(false);
+        left.SetActive(false);
+        right.SetActive(false);
+    }
+
     public void ConnectButtonPress()
     {
         input.SetActive(false);
@@ -35,21 +67,11 @@ public class MobileConnectionManager : MonoBehaviour
 
     public void DancerButtonPress(int index)
     {
-        DancerIndex.value = index;
+        DancerIdentifier.index = index;
         try
         {
             NetworkManager.Singleton.gameObject.GetComponent<UnityTransport>().ConnectionData.Address = inputText.Text;
             NetworkManager.Singleton.StartClient();
-            dancer01.SetActive(false);
-            dancer02.SetActive(false);
-            dancer03.SetActive(false);
-            dancer04.SetActive(false);
-            undo.SetActive(true);
-            select.SetActive(true);
-            up.SetActive(true);
-            down.SetActive(true);
-            left.SetActive(true);
-            right.SetActive(true);
         }
         catch
         {
@@ -66,9 +88,4 @@ public class MobileConnectionManager : MonoBehaviour
     {
         InputManager.input = (NetworkInput)inputIndex;
     }
-}
-
-public static class DancerIndex
-{
-    public static int value = 0;
 }

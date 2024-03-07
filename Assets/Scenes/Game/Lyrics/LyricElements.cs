@@ -17,13 +17,19 @@ public class LyricElements : MonoBehaviour
     bool startOfLine = true; 
     float nextTime = 0f; 
     int atualLine = 0; 
+    bool firstLyric = true;
     bool lastLyric = false; 
     bool lyricsEnded = false;
-    bool showNext = true;
+    bool showNext = true;    
 
     private void Update()
     {
         if (timeManager == null) { return; }
+
+        if (firstLyric)
+        {
+            ProceedLyrics();
+        }
 
         if (!showNext && timeManager.ElapsedMilliseconds / 1000f >= nextTime + musicTrack.beats[musicTrack.startBeat] - 3f)
         {
@@ -33,64 +39,73 @@ public class LyricElements : MonoBehaviour
 
         if (timeManager.ElapsedMilliseconds / 1000f >= nextTime + musicTrack.beats[musicTrack.startBeat] && !lyricsEnded)
         {
-            if (!lastLyric)
+            ProceedLyrics();
+        }
+    }
+
+    void ProceedLyrics()
+    {
+        if (firstLyric)
+        {
+            firstLyric = false;
+        }
+        if (!lastLyric)
+        {
+            if (atualLine > 0)
             {
-                if (atualLine > 0)
+                lyrics[atualLine - 1].Release();
+            }
+            if (atualLine > 1 && lyrics[atualLine - 2].hided == false)
+            {
+                lyrics[atualLine - 2].Hide();
+            }
+            if (atualLine > 2)
+            {
+                lyrics[atualLine - 3].destroy = true;
+                lyrics[atualLine - 3] = null;
+            }
+            lyrics.Add(Instantiate(lyricPrefab).GetComponent<Lyric>());
+            lyrics[atualLine].transform.SetParent(gameObject.transform, false);
+            for (; atualLyric < timeline.lyrics.Count; atualLyric++)
+            {
+                if (startOfLine)
                 {
-                    lyrics[atualLine - 1].Release();
+                    lyrics[atualLine].name = null;
+                    nextTime = timeline.lyrics[atualLyric].time;
+                    lyrics[atualLine].lyricColor = lyricColor;
+                    lyrics[atualLine].timeManager = timeManager;
+                    lyrics[atualLine].musicTrack = musicTrack;
+                    startOfLine = false;
                 }
-                if (atualLine > 1 && lyrics[atualLine - 2].hided == false)
+
+                lyrics[atualLine].name += timeline.lyrics[atualLyric].text;
+                lyrics[atualLine].AddContent(timeline.lyrics[atualLyric].text, timeline.lyrics[atualLyric].time, timeline.lyrics[atualLyric].duration);
+
+                if (timeline.lyrics[atualLyric].isLineEnding == 1)
                 {
-                    lyrics[atualLine - 2].Hide();
-                }
-                if (atualLine > 2)
-                {
-                    lyrics[atualLine - 3].destroy = true;
-                    lyrics[atualLine - 3] = null;
-                }
-                lyrics.Add(Instantiate(lyricPrefab).GetComponent<Lyric>());
-                lyrics[atualLine].transform.SetParent(gameObject.transform, false);
-                for (; atualLyric < timeline.lyrics.Count; atualLyric++)
-                {
-                    if (startOfLine)
+                    if (nextTime + musicTrack.beats[musicTrack.startBeat] > 3f && timeManager.ElapsedMilliseconds / 1000f >= nextTime + musicTrack.beats[musicTrack.startBeat] - 3f)
                     {
-                        lyrics[atualLine].name = null;
-                        nextTime = timeline.lyrics[atualLyric].time;
-                        lyrics[atualLine].lyricColor = lyricColor;
-                        lyrics[atualLine].timeManager = timeManager;
-                        lyrics[atualLine].musicTrack = musicTrack;
-                        startOfLine = false;
+                        lyrics[atualLine].Show();
+                    }
+                    else
+                    {
+                        showNext = false;
                     }
 
-                    lyrics[atualLine].name += timeline.lyrics[atualLyric].text;
-                    lyrics[atualLine].AddContent(timeline.lyrics[atualLyric].text, timeline.lyrics[atualLyric].time, timeline.lyrics[atualLyric].duration);
+                    startOfLine = true;
+                    if (atualLyric == timeline.lyrics.Count - 1) { lastLyric = true; }
+                    atualLyric++; atualLine++;
 
-                    if (timeline.lyrics[atualLyric].isLineEnding == 1)
-                    {
-                        if (nextTime + musicTrack.beats[musicTrack.startBeat] > 3f && timeManager.ElapsedMilliseconds / 1000f >= nextTime + musicTrack.beats[musicTrack.startBeat] - 3f)
-                        {
-                            lyrics[atualLine].Show();
-                        }
-                        else
-                        {
-                            showNext = false;
-                        }
-
-                        startOfLine = true;
-                        if (atualLyric == timeline.lyrics.Count - 1) { lastLyric = true; }
-                        atualLyric++; atualLine++;
-
-                        break;
-                    }
+                    break;
                 }
             }
-            else
+        }
+        else
+        {
+            if (timeManager.ElapsedMilliseconds / 1000f >= nextTime + musicTrack.beats[musicTrack.startBeat] && lastLyric)
             {
-                if (timeManager.ElapsedMilliseconds / 1000f >= nextTime + musicTrack.beats[musicTrack.startBeat] && lastLyric)
-                {
-                    lyrics[atualLine - 1].Release();
-                    lyricsEnded = true;
-                }
+                lyrics[atualLine - 1].Release();
+                lyricsEnded = true;
             }
         }
     }

@@ -55,8 +55,9 @@ public class GameManager : MonoBehaviour
         }
         if (InputManager.Undo())
         {
+            LeanTween.cancelAll();
             connectionUI.SetActive(true);
-            gameObject.SetActive(false);
+            Destroy(gameObject);
         }
     }
 }
