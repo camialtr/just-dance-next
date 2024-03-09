@@ -16,8 +16,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] LyricElements lyricElements;
     [SerializeField] PictoElements pictoElements;
 
-    [SerializeField] public GameObject connectionUI;
-
     readonly Stopwatch timeManager = new();
 
     private async void Start()
@@ -52,12 +50,6 @@ public class GameManager : MonoBehaviour
         {
             mediaElements.Play(musicTrack);
             timeManager.Start();
-        }
-        if (InputManager.Undo())
-        {
-            LeanTween.cancelAll();
-            connectionUI.SetActive(true);
-            Destroy(gameObject);
         }
     }
 }

@@ -3,7 +3,6 @@ using UnityEngine;
 public class OverlayManager : MonoBehaviour
 {
     [SerializeField] GameObject titleUI;
-    [SerializeField] GameObject connectionUI;
     [SerializeField] GameObject mobileConnectionUI;
 
     [SerializeField] AudioSource popupEnterAudio;
@@ -14,10 +13,7 @@ public class OverlayManager : MonoBehaviour
         if (Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.IPhonePlayer)
         {
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
-            mobileConnectionUI.SetActive(true);
-            Destroy(connectionUI);
-            Destroy(titleUI);
-            Destroy(gameObject);
+            Instantiate(mobileConnectionUI);
         }
         if (Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.WindowsPlayer)
         {
@@ -26,8 +22,7 @@ public class OverlayManager : MonoBehaviour
             {
                 Cursor.visible = false;
             }
-            titleUI.SetActive(true);
-            Destroy(mobileConnectionUI);
+            //Instantiate(titleUI);
         }
     }
 

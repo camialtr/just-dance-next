@@ -19,8 +19,6 @@ public class MobileConnectionManager : MonoBehaviour
     [SerializeField] GameObject left;
     [SerializeField] GameObject right;
 
-    [SerializeField] Dancer dancer;
-
     [SerializeField] TextBlock inputText;
 
     private void Start()

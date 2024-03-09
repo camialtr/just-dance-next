@@ -24,7 +24,7 @@ public class ConnectionManager : MonoBehaviour
     [SerializeField] TextBlock enterText;
     [SerializeField] UIBlock2D[] loadingUIBlock;
     [SerializeField] UIBlock2D[] connectedUIBlock;
-    [SerializeField] GameObject gameUI;
+    [SerializeField] GameObject demoMapSelectionUI;
 
     bool[] playerConnected;
     bool canInteract = false;
@@ -35,6 +35,8 @@ public class ConnectionManager : MonoBehaviour
 
     private void Start()
     {
+        background = GameObject.FindGameObjectWithTag("Background").GetComponent<BackgroundManager>();
+        overlayAnimator = GameObject.Find("UI-Overlay").GetComponent<Animator>();
         playerConnected = new bool[4] { false, false, false, false };
         selectorAnimations = new LTDescr[3] { new(), new(), new() };
         IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
@@ -168,6 +170,7 @@ public class ConnectionManager : MonoBehaviour
     void EnterAnimationEvent03()
     {
         canInteract = true;
+        Resources.UnloadUnusedAssets();
     }
 
     void ToggleSelection(uint lastSelectedSlot)
@@ -334,7 +337,7 @@ public class ConnectionManager : MonoBehaviour
 
     void ExitAnimationEvent()
     {
-        Instantiate(gameUI).GetComponent<GameManager>().connectionUI = gameObject;
+        Instantiate(demoMapSelectionUI);
         background.StopMenuAudio();
         background.gameObject.SetActive(false);
         gameObject.SetActive(false);

@@ -3261,7 +3261,8 @@ MonoBehaviour:
   selectAudio: {fileID: 7891119679255807342}
   exitAudio: {fileID: 625163904041411878}
   titleAnimator: {fileID: 4486525914427288175}
-  gameUI: {fileID: 6638823416799839513, guid: 35371a5b58e40ca40a5fbbbf77cc1d29, type: 3}
+  overlayAnimator: {fileID: 0}
+  connectionUI: {fileID: 6543517384467166990, guid: fd7446d91b005ff4a9bec3e61b289a73, type: 3}
 --- !u!95 &4486525914427288175
 Animator:
   serializedVersion: 5

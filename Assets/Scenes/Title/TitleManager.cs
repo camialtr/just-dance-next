@@ -13,6 +13,12 @@ public class TitleManager : MonoBehaviour
     bool canInteract = false;
     bool exitPopupShowed = false;
 
+    private void Start()
+    {
+        background = GameObject.FindGameObjectWithTag("Background").GetComponent<BackgroundManager>();
+        overlayAnimator = GameObject.Find("UI-Overlay").GetComponent<Animator>();
+    }
+
     private async void Update()
     {
         if (canInteract)
@@ -74,7 +80,7 @@ public class TitleManager : MonoBehaviour
 
     void ExitAnimationEvent03()
     {
-        connectionUI.SetActive(true);
+        Instantiate(connectionUI);
         Destroy(gameObject);
     }
 
