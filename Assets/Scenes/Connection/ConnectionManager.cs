@@ -37,6 +37,7 @@ public class ConnectionManager : MonoBehaviour
     {
         background = GameObject.FindGameObjectWithTag("Background").GetComponent<BackgroundManager>();
         overlayAnimator = GameObject.Find("UI-Overlay").GetComponent<Animator>();
+        demoMapSelectionUI = GameObject.Find("UI-MapSelection");
         playerConnected = new bool[4] { false, false, false, false };
         selectorAnimations = new LTDescr[3] { new(), new(), new() };
         IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
@@ -337,9 +338,10 @@ public class ConnectionManager : MonoBehaviour
 
     void ExitAnimationEvent()
     {
-        Instantiate(demoMapSelectionUI);
-        background.StopMenuAudio();
-        background.gameObject.SetActive(false);
+        //Instantiate(demoMapSelectionUI);
+        demoMapSelectionUI.GetComponent<ClipMask>().Tint = new(1f, 1f, 1f, 1f);
+        //background.StopMenuAudio();
+        //background.gameObject.SetActive(false);
         gameObject.SetActive(false);
     }
 }
