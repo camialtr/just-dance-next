@@ -24,7 +24,7 @@ public class ConnectionManager : MonoBehaviour
     [SerializeField] TextBlock enterText;
     [SerializeField] UIBlock2D[] loadingUIBlock;
     [SerializeField] UIBlock2D[] connectedUIBlock;
-    [SerializeField] GameObject demoMapSelectionUI;
+    [SerializeField] GameObject mapSelectionUI;
 
     bool[] playerConnected;
     bool canInteract = false;
@@ -37,7 +37,6 @@ public class ConnectionManager : MonoBehaviour
     {
         background = GameObject.FindGameObjectWithTag("Background").GetComponent<BackgroundManager>();
         overlayAnimator = GameObject.Find("UI-Overlay").GetComponent<Animator>();
-        demoMapSelectionUI = GameObject.Find("UI-MapSelection");
         playerConnected = new bool[4] { false, false, false, false };
         selectorAnimations = new LTDescr[3] { new(), new(), new() };
         IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
@@ -89,16 +88,28 @@ public class ConnectionManager : MonoBehaviour
                     switch (selectedSlot)
                     {
                         case 0:
-                            DisconnectPlayer(1);
+                            if (playerConnected[0])
+                            {
+                                DisconnectPlayer(1);
+                            }                            
                             break;
                         case 1:
-                            DisconnectPlayer(2);
+                            if (playerConnected[1])
+                            {
+                                DisconnectPlayer(2);
+                            }
                             break;
                         case 2:
-                            DisconnectPlayer(3);
+                            if (playerConnected[2])
+                            {
+                                DisconnectPlayer(3);
+                            }
                             break;
                         case 3:
-                            DisconnectPlayer(4);
+                            if (playerConnected[3])
+                            {
+                                DisconnectPlayer(4);
+                            }
                             break;
                         case 4:
                             canInteract = false;
@@ -338,10 +349,7 @@ public class ConnectionManager : MonoBehaviour
 
     void ExitAnimationEvent()
     {
-        //Instantiate(demoMapSelectionUI);
-        demoMapSelectionUI.GetComponent<ClipMask>().Tint = new(1f, 1f, 1f, 1f);
-        //background.StopMenuAudio();
-        //background.gameObject.SetActive(false);
+        Instantiate(mapSelectionUI);
         gameObject.SetActive(false);
     }
 }

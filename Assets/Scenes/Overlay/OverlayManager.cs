@@ -22,7 +22,7 @@ public class OverlayManager : MonoBehaviour
             {
                 Cursor.visible = false;
             }
-            //Instantiate(titleUI);
+            Instantiate(titleUI);
         }
     }
 
