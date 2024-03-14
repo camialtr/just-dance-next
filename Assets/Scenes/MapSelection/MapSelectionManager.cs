@@ -4,8 +4,6 @@ using UnityEngine;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
 using UnityEngine.Video;
-using static UnityEngine.Rendering.DebugUI;
-using UnityEngine.UIElements;
 
 public class MapSelectionManager : MonoBehaviour
 {
@@ -18,6 +16,7 @@ public class MapSelectionManager : MonoBehaviour
     [SerializeField] AudioSource toggleNegativeAudio;
 
     [SerializeField] BackgroundManager background;
+    [SerializeField] UIBlock2D backgroundUIBlock;
     [SerializeField] UIBlock coverCluster;
     [SerializeField] UIBlock2D[] covers;
     [SerializeField] UIBlock2D titleUIBlock;
@@ -27,13 +26,14 @@ public class MapSelectionManager : MonoBehaviour
     [SerializeField] UIBlock2D difficultiesUIBlock;
     [SerializeField] TextBlock difficultiesTextBlock;
 
-    [SerializeField] GameObject gameUI;
+    [SerializeField] GameObject connectionUI;
+    [SerializeField] GameObject coachSelectionUI;
 
-    Playlists playlists;
-    SongDesc songDesc;
+    public Playlists playlists;
+    public SongDesc songDesc;
 
-    bool canInteract = false;
-    int selectedMap = 0;
+    public bool canInteract = false;
+    public int selectedMap = 0;
 
     bool titleIsText = false;
 
@@ -63,6 +63,8 @@ public class MapSelectionManager : MonoBehaviour
             });
         }
 
+        await Task.Delay(50);
+
         background.StopMenuAudio();
 
         LeanTween.value(0f, 1f, 0.5f).setOnUpdate((float value) =>
@@ -78,7 +80,7 @@ public class MapSelectionManager : MonoBehaviour
     {
         if (canInteract)
         {
-            if (InputManager.Select() && InputManager.source == InputManager.controller | InputManager.source == InputSource.Local)
+            if (InputManager.Undo() && InputManager.source == InputManager.controller | InputManager.source == InputSource.Local)
             {
                 canInteract = false;
 
@@ -89,17 +91,27 @@ public class MapSelectionManager : MonoBehaviour
                     mapSelectionClipMask.Tint = new(1f, 1f, 1f, value);
                 }).setOnComplete(async () =>
                 {
-                    await Task.Delay(100);
-                    gameUI.GetComponent<GameManager>().mapName = playlists.playlistCluster[0].maps[selectedMap].name;
-                    GameObject.FindGameObjectWithTag("Background").SetActive(false);
-                    Instantiate(gameUI);
+                    await Task.Delay(50);
+                    Instantiate(connectionUI);
                     previewPlayer.Pause();
-                    gameObject.SetActive(false);
+                    background.PlayMenuAudio();
+                    Destroy(gameObject);
                 });
             }
-            else if (InputManager.Undo() && InputManager.source == InputManager.controller | InputManager.source == InputSource.Local)
+            else if (InputManager.Select() && InputManager.source == InputManager.controller | InputManager.source == InputSource.Local)
             {
-                Debug.Log("Back to Connection Screen");
+                canInteract = false;
+
+                selectAudio.Play();
+
+                LeanTween.value(1f, 0f, 0.5f).setOnUpdate((float value) =>
+                {
+                    mapSelectionClipMask.Tint = new(1f, 1f, 1f, value);
+                }).setOnComplete(async () =>
+                {
+                    await Task.Delay(50);
+                    Instantiate(coachSelectionUI);
+                });
             }
             else if (InputManager.Left() && InputManager.source == InputManager.controller | InputManager.source == InputSource.Local)
             {
@@ -130,15 +142,19 @@ public class MapSelectionManager : MonoBehaviour
                 artist.Color = new(1f, 1f, 1f, 0f);
                 difficultiesUIBlock.Color = new(1f, 1f, 1f, 0f);
                 difficultiesTextBlock.Color = new(1f, 1f, 1f, 0f);
+                backgroundUIBlock.Color = new(1f, 1f, 1f, 0f);
 
                 UpdateMenu();
+
+                coverCluster.Position.X = -378f;
+
+                await Task.Delay(25);
 
                 LeanTween.value(-378f, 0f, 0.2f).setOnUpdate((float value) =>
                 {
                     coverCluster.Position.X = value;
                 }).setEaseInOutCirc().setOnComplete(async () =>
-                {
-                    await Task.Delay(25);
+                {                    
                     if (titleIsText)
                     {
                         LeanTween.value(0f, 1f, 0.2f).setOnUpdate((float value) =>
@@ -170,6 +186,15 @@ public class MapSelectionManager : MonoBehaviour
                     LeanTween.value(0f, 1f, 0.2f).setOnUpdate((float value) =>
                     {
                         difficultiesTextBlock.Color = new(1f, 1f, 1f, value);
+                    });
+
+                    LeanTween.value(0f, 0.25f, 0.2f).setOnUpdate((float value) =>
+                    {
+                        backgroundUIBlock.Color = new(1f, 1f, 1f, value);
+                    });
+                    LeanTween.value(0f, 0.25f, 0.2f).setOnUpdate((float value) =>
+                    {
+                        backgroundUIBlock.Color = new(1f, 1f, 1f, value);
                     });
 
                     canInteract = true;
@@ -225,6 +250,15 @@ public class MapSelectionManager : MonoBehaviour
                     difficultiesTextBlock.Color = new(1f, 1f, 1f, value);
                 });
 
+                LeanTween.value(0.25f, 0f, 0.2f).setOnUpdate((float value) =>
+                {
+                    backgroundUIBlock.Color = new(1f, 1f, 1f, value);
+                });
+                LeanTween.value(0.25f, 0f, 0.2f).setOnUpdate((float value) =>
+                {
+                    backgroundUIBlock.Color = new(1f, 1f, 1f, value);
+                });
+
                 LeanTween.value(0f, -378f, 0.2f).setOnUpdate((float value) =>
                 {
                     coverCluster.Position.X = value;
@@ -267,6 +301,15 @@ public class MapSelectionManager : MonoBehaviour
                         difficultiesTextBlock.Color = new(1f, 1f, 1f, value);
                     });
 
+                    LeanTween.value(0f, 0.25f, 0.2f).setOnUpdate((float value) =>
+                    {
+                        backgroundUIBlock.Color = new(1f, 1f, 1f, value);
+                    });
+                    LeanTween.value(0f, 0.25f, 0.2f).setOnUpdate((float value) =>
+                    {
+                        backgroundUIBlock.Color = new(1f, 1f, 1f, value);
+                    });
+
                     canInteract = true;
                 });
             }
@@ -292,7 +335,7 @@ public class MapSelectionManager : MonoBehaviour
                 {
                     iSelectedMap = selectedMap + i;
                 }
-                Texture2D texture = new(1024, 512);
+                Texture2D texture = new(1024, 512, TextureFormat.RGBA32, false);
                 texture.LoadImage(File.ReadAllBytes(Path.Combine(path, "Maps", playlists.playlistCluster[0].maps[iSelectedMap].name, "cover.png")));
                 covers[i].SetImage(texture);
             }            
@@ -300,7 +343,7 @@ public class MapSelectionManager : MonoBehaviour
 
         if (File.Exists(Path.Combine(path, "Maps", playlists.playlistCluster[0].maps[selectedMap].name, "title.png")))
         {
-            Texture2D texture = new(1004, 502);
+            Texture2D texture = new(1024, 512, TextureFormat.RGBA32, false);
             texture.LoadImage(File.ReadAllBytes(Path.Combine(path, "Maps", playlists.playlistCluster[0].maps[selectedMap].name, "title.png")));
             titleUIBlock.SetImage(texture);
             titleIsText = false;
@@ -332,7 +375,26 @@ public class MapSelectionManager : MonoBehaviour
 
         previewPlayer.url = "file://" + Path.Combine(Application.persistentDataPath, "Maps", playlists.playlistCluster[0].maps[selectedMap].name, "preview.mp4"); ;
         previewPlayer.Play();
+
+        if (File.Exists(Path.Combine(path, "Maps", playlists.playlistCluster[0].maps[selectedMap].name, "bkg.png")))
+        {
+            Texture2D texture = new(2048, 1024, TextureFormat.RGBA32, false);
+            texture.LoadImage(File.ReadAllBytes(Path.Combine(path, "Maps", playlists.playlistCluster[0].maps[selectedMap].name, "bkg.png")));
+            backgroundUIBlock.SetImage(texture);
+        }        
+
         Resources.UnloadUnusedAssets();
+    }
+
+    public void ReactivateFromCoachSelection()
+    {
+        LeanTween.value(0f, 1f, 0.5f).setOnUpdate((float value) =>
+        {
+            mapSelectionClipMask.Tint = new(1f, 1f, 1f, value);
+        }).setOnComplete(() =>
+        {
+            canInteract = true;
+        });
     }
 }
 

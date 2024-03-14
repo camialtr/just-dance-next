@@ -17,6 +17,6 @@ public class BackgroundManager : MonoBehaviour
 
     public void StopMenuAudio()
     {
-        menuAudio.Stop();
+        menuAudio.Pause();
     }
 }

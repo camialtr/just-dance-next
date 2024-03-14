@@ -35,11 +35,11 @@ public class PictoElements : MonoBehaviour
             Texture2D texture;
             if (songDesc.numCoach == 1)
             {
-                texture = new(256, 256);
+                texture = new(256, 256, TextureFormat.RGBA32, false);
             }
             else
             {
-                texture = new(384, 256);
+                texture = new(384, 256, TextureFormat.RGBA32, false);
             }
             texture.LoadImage(await File.ReadAllBytesAsync(Path.Combine(path, "Maps", mapName, "pictos", timeline.pictos[i].name + ".png")));
             pictos.Add(texture);

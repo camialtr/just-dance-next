@@ -350,7 +350,8 @@ public class ConnectionManager : MonoBehaviour
     void ExitAnimationEvent()
     {
         Instantiate(mapSelectionUI);
-        gameObject.SetActive(false);
+        Destroy(gameObject);
+        //gameObject.SetActive(false);
     }
 }
 
