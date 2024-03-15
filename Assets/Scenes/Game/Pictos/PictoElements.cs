@@ -21,6 +21,7 @@ public class PictoElements : MonoBehaviour
     [HideInInspector] public bool isLoaded = false;
 
     readonly List<Texture2D> pictos = new();
+    readonly List<GameObject> pictoObjects = new();
 
     int atualPicto = 0;
     int atualBeat = 0;
@@ -47,7 +48,26 @@ public class PictoElements : MonoBehaviour
             }
             texture.LoadImage(await File.ReadAllBytesAsync(Path.Combine(path, "Maps", mapName, "pictos", timeline.pictos[i].name + ".png")));
             pictos.Add(texture);
+            pictoObjects.Add(Instantiate(pictoPrefab));
+            pictoObjects[atualPicto].transform.SetParent(transform, false);
+            pictoObjects[atualPicto].name = timeline.pictos[atualPicto].name;
+
+            if (songDesc.numCoach > 1)
+            {
+                pictoObjects[atualPicto].GetComponent<Picto>().picto.Size.X = 384f;
+                pictoObjects[atualPicto].GetComponent<Picto>().shadow.Size.X = 384f;
+            }
+
+            Picto picto = pictoObjects[atualPicto].GetComponent<Picto>();
+
+            picto.picto.SetImage(pictos[atualPicto]);
+            picto.shadow.SetImage(pictos[atualPicto]);
+
+            pictoObjects[atualPicto].SetActive(false);
+
+            atualPicto++;
         }
+        atualPicto = 0;
         isLoaded = true;
     }
 
@@ -65,20 +85,30 @@ public class PictoElements : MonoBehaviour
 
         if (timeManager.ElapsedMilliseconds / 1000f >= timeline.pictos[atualPicto].time + musicTrack.beats[musicTrack.startBeat] - 1.7999f)
         {
-            Picto picto = Instantiate(pictoPrefab).GetComponent<Picto>();
-            picto.gameObject.transform.SetParent(transform, false);
-            picto.name = timeline.pictos[atualPicto].name;
+            //pictoObjects[atualPicto].GetComponent<Picto>().picto.SetImage(pictos[atualPicto]);
+            //pictoObjects[atualPicto].GetComponent<Picto>().shadow.SetImage(pictos[atualPicto]);
 
-            if (songDesc.numCoach > 1)
-            {
-                picto.picto.Size.X = 384f;
-                picto.shadow.Size.X = 384f;
-            }
-
-            picto.picto.SetImage(pictos[atualPicto]);
-            picto.shadow.SetImage(pictos[atualPicto]);
+            pictoObjects[atualPicto].SetActive(true);
 
             atualPicto++;
         }
+    }
+
+    void Filler()
+    {
+        Picto picto = Instantiate(pictoPrefab).GetComponent<Picto>();
+        picto.gameObject.transform.SetParent(transform, false);
+        picto.name = timeline.pictos[atualPicto].name;
+
+        if (songDesc.numCoach > 1)
+        {
+            picto.picto.Size.X = 384f;
+            picto.shadow.Size.X = 384f;
+        }
+
+        picto.picto.SetImage(pictos[atualPicto]);
+        picto.shadow.SetImage(pictos[atualPicto]);
+
+        atualPicto++;
     }
 }

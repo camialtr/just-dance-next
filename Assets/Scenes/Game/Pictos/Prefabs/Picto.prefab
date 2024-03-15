@@ -556,6 +556,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 139b2f2f043ada84eb1db26bbff166b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pictoCluster: {fileID: 630819331964782516}
   picto: {fileID: 4383653754446773590}
   shadow: {fileID: 861321660887803167}
 --- !u!1 &8472537557805807685

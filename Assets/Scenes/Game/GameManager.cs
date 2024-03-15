@@ -53,7 +53,7 @@ public class GameManager : MonoBehaviour
         pictoElements.musicTrack = musicTrack;
         pictoElements.timeline = timeline;
         pictoElements.accentColor = accentColor;
-        pictoElements.timeManager = timeManager;
+        pictoElements.timeManager = timeManager;       
 
         pictoElements.ApplyPictobarColor();
 
