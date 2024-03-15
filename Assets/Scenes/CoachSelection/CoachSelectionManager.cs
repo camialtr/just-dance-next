@@ -9,6 +9,7 @@ public class CoachSelectionManager : MonoBehaviour
     [SerializeField] ClipMask coachSelectionClipMask;
     [SerializeField] GameObject[] coachController;
     [SerializeField] AudioSource selectAudio;
+    [SerializeField] UIBlock2D selectorUIBlock;
 
     //1-Coach
     [SerializeField] UIBlock2D oneCoachBkg;
@@ -27,6 +28,7 @@ public class CoachSelectionManager : MonoBehaviour
     [SerializeField] UIBlock2D[] quartCoachCoach;
 
     [SerializeField] UIBlock2D[] dancers;
+    [SerializeField] GameObject gameUI;
 
     bool[] playerConnected;
     int[] selectedCoach;
@@ -159,7 +161,15 @@ public class CoachSelectionManager : MonoBehaviour
             coachSelectionClipMask.Tint = new(1f, 1f, 1f, value);
         }).setOnComplete(() =>
         {
-            canInteract = true;
+            LeanTween.scaleX(selectorUIBlock.gameObject, 1f, 0.2f);
+            LeanTween.scaleY(selectorUIBlock.gameObject, 1f, 0.2f);
+            LeanTween.value(0f, 5f, 0.2f).setOnUpdate((float value) =>
+            {
+                selectorUIBlock.Border.Width = value;
+            }).setOnComplete(() =>
+            {
+                canInteract = true;
+            });            
         });
     }
 
@@ -186,32 +196,147 @@ public class CoachSelectionManager : MonoBehaviour
             }
             else if (InputManager.Select() && InputManager.source == InputManager.controller | InputManager.source == InputSource.Local)
             {
-                
+                canInteract = false;
+                selectAudio.Play();
+                selectorUIBlock.gameObject.transform.localScale = new Vector3(0.97f, 0.93f, 1f);
+                LeanTween.scaleX(selectorUIBlock.gameObject, 1f, 0.2f);
+                LeanTween.scaleY(selectorUIBlock.gameObject, 1f, 0.2f).setOnComplete(() =>
+                {
+                    LeanTween.scaleX(selectorUIBlock.gameObject, 1.02f, 0.2f);
+                    LeanTween.scaleY(selectorUIBlock.gameObject, 1.1f, 0.2f);
+                    LeanTween.value(5f, 0f, 0.2f).setOnUpdate((float value) =>
+                    {
+                        selectorUIBlock.Border.Width = value;
+                    }).setOnComplete(() =>
+                    {
+                        LeanTween.value(1f, 0f, 0.5f).setOnUpdate((float value) =>
+                        {
+                            coachSelectionClipMask.Tint = new(1f, 1f, 1f, value);
+                        }).setOnComplete(() =>
+                        {
+                            mapSelectionManager.previewPlayer.Pause();
+                            Destroy(mapSelectionManager.gameObject);
+                            gameUI.GetComponent<GameManager>().mapName = mapSelectionManager.playlists.playlistCluster[0].maps[mapSelectionManager.selectedMap].name;
+                            Instantiate(gameUI);
+                            Destroy(gameObject);
+                        });
+                    });
+                });
             }
             else if (InputManager.Left() && InputManager.source != InputSource.Local)
             {
-                switch ((int)InputManager.source)
-                {
-                    case 1:
-                        //dancers[0].Position.X = -30f;
-                        break;
-                    case 2:
-                        //dancers[1].Position.X = -10f;
-                        break;
-                    case 3:
-                        //dancers[2].Position.X = 10f;
-                        break;
-                    case 4:
-                        //dancers[3].Position.X = 30f;
-                        break;
-                }
                 switch (mapSelectionManager.songDesc.numCoach)
                 {
                     case 2:
-                        
+                        if (selectedCoach[(int)InputManager.source - 1] == 1)
+                        {
+                            selectedCoach[(int)InputManager.source - 1] = 2;
+                        }
+                        else
+                        {
+                            selectedCoach[(int)InputManager.source - 1]--;
+                        }
+                        switch (selectedCoach[(int)InputManager.source - 1])
+                        {
+                            case 1:
+                                switch ((int)InputManager.source)
+                                {
+                                    case 1:
+                                        dancers[0].Position.X = -230f;
+                                        break;
+                                    case 2:
+                                        dancers[1].Position.X = -210f;
+                                        break;
+                                    case 3:
+                                        dancers[2].Position.X = -190f;
+                                        break;
+                                    case 4:
+                                        dancers[3].Position.X = -170f;
+                                        break;
+                                }
+                                break;
+                            case 2:
+                                switch ((int)InputManager.source)
+                                {
+                                    case 1:
+                                        dancers[0].Position.X = 170f;
+                                        break;
+                                    case 2:
+                                        dancers[1].Position.X = 190f;
+                                        break;
+                                    case 3:
+                                        dancers[2].Position.X = 200f;
+                                        break;
+                                    case 4:
+                                        dancers[3].Position.X = 230f;
+                                        break;
+                                }
+                                break;
+                        }
                         break;
                     case 3:
-                        
+                        if (selectedCoach[(int)InputManager.source - 1] == 1)
+                        {
+                            selectedCoach[(int)InputManager.source - 1] = 3;
+                        }
+                        else
+                        {
+                            selectedCoach[(int)InputManager.source - 1]--;
+                        }
+                        switch (selectedCoach[(int)InputManager.source - 1])
+                        {
+                            case 1:
+                                switch ((int)InputManager.source)
+                                {
+                                    case 1:
+                                        dancers[0].Position.X = -430f;
+                                        break;
+                                    case 2:
+                                        dancers[1].Position.X = -410f;
+                                        break;
+                                    case 3:
+                                        dancers[2].Position.X = -390f;
+                                        break;
+                                    case 4:
+                                        dancers[3].Position.X = -370f;
+                                        break;
+                                }
+                                break;
+                            case 2:
+                                switch ((int)InputManager.source)
+                                {
+                                    case 1:
+                                        dancers[0].Position.X = -30f;
+                                        break;
+                                    case 2:
+                                        dancers[1].Position.X = -10f;
+                                        break;
+                                    case 3:
+                                        dancers[2].Position.X = 10f;
+                                        break;
+                                    case 4:
+                                        dancers[3].Position.X = 30f;
+                                        break;
+                                }
+                                break;
+                            case 3:
+                                switch ((int)InputManager.source)
+                                {
+                                    case 1:
+                                        dancers[0].Position.X = 370f;
+                                        break;
+                                    case 2:
+                                        dancers[1].Position.X = 390f;
+                                        break;
+                                    case 3:
+                                        dancers[2].Position.X = 410f;
+                                        break;
+                                    case 4:
+                                        dancers[3].Position.X = 430f;
+                                        break;
+                                }
+                                break;
+                        }
                         break;
                     case 4:
                         if (selectedCoach[(int)InputManager.source - 1] == 1)
@@ -301,10 +426,115 @@ public class CoachSelectionManager : MonoBehaviour
                 switch (mapSelectionManager.songDesc.numCoach)
                 {
                     case 2:
-
+                        if (selectedCoach[(int)InputManager.source - 1] == 2)
+                        {
+                            selectedCoach[(int)InputManager.source - 1] = 1;
+                        }
+                        else
+                        {
+                            selectedCoach[(int)InputManager.source - 1]++;
+                        }
+                        switch (selectedCoach[(int)InputManager.source - 1])
+                        {
+                            case 1:
+                                switch ((int)InputManager.source)
+                                {
+                                    case 1:
+                                        dancers[0].Position.X = -230f;
+                                        break;
+                                    case 2:
+                                        dancers[1].Position.X = -210f;
+                                        break;
+                                    case 3:
+                                        dancers[2].Position.X = -190f;
+                                        break;
+                                    case 4:
+                                        dancers[3].Position.X = -170f;
+                                        break;
+                                }
+                                break;
+                            case 2:
+                                switch ((int)InputManager.source)
+                                {
+                                    case 1:
+                                        dancers[0].Position.X = 170f;
+                                        break;
+                                    case 2:
+                                        dancers[1].Position.X = 190f;
+                                        break;
+                                    case 3:
+                                        dancers[2].Position.X = 200f;
+                                        break;
+                                    case 4:
+                                        dancers[3].Position.X = 230f;
+                                        break;
+                                }
+                                break;
+                        }
                         break;
                     case 3:
-
+                        if (selectedCoach[(int)InputManager.source - 1] == 3)
+                        {
+                            selectedCoach[(int)InputManager.source - 1] = 1;
+                        }
+                        else
+                        {
+                            selectedCoach[(int)InputManager.source - 1]++;
+                        }
+                        switch (selectedCoach[(int)InputManager.source - 1])
+                        {
+                            case 1:
+                                switch ((int)InputManager.source)
+                                {
+                                    case 1:
+                                        dancers[0].Position.X = -430f;
+                                        break;
+                                    case 2:
+                                        dancers[1].Position.X = -410f;
+                                        break;
+                                    case 3:
+                                        dancers[2].Position.X = -390f;
+                                        break;
+                                    case 4:
+                                        dancers[3].Position.X = -370f;
+                                        break;
+                                }
+                                break;
+                            case 2:
+                                switch ((int)InputManager.source)
+                                {
+                                    case 1:
+                                        dancers[0].Position.X = -30f;
+                                        break;
+                                    case 2:
+                                        dancers[1].Position.X = -10f;
+                                        break;
+                                    case 3:
+                                        dancers[2].Position.X = 10f;
+                                        break;
+                                    case 4:
+                                        dancers[3].Position.X = 30f;
+                                        break;
+                                }
+                                break;
+                            case 3:
+                                switch ((int)InputManager.source)
+                                {
+                                    case 1:
+                                        dancers[0].Position.X = 370f;
+                                        break;
+                                    case 2:
+                                        dancers[1].Position.X = 390f;
+                                        break;
+                                    case 3:
+                                        dancers[2].Position.X = 410f;
+                                        break;
+                                    case 4:
+                                        dancers[3].Position.X = 430f;
+                                        break;
+                                }
+                                break;
+                        }
                         break;
                     case 4:
                         if (selectedCoach[(int)InputManager.source - 1] == 4)

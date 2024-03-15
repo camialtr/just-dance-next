@@ -25,11 +25,15 @@ public class PictoElements : MonoBehaviour
     int atualPicto = 0;
     int atualBeat = 0;
 
-    public async Task LoadPictoAssets(string mapName, string path)
+    public void ApplyPictobarColor()
     {
         arrowUIBlock.Color = accentColor;
         dots00.Color = accentColor;
         dots01.Color = accentColor;
+    }
+
+    public async Task LoadPictoAssets(string mapName, string path)
+    {
         for (int i = 0; i < timeline.pictos.Count; i++)
         {
             Texture2D texture;

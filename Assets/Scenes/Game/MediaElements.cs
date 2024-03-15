@@ -3,14 +3,14 @@ using UnityEngine;
 using UnityEngine.Video;
 using System.Collections;
 using UnityEngine.Networking;
+using Nova;
 
 public class MediaElements : MonoBehaviour
 {
-    [SerializeField] VideoPlayer videoPlayer;
+    [SerializeField] public VideoPlayer videoPlayer;
     [SerializeField] AudioSource audioPlayer;
 
     [HideInInspector] public bool isLoaded = false;
-    [HideInInspector] public bool isPlaying = false;
 
     UnityWebRequestAsyncOperation audioClip;
 
@@ -45,6 +45,5 @@ public class MediaElements : MonoBehaviour
         videoPlayer.time = musicTrack.videoStartTime - musicTrack.beats[musicTrack.startBeat];
         videoPlayer.Play();
         audioPlayer.Play();
-        isPlaying = true;
     }
 }

@@ -3702,6 +3702,7 @@ GameObject:
   - component: {fileID: 746256415877657677}
   - component: {fileID: 1306999232022476742}
   - component: {fileID: 2378732929012392079}
+  - component: {fileID: 935223390443977647}
   m_Layer: 5
   m_Name: UI-Game
   m_TagString: Untagged
@@ -3971,6 +3972,23 @@ MonoBehaviour:
   mediaElements: {fileID: 3647079623669546389}
   lyricElements: {fileID: 508647073146781671}
   pictoElements: {fileID: 5591572341452875945}
+  UIGameClipMask: {fileID: 935223390443977647}
+--- !u!114 &935223390443977647
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6638823416799839513}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 388f1fceb3d2beb408ed2d18963ab884, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  info:
+    Color: {r: 1, g: 1, b: 1, a: 0}
+    Clip: 1
+  maskTexture: {fileID: 0}
 --- !u!1 &6885642126956992303
 GameObject:
   m_ObjectHideFlags: 0
@@ -5007,7 +5025,7 @@ MonoBehaviour:
     ReceiveShadows: 1
   PreviewSize: {x: 1, y: 1, z: 0}
   visuals:
-    Color: {r: 1, g: 1, b: 1, a: 1}
+    Color: {r: 1, g: 1, b: 1, a: 0}
     CornerRadius:
       Raw: 0
       Type: 0

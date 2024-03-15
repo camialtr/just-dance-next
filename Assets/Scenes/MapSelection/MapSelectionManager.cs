@@ -9,7 +9,7 @@ public class MapSelectionManager : MonoBehaviour
 {
     [SerializeField] ClipMask mapSelectionClipMask;
 
-    VideoPlayer previewPlayer;
+    public VideoPlayer previewPlayer;
 
     [SerializeField] AudioSource selectAudio;
     [SerializeField] AudioSource togglePositiveAudio;

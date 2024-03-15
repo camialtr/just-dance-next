@@ -558,6 +558,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mapSelectionClipMask: {fileID: 1789235821884402075}
+  previewPlayer: {fileID: 0}
   selectAudio: {fileID: 3848703409964951547}
   togglePositiveAudio: {fileID: 2522006997094759263}
   toggleNegativeAudio: {fileID: 8286052349497808020}
@@ -583,6 +584,8 @@ MonoBehaviour:
   difficultiesTextBlock: {fileID: 7722711659869667508}
   connectionUI: {fileID: 6543517384467166990, guid: fd7446d91b005ff4a9bec3e61b289a73, type: 3}
   coachSelectionUI: {fileID: 7929658333123378317, guid: 0d42f71a50deab7479d1b6de7dae8d5a, type: 3}
+  canInteract: 0
+  selectedMap: 0
 --- !u!114 &1789235821884402075
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3751,7 +3754,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &6529298435044668565
 Transform:
   m_ObjectHideFlags: 0
