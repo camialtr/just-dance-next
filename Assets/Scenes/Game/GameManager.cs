@@ -21,13 +21,22 @@ public class GameManager : MonoBehaviour
     readonly Stopwatch timeManager = new();
 
     [SerializeField] ClipMask UIGameClipMask;
+    [SerializeField] GameObject mapSelection;
     GameObject background;
 
     private async void Start()
     {
         background = GameObject.FindGameObjectWithTag("Background");
 
-        string path = Application.persistentDataPath;
+        string path;
+        if (Application.platform == RuntimePlatform.WindowsPlayer)
+        {
+            path = Application.dataPath;
+        }
+        else
+        {
+            path = Path.Combine(Directory.GetCurrentDirectory(), "Build/Just Dance Next_Data");
+        }
 
         songDesc = await Task.Run(async () => JsonConvert.DeserializeObject<SongDesc>(await File.ReadAllTextAsync(Path.Combine(path, "Maps", mapName, "songdesc.json"))));
         musicTrack = await Task.Run(async() => JsonConvert.DeserializeObject<MusicTrack>(await File.ReadAllTextAsync(Path.Combine(path, "Maps", mapName, "musictrack.json"))));
@@ -48,16 +57,13 @@ public class GameManager : MonoBehaviour
 
         pictoElements.ApplyPictobarColor();
 
-        await Task.Delay(500);
+        mediaElements.LoadMediaAssets(mapName);
+
+        await pictoElements.LoadPictoAssets(mapName, path);
 
         LeanTween.value(0f, 1f, 0.5f).setOnUpdate((float value) =>
         {
             UIGameClipMask.Tint = new(1f, 1f, 1f, value);
-        }).setOnComplete(async () =>
-        {
-            mediaElements.LoadMediaAssets(mapName);
-
-            await pictoElements.LoadPictoAssets(mapName, path);
         });
     }
 
@@ -68,15 +74,22 @@ public class GameManager : MonoBehaviour
             mediaElements.Play(musicTrack);
             timeManager.Start();
 
-            UIBlock2D mediaTexture = mediaElements.videoPlayer.gameObject.GetComponent<UIBlock2D>();
-                        
+            await Task.Delay(500);
+
+            UIBlock2D videoTexture = mediaElements.videoPlayer.gameObject.GetComponent<UIBlock2D>();
+
             LeanTween.value(0f, 1f, 0.5f).setOnUpdate((float value) =>
             {
-                mediaTexture.Color = new(1f, 1f, 1f, value);
-            }).setOnComplete(() =>
-            {
-                background.SetActive(false);
+                videoTexture.Color = new(1f, 1f, 1f, value);
             });
+
+        }
+        if (InputManager.Undo() && InputManager.source == InputManager.controller | InputManager.source == InputSource.Local)
+        {
+            LeanTween.cancelAll();
+            background.SetActive(true);
+            Instantiate(mapSelection);
+            Destroy(gameObject);
         }
     }
 }

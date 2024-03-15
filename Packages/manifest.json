@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "com.unity.burst": "1.8.12",
+    "com.unity.burst": "1.8.13",
     "com.unity.collections": "2.1.4",
     "com.unity.ide.visualstudio": "2.0.22",
     "com.unity.mathematics": "1.2.6",

@@ -42,7 +42,15 @@ public class MapSelectionManager : MonoBehaviour
         background = GameObject.FindGameObjectWithTag("Background").GetComponent<BackgroundManager>();
         previewPlayer = GameObject.Find("Video-Preview").GetComponent<VideoPlayer>();
 
-        string path = Application.persistentDataPath;
+        string path;
+        if (Application.platform == RuntimePlatform.WindowsPlayer)
+        {
+            path = Application.dataPath;
+        }
+        else
+        {
+            path = Path.Combine(Directory.GetCurrentDirectory(), "Build/Just Dance Next_Data");
+        }
 
         playlists = await Task.Run(async () => JsonConvert.DeserializeObject<Playlists>(await File.ReadAllTextAsync(Path.Combine(path, "Maps", "playlists.json"))));
 
@@ -318,7 +326,15 @@ public class MapSelectionManager : MonoBehaviour
 
     void UpdateMenu()
     {
-        string path = Application.persistentDataPath;
+        string path;
+        if (Application.platform == RuntimePlatform.WindowsPlayer)
+        {
+            path = Application.dataPath;
+        }
+        else
+        {
+            path = Path.Combine(Directory.GetCurrentDirectory(), "Build/Just Dance Next_Data");
+        }
 
         songDesc = JsonConvert.DeserializeObject<SongDesc>(File.ReadAllText(Path.Combine(path, "Maps", playlists.playlistCluster[0].maps[selectedMap].name, "songdesc.json")));
 
@@ -373,7 +389,7 @@ public class MapSelectionManager : MonoBehaviour
                 break;
         }
 
-        previewPlayer.url = "file://" + Path.Combine(Application.persistentDataPath, "Maps", playlists.playlistCluster[0].maps[selectedMap].name, "preview.mp4"); ;
+        previewPlayer.url = "file://" + Path.Combine(path, "Maps", playlists.playlistCluster[0].maps[selectedMap].name, "preview.mp4"); ;
         previewPlayer.Play();
 
         if (File.Exists(Path.Combine(path, "Maps", playlists.playlistCluster[0].maps[selectedMap].name, "bkg.png")))

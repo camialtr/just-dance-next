@@ -40,7 +40,15 @@ public class CoachSelectionManager : MonoBehaviour
         playerConnected = new bool[4] { false, false, false, false };
         selectedCoach = new int[4] { 1, 1, 1, 1 };
 
-        string path = Application.persistentDataPath;
+        string path;
+        if (Application.platform == RuntimePlatform.WindowsPlayer)
+        {
+            path = Application.dataPath;
+        }
+        else
+        {
+            path = Path.Combine(Directory.GetCurrentDirectory(), "Build/Just Dance Next_Data");
+        }
 
         if (mapSelectionManager.songDesc.numCoach == 1)
         {

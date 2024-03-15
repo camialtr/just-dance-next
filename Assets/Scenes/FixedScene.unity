@@ -195,12 +195,28 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3037225059015537834, guid: 6aa72e39ac1b90446a43c4cc8e4a3703, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3400436224238225532, guid: 6aa72e39ac1b90446a43c4cc8e4a3703, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6010044570005729625, guid: 6aa72e39ac1b90446a43c4cc8e4a3703, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522510993454808132, guid: 6aa72e39ac1b90446a43c4cc8e4a3703, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7499233423120431986, guid: 6aa72e39ac1b90446a43c4cc8e4a3703, type: 3}
       propertyPath: InitialModule.startSize.scalar
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7723485528574364071, guid: 6aa72e39ac1b90446a43c4cc8e4a3703, type: 3}
+      propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8777916518948403420, guid: 6aa72e39ac1b90446a43c4cc8e4a3703, type: 3}

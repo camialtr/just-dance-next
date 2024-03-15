@@ -3973,6 +3973,7 @@ MonoBehaviour:
   lyricElements: {fileID: 508647073146781671}
   pictoElements: {fileID: 5591572341452875945}
   UIGameClipMask: {fileID: 935223390443977647}
+  mapSelection: {fileID: 576116797420771612, guid: f9f70a62eb98ebd488a693bfefbf5b55, type: 3}
 --- !u!114 &935223390443977647
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5122,9 +5123,9 @@ VideoPlayer:
   m_DirectAudioMutes: 
   m_ControlledAudioTrackCount: 0
   m_PlayOnAwake: 0
-  m_SkipOnDrop: 0
+  m_SkipOnDrop: 1
   m_Looping: 0
-  m_WaitForFirstFrame: 1
+  m_WaitForFirstFrame: 0
   m_FrameReadyEventEnabled: 0
   m_VideoShaders: []
 --- !u!82 &1358116479971426460
@@ -5238,7 +5239,6 @@ MonoBehaviour:
   videoPlayer: {fileID: 7191162144582671570}
   audioPlayer: {fileID: 1358116479971426460}
   isLoaded: 0
-  isPlaying: 0
 --- !u!1 &8865812698533432677
 GameObject:
   m_ObjectHideFlags: 0

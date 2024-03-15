@@ -4,6 +4,7 @@ using UnityEngine.Video;
 using System.Collections;
 using UnityEngine.Networking;
 using Nova;
+using System.Threading.Tasks;
 
 public class MediaElements : MonoBehaviour
 {
@@ -16,7 +17,17 @@ public class MediaElements : MonoBehaviour
 
     public void LoadMediaAssets(string mapName)
     {
-        videoPlayer.url = "file://" + Path.Combine(Application.persistentDataPath, "Maps", mapName, "media", mapName + ".webm");
+        string path;
+        if (Application.platform == RuntimePlatform.WindowsPlayer)
+        {
+            path = Application.dataPath;
+        }
+        else
+        {
+            path = Path.Combine(Directory.GetCurrentDirectory(), "Build/Just Dance Next_Data");
+        }
+
+        videoPlayer.url = "file://" + Path.Combine(path, "Maps", mapName, "media", mapName + ".webm");
         videoPlayer.prepareCompleted += VideoPlayer_prepareCompleted;
         videoPlayer.Prepare();
         StartCoroutine(LoadMedia(mapName));
@@ -31,8 +42,18 @@ public class MediaElements : MonoBehaviour
     }
 
     IEnumerator LoadMedia(string mapName)
-    {        
-        yield return audioClip = UnityWebRequestMultimedia.GetAudioClip(Path.Combine(Application.persistentDataPath, "Maps", mapName, "media", mapName + ".ogg"), AudioType.OGGVORBIS).SendWebRequest();
+    {
+        string path;
+        if (Application.platform == RuntimePlatform.WindowsPlayer)
+        {
+            path = Application.dataPath;
+        }
+        else
+        {
+            path = Path.Combine(Directory.GetCurrentDirectory(), "Build/Just Dance Next_Data");
+        }
+
+        yield return audioClip = UnityWebRequestMultimedia.GetAudioClip(Path.Combine(path, "Maps", mapName, "media", mapName + ".ogg"), AudioType.OGGVORBIS).SendWebRequest();
         audioPlayer.clip = DownloadHandlerAudioClip.GetContent(audioClip.webRequest);
         if (videoPlayer.isPrepared)
         {

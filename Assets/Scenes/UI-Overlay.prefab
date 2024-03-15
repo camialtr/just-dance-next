@@ -63,9 +63,9 @@ VideoPlayer:
   m_DirectAudioMutes: 00
   m_ControlledAudioTrackCount: 1
   m_PlayOnAwake: 0
-  m_SkipOnDrop: 0
+  m_SkipOnDrop: 1
   m_Looping: 1
-  m_WaitForFirstFrame: 1
+  m_WaitForFirstFrame: 0
   m_FrameReadyEventEnabled: 0
   m_VideoShaders: []
 --- !u!1 &639670204840338436
@@ -1298,7 +1298,7 @@ MonoBehaviour:
   contrast: 0
   saturation: 0
   brightness: 0
-  grain: 0.05
+  grain: 0.025
   BlurDownscaleFactor: 2
   BlurFrequency: 0
   BlurFrameInterval: 1
