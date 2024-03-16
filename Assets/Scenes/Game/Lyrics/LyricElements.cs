@@ -20,7 +20,27 @@ public class LyricElements : MonoBehaviour
     bool firstLyric = true;
     bool lastLyric = false; 
     bool lyricsEnded = false;
-    bool showNext = true;    
+    bool showNext = true;
+
+    public void LoadAllLyrics()
+    {
+        int linesCount = 0;
+        for (int i = 0; i < timeline.lyrics.Count; i++)
+        {
+            if (timeline.lyrics[i].isLineEnding == 1)
+            {
+                linesCount++;
+            }
+        }
+        for (int i = 0;i < linesCount; i++)
+        {
+            lyrics.Add(Instantiate(lyricPrefab).GetComponent<Lyric>());
+            lyrics[atualLine].transform.SetParent(gameObject.transform, false);
+            lyrics[atualLine].gameObject.SetActive(false);
+            atualLine++;
+        }
+        atualLine = 0;
+    }
 
     private void Update()
     {
@@ -64,12 +84,13 @@ public class LyricElements : MonoBehaviour
                 lyrics[atualLine - 3].destroy = true;
                 lyrics[atualLine - 3] = null;
             }
-            lyrics.Add(Instantiate(lyricPrefab).GetComponent<Lyric>());
-            lyrics[atualLine].transform.SetParent(gameObject.transform, false);
+            //lyrics.Add(Instantiate(lyricPrefab).GetComponent<Lyric>());
+            //lyrics[atualLine].transform.SetParent(gameObject.transform, false);
             for (; atualLyric < timeline.lyrics.Count; atualLyric++)
             {
                 if (startOfLine)
                 {
+                    lyrics[atualLine].gameObject.SetActive(true);
                     lyrics[atualLine].name = null;
                     nextTime = timeline.lyrics[atualLyric].time;
                     lyrics[atualLine].lyricColor = lyricColor;

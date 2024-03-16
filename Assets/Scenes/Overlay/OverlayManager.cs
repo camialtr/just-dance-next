@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class OverlayManager : MonoBehaviour
 {
+    [SerializeField] GameObject overlayCamera;
+    [SerializeField] GameObject background;
     [SerializeField] GameObject titleUI;
     [SerializeField] GameObject mobileConnectionUI;
 
@@ -13,7 +15,11 @@ public class OverlayManager : MonoBehaviour
         if (Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.IPhonePlayer)
         {
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
+            overlayCamera.gameObject.SetActive(false);
+            background.gameObject.SetActive(false);
+            Camera.main.targetTexture = null;
             Instantiate(mobileConnectionUI);
+            gameObject.SetActive(false);
         }
         if (Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.WindowsPlayer)
         {

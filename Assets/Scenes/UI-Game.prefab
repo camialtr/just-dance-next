@@ -3636,7 +3636,7 @@ MonoBehaviour:
       FillAngle: 90
       Enabled: 0
     Gradient:
-      Color: {r: 0, g: 0, b: 0, a: 0.5}
+      Color: {r: 0, g: 0, b: 0, a: 0.6}
       Center:
         X:
           Raw: -0.47222918
@@ -4465,10 +4465,10 @@ MonoBehaviour:
           Type: 1
       Radius:
         X:
-          Raw: 1.162629
+          Raw: 2.2906315
           Type: 1
         Y:
-          Raw: 0.43169594
+          Raw: 0.4316981
           Type: 1
       Rotation: 0
       Enabled: 1

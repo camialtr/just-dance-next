@@ -3,6 +3,8 @@ using Unity.Netcode;
 
 public class Dancer : NetworkBehaviour
 {
+    public NetworkVariable<Vector3> accelermeterData = new NetworkVariable<Vector3>(readPerm: NetworkVariableReadPermission.Everyone, writePerm: NetworkVariableWritePermission.Owner);
+
     private void Start()
     {
         if (!IsServer && IsOwner)
@@ -15,6 +17,7 @@ public class Dancer : NetworkBehaviour
     {
         if (!IsServer && IsOwner)
         {
+            accelermeterData.Value = Input.acceleration;
             if (InputManager.input != NetworkInput.None)
             {
                 InputServerRpc(DancerIdentifier.index, InputManager.input);

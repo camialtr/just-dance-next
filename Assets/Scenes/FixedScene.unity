@@ -357,9 +357,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1490519802}
     - target: {fileID: 4897757792177499532, guid: 71e05712a83c7944e9dbad6b41c699f4, type: 3}
+      propertyPath: background
+      value: 
+      objectReference: {fileID: 1491124935}
+    - target: {fileID: 4897757792177499532, guid: 71e05712a83c7944e9dbad6b41c699f4, type: 3}
       propertyPath: connectionUI
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 4897757792177499532, guid: 71e05712a83c7944e9dbad6b41c699f4, type: 3}
+      propertyPath: overlayCamera
+      value: 
+      objectReference: {fileID: 756969169}
     - target: {fileID: 4897757792177499532, guid: 71e05712a83c7944e9dbad6b41c699f4, type: 3}
       propertyPath: mobileConnectionUI
       value: 
@@ -378,11 +386,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7298829891046669419, guid: 71e05712a83c7944e9dbad6b41c699f4, type: 3}
       propertyPath: visuals.Image.Adjustment.UVScale.x
-      value: 3.1604939
+      value: 3.950618
       objectReference: {fileID: 0}
     - target: {fileID: 7298829891046669419, guid: 71e05712a83c7944e9dbad6b41c699f4, type: 3}
       propertyPath: visuals.Image.Adjustment.UVScale.y
-      value: 3.1604939
+      value: 3.950618
       objectReference: {fileID: 0}
     - target: {fileID: 7298829891046669419, guid: 71e05712a83c7944e9dbad6b41c699f4, type: 3}
       propertyPath: visuals.Image.Adjustment.CenterUV.x
@@ -683,6 +691,11 @@ Transform:
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5920207856458374291, guid: 71e05712a83c7944e9dbad6b41c699f4, type: 3}
   m_PrefabInstance: {fileID: 700871925}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1491124935 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2145643812246110968, guid: 6aa72e39ac1b90446a43c4cc8e4a3703, type: 3}
+  m_PrefabInstance: {fileID: 187626490}
   m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

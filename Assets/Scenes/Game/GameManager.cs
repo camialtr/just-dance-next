@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using Nova;
 using UnityEngine.Video;
+using System.Transactions;
 
 public class GameManager : MonoBehaviour
 {
@@ -19,6 +20,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] PictoElements pictoElements;
 
     readonly Stopwatch timeManager = new();
+    bool started = false;
 
     [SerializeField] ClipMask UIGameClipMask;
     [SerializeField] GameObject mapSelection;
@@ -53,7 +55,9 @@ public class GameManager : MonoBehaviour
         pictoElements.musicTrack = musicTrack;
         pictoElements.timeline = timeline;
         pictoElements.accentColor = accentColor;
-        pictoElements.timeManager = timeManager;       
+        pictoElements.timeManager = timeManager;
+
+        lyricElements.LoadAllLyrics();
 
         pictoElements.ApplyPictobarColor();
 
@@ -69,10 +73,12 @@ public class GameManager : MonoBehaviour
 
     private async void Update()
     {
-        if (mediaElements.isLoaded && pictoElements.isLoaded && !mediaElements.videoPlayer.isPlaying)
+        if (!started && mediaElements.isLoaded && pictoElements.isLoaded && !mediaElements.videoPlayer.isPlaying)
         {
             mediaElements.Play(musicTrack);
             timeManager.Start();
+
+            started = true;
 
             await Task.Delay(500);
 
