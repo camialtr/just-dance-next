@@ -2569,6 +2569,50 @@ MonoBehaviour:
     FillEnabled: 1
   texture: {fileID: 2800000, guid: c91bd488cf167644cb80aed2c2f8df9b, type: 3}
   sprite: {fileID: 0}
+--- !u!1 &4859850233345095286
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5344836819649809310}
+  - component: {fileID: 2078459785519209463}
+  m_Layer: 5
+  m_Name: Moves
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5344836819649809310
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4859850233345095286}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2434923794282890809}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2078459785519209463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4859850233345095286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c7efa56c518b0a4daca0fd7050e7231, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5419618522659933863
 GameObject:
   m_ObjectHideFlags: 0
@@ -3727,6 +3771,7 @@ Transform:
   - {fileID: 7780413148671099830}
   - {fileID: 4761154102782562808}
   - {fileID: 2166666077119060314}
+  - {fileID: 5344836819649809310}
   - {fileID: 2040853091264372472}
   - {fileID: 5687845116341895074}
   - {fileID: 4312575686460557454}
@@ -3972,6 +4017,9 @@ MonoBehaviour:
   mediaElements: {fileID: 3647079623669546389}
   lyricElements: {fileID: 508647073146781671}
   pictoElements: {fileID: 5591572341452875945}
+  moveElements: {fileID: 2078459785519209463}
+  playerConnected: 
+  selectedCoach: 
   UIGameClipMask: {fileID: 935223390443977647}
   mapSelection: {fileID: 576116797420771612, guid: f9f70a62eb98ebd488a693bfefbf5b55, type: 3}
 --- !u!114 &935223390443977647

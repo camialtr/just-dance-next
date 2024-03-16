@@ -18,9 +18,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] MediaElements mediaElements;
     [SerializeField] LyricElements lyricElements;
     [SerializeField] PictoElements pictoElements;
+    [SerializeField] MoveElements moveElements;
 
     readonly Stopwatch timeManager = new();
     bool started = false;
+
+    public bool[] playerConnected;
+    public int[] selectedCoach;
 
     [SerializeField] ClipMask UIGameClipMask;
     [SerializeField] GameObject mapSelection;
@@ -65,6 +69,8 @@ public class GameManager : MonoBehaviour
 
         await pictoElements.LoadPictoAssets(mapName, path);
 
+        await moveElements.LoadAndAssociateAllMoves(mapName, playerConnected, selectedCoach, songDesc,timeline);
+
         LeanTween.value(0f, 1f, 0.5f).setOnUpdate((float value) =>
         {
             UIGameClipMask.Tint = new(1f, 1f, 1f, value);
@@ -87,13 +93,25 @@ public class GameManager : MonoBehaviour
             LeanTween.value(0f, 1f, 0.5f).setOnUpdate((float value) =>
             {
                 videoTexture.Color = new(1f, 1f, 1f, value);
+            }).setOnComplete(() =>
+            {
+                background.SetActive(false);
             });
 
         }
-        if (InputManager.Undo() && InputManager.source == InputManager.controller | InputManager.source == InputSource.Local)
+        if (started && InputManager.Undo() && InputManager.source == InputManager.controller | InputManager.source == InputSource.Local)
         {
             LeanTween.cancelAll();
             background.SetActive(true);
+
+            for (int i = 0; i < 4; i++)
+            {
+                if (moveElements.scoring[i] != null)
+                {
+                    moveElements.scoring[i].EndScore();
+                }                
+            }
+
             Instantiate(mapSelection);
             Destroy(gameObject);
         }

@@ -137,6 +137,7 @@ public class CoachSelectionManager : MonoBehaviour
             if (!playerConnected[i] && DancerIdentifier.dancers[i] != null)
             {
                 dancers[i].gameObject.SetActive(true);
+                playerConnected[i] = true;
             }
         }
 
@@ -224,7 +225,12 @@ public class CoachSelectionManager : MonoBehaviour
                         {
                             mapSelectionManager.previewPlayer.Pause();
                             Destroy(mapSelectionManager.gameObject);
-                            gameUI.GetComponent<GameManager>().mapName = mapSelectionManager.playlists.playlistCluster[0].maps[mapSelectionManager.selectedMap].name;
+
+                            GameManager gameManager = gameUI.GetComponent<GameManager>();
+
+                            gameManager.mapName = mapSelectionManager.playlists.playlistCluster[0].maps[mapSelectionManager.selectedMap].name;
+                            gameManager.playerConnected = playerConnected;
+                            gameManager.selectedCoach = selectedCoach;
                             Instantiate(gameUI);
                             Destroy(gameObject);
                         });
