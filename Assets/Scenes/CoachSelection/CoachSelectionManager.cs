@@ -55,11 +55,11 @@ public class CoachSelectionManager : MonoBehaviour
             coachController[0].SetActive(true);
 
             Texture2D bkg = new(2048, 1024, TextureFormat.RGBA32, false);
-            bkg.LoadImage(await File.ReadAllBytesAsync(Path.Combine(path, "Maps", mapSelectionManager.playlists.playlistCluster[0].maps[mapSelectionManager.selectedMap].name, "bkg.png")));
+            bkg.LoadImage(await File.ReadAllBytesAsync(Path.Combine(path, "Maps", mapSelectionManager.playlists.playlistCluster[0].maps[mapSelectionManager.selectedMap].name, "menuart", "bkg.png")));
             oneCoachBkg.SetImage(bkg);
 
             Texture2D coach01 = new(1024, 1024, TextureFormat.RGBA32, false);
-            coach01.LoadImage(await File.ReadAllBytesAsync(Path.Combine(path, "Maps", mapSelectionManager.playlists.playlistCluster[0].maps[mapSelectionManager.selectedMap].name, "coach01.png")));
+            coach01.LoadImage(await File.ReadAllBytesAsync(Path.Combine(path, "Maps", mapSelectionManager.playlists.playlistCluster[0].maps[mapSelectionManager.selectedMap].name, "menuart", "coach01.png")));
             oneCoachCoach.SetImage(coach01);
         }
         else if (mapSelectionManager.songDesc.numCoach == 2)
@@ -67,18 +67,18 @@ public class CoachSelectionManager : MonoBehaviour
             coachController[1].SetActive(true);
 
             Texture2D bkg = new(2048, 1024, TextureFormat.RGBA32, false);
-            bkg.LoadImage(await File.ReadAllBytesAsync(Path.Combine(path, "Maps", mapSelectionManager.playlists.playlistCluster[0].maps[mapSelectionManager.selectedMap].name, "bkg.png")));
+            bkg.LoadImage(await File.ReadAllBytesAsync(Path.Combine(path, "Maps", mapSelectionManager.playlists.playlistCluster[0].maps[mapSelectionManager.selectedMap].name, "menuart", "bkg.png")));
             for (int i = 0; i < 2; i++)
             {
                 duoCoachBkg[i].SetImage(bkg);
             }            
 
             Texture2D coach01 = new(1024, 1024, TextureFormat.RGBA32, false);
-            coach01.LoadImage(await File.ReadAllBytesAsync(Path.Combine(path, "Maps", mapSelectionManager.playlists.playlistCluster[0].maps[mapSelectionManager.selectedMap].name, "coach01.png")));
+            coach01.LoadImage(await File.ReadAllBytesAsync(Path.Combine(path, "Maps", mapSelectionManager.playlists.playlistCluster[0].maps[mapSelectionManager.selectedMap].name, "menuart", "coach01.png")));
             duoCoachCoach[0].SetImage(coach01);
 
             Texture2D coach02 = new(1024, 1024, TextureFormat.RGBA32, false);
-            coach02.LoadImage(await File.ReadAllBytesAsync(Path.Combine(path, "Maps", mapSelectionManager.playlists.playlistCluster[0].maps[mapSelectionManager.selectedMap].name, "coach02.png")));
+            coach02.LoadImage(await File.ReadAllBytesAsync(Path.Combine(path, "Maps", mapSelectionManager.playlists.playlistCluster[0].maps[mapSelectionManager.selectedMap].name, "menuart", "coach02.png")));
             duoCoachCoach[1].SetImage(coach02);
         }
         else if (mapSelectionManager.songDesc.numCoach == 3)
@@ -86,22 +86,22 @@ public class CoachSelectionManager : MonoBehaviour
             coachController[2].SetActive(true);
 
             Texture2D bkg = new(2048, 1024, TextureFormat.RGBA32, false);
-            bkg.LoadImage(await File.ReadAllBytesAsync(Path.Combine(path, "Maps", mapSelectionManager.playlists.playlistCluster[0].maps[mapSelectionManager.selectedMap].name, "bkg.png")));
+            bkg.LoadImage(await File.ReadAllBytesAsync(Path.Combine(path, "Maps", mapSelectionManager.playlists.playlistCluster[0].maps[mapSelectionManager.selectedMap].name, "menuart", "bkg.png")));
             for (int i = 0; i < 3; i++)
             {
                 trioCoachBkg[i].SetImage(bkg);
             }
 
             Texture2D coach01 = new(1024, 1024, TextureFormat.RGBA32, false);
-            coach01.LoadImage(await File.ReadAllBytesAsync(Path.Combine(path, "Maps", mapSelectionManager.playlists.playlistCluster[0].maps[mapSelectionManager.selectedMap].name, "coach01.png")));
+            coach01.LoadImage(await File.ReadAllBytesAsync(Path.Combine(path, "Maps", mapSelectionManager.playlists.playlistCluster[0].maps[mapSelectionManager.selectedMap].name, "menuart", "coach01.png")));
             trioCoachCoach[0].SetImage(coach01);
 
             Texture2D coach02 = new(1024, 1024, TextureFormat.RGBA32, false);
-            coach02.LoadImage(await File.ReadAllBytesAsync(Path.Combine(path, "Maps", mapSelectionManager.playlists.playlistCluster[0].maps[mapSelectionManager.selectedMap].name, "coach02.png")));
+            coach02.LoadImage(await File.ReadAllBytesAsync(Path.Combine(path, "Maps", mapSelectionManager.playlists.playlistCluster[0].maps[mapSelectionManager.selectedMap].name, "menuart", "coach02.png")));
             trioCoachCoach[1].SetImage(coach02);
 
             Texture2D coach03 = new(1024, 1024, TextureFormat.RGBA32, false);
-            coach03.LoadImage(await File.ReadAllBytesAsync(Path.Combine(path, "Maps", mapSelectionManager.playlists.playlistCluster[0].maps[mapSelectionManager.selectedMap].name, "coach03.png")));
+            coach03.LoadImage(await File.ReadAllBytesAsync(Path.Combine(path, "Maps", mapSelectionManager.playlists.playlistCluster[0].maps[mapSelectionManager.selectedMap].name, "menuart", "coach03.png")));
             trioCoachCoach[2].SetImage(coach03);
         }
         else if (mapSelectionManager.songDesc.numCoach == 4)
@@ -109,26 +109,26 @@ public class CoachSelectionManager : MonoBehaviour
             coachController[3].SetActive(true);
 
             Texture2D bkg = new(2048, 1024, TextureFormat.RGBA32, false);
-            bkg.LoadImage(await File.ReadAllBytesAsync(Path.Combine(path, "Maps", mapSelectionManager.playlists.playlistCluster[0].maps[mapSelectionManager.selectedMap].name, "bkg.png")));
+            bkg.LoadImage(await File.ReadAllBytesAsync(Path.Combine(path, "Maps", mapSelectionManager.playlists.playlistCluster[0].maps[mapSelectionManager.selectedMap].name, "menuart", "bkg.png")));
             for (int i = 0; i < 4; i++)
             {
                 quartCoachBkg[i].SetImage(bkg);
             }
 
             Texture2D coach01 = new(1024, 1024, TextureFormat.RGBA32, false);
-            coach01.LoadImage(await File.ReadAllBytesAsync(Path.Combine(path, "Maps", mapSelectionManager.playlists.playlistCluster[0].maps[mapSelectionManager.selectedMap].name, "coach01.png")));
+            coach01.LoadImage(await File.ReadAllBytesAsync(Path.Combine(path, "Maps", mapSelectionManager.playlists.playlistCluster[0].maps[mapSelectionManager.selectedMap].name, "menuart", "coach01.png")));
             quartCoachCoach[0].SetImage(coach01);
 
             Texture2D coach02 = new(1024, 1024, TextureFormat.RGBA32, false);
-            coach02.LoadImage(await File.ReadAllBytesAsync(Path.Combine(path, "Maps", mapSelectionManager.playlists.playlistCluster[0].maps[mapSelectionManager.selectedMap].name, "coach02.png")));
+            coach02.LoadImage(await File.ReadAllBytesAsync(Path.Combine(path, "Maps", mapSelectionManager.playlists.playlistCluster[0].maps[mapSelectionManager.selectedMap].name, "menuart", "coach02.png")));
             quartCoachCoach[1].SetImage(coach02);
 
             Texture2D coach03 = new(1024, 1024, TextureFormat.RGBA32, false);
-            coach03.LoadImage(await File.ReadAllBytesAsync(Path.Combine(path, "Maps", mapSelectionManager.playlists.playlistCluster[0].maps[mapSelectionManager.selectedMap].name, "coach03.png")));
+            coach03.LoadImage(await File.ReadAllBytesAsync(Path.Combine(path, "Maps", mapSelectionManager.playlists.playlistCluster[0].maps[mapSelectionManager.selectedMap].name, "menuart", "coach03.png")));
             quartCoachCoach[2].SetImage(coach03);
 
             Texture2D coach04 = new(1024, 1024, TextureFormat.RGBA32, false);
-            coach04.LoadImage(await File.ReadAllBytesAsync(Path.Combine(path, "Maps", mapSelectionManager.playlists.playlistCluster[0].maps[mapSelectionManager.selectedMap].name, "coach04.png")));
+            coach04.LoadImage(await File.ReadAllBytesAsync(Path.Combine(path, "Maps", mapSelectionManager.playlists.playlistCluster[0].maps[mapSelectionManager.selectedMap].name, "menuart", "coach04.png")));
             quartCoachCoach[3].SetImage(coach04);
         }
 

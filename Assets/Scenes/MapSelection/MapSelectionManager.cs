@@ -2,8 +2,10 @@ using Nova;
 using System.IO;
 using UnityEngine;
 using Newtonsoft.Json;
-using System.Threading.Tasks;
 using UnityEngine.Video;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Linq;
 
 public class MapSelectionManager : MonoBehaviour
 {
@@ -53,6 +55,7 @@ public class MapSelectionManager : MonoBehaviour
         }
 
         playlists = await Task.Run(async () => JsonConvert.DeserializeObject<Playlists>(await File.ReadAllTextAsync(Path.Combine(path, "Maps", "playlists.json"))));
+        playlists.playlistCluster[0].maps = playlists.playlistCluster[0].maps.OrderBy(x => x.name).ToList();
 
         UpdateMenu();
 
@@ -131,7 +134,7 @@ public class MapSelectionManager : MonoBehaviour
 
                 if (selectedMap - 1 < 0)
                 {
-                    selectedMap = playlists.playlistCluster[0].maps.Length - 1;
+                    selectedMap = playlists.playlistCluster[0].maps.Count - 1;
                 }
                 else
                 {
@@ -216,7 +219,7 @@ public class MapSelectionManager : MonoBehaviour
 
                 toggleNegativeAudio.Play();
 
-                if (selectedMap + 1 >= playlists.playlistCluster[0].maps.Length)
+                if (selectedMap + 1 >= playlists.playlistCluster[0].maps.Count)
                 {
                     selectedMap = 0;
                 }
@@ -343,24 +346,24 @@ public class MapSelectionManager : MonoBehaviour
             if (i != 0)
             {
                 int iSelectedMap;
-                if (selectedMap + i >= playlists.playlistCluster[0].maps.Length)
+                if (selectedMap + i >= playlists.playlistCluster[0].maps.Count)
                 {
-                    iSelectedMap = selectedMap + i - playlists.playlistCluster[0].maps.Length;
+                    iSelectedMap = selectedMap + i - playlists.playlistCluster[0].maps.Count;
                 }
                 else
                 {
                     iSelectedMap = selectedMap + i;
                 }
                 Texture2D texture = new(1024, 512, TextureFormat.RGBA32, false);
-                texture.LoadImage(File.ReadAllBytes(Path.Combine(path, "Maps", playlists.playlistCluster[0].maps[iSelectedMap].name, "cover.png")));
+                texture.LoadImage(File.ReadAllBytes(Path.Combine(path, "Maps", playlists.playlistCluster[0].maps[iSelectedMap].name, "menuart", "cover.png")));
                 covers[i].SetImage(texture);
             }            
         }
 
-        if (File.Exists(Path.Combine(path, "Maps", playlists.playlistCluster[0].maps[selectedMap].name, "title.png")))
+        if (File.Exists(Path.Combine(path, "Maps", playlists.playlistCluster[0].maps[selectedMap].name, "menuart", "title.png")))
         {
             Texture2D texture = new(1024, 512, TextureFormat.RGBA32, false);
-            texture.LoadImage(File.ReadAllBytes(Path.Combine(path, "Maps", playlists.playlistCluster[0].maps[selectedMap].name, "title.png")));
+            texture.LoadImage(File.ReadAllBytes(Path.Combine(path, "Maps", playlists.playlistCluster[0].maps[selectedMap].name, "menuart", "title.png")));
             titleUIBlock.SetImage(texture);
             titleIsText = false;
         }
@@ -389,13 +392,13 @@ public class MapSelectionManager : MonoBehaviour
                 break;
         }
 
-        previewPlayer.url = "file://" + Path.Combine(path, "Maps", playlists.playlistCluster[0].maps[selectedMap].name, "preview.mp4"); ;
+        previewPlayer.url = "file://" + Path.Combine(path, "Maps", playlists.playlistCluster[0].maps[selectedMap].name, "media", "preview.mp4"); ;
         previewPlayer.Play();
 
-        if (File.Exists(Path.Combine(path, "Maps", playlists.playlistCluster[0].maps[selectedMap].name, "bkg.png")))
+        if (File.Exists(Path.Combine(path, "Maps", playlists.playlistCluster[0].maps[selectedMap].name, "menuart", "bkg.png")))
         {
             Texture2D texture = new(2048, 1024, TextureFormat.RGBA32, false);
-            texture.LoadImage(File.ReadAllBytes(Path.Combine(path, "Maps", playlists.playlistCluster[0].maps[selectedMap].name, "bkg.png")));
+            texture.LoadImage(File.ReadAllBytes(Path.Combine(path, "Maps", playlists.playlistCluster[0].maps[selectedMap].name, "menuart", "bkg.png")));
             backgroundUIBlock.SetImage(texture);
         }        
 
@@ -421,7 +424,7 @@ public struct Playlists
     public struct PlaylistCluster
     {
         public string name;
-        public Maps[] maps;
+        public List<Maps> maps;
     }
 
     public struct Maps
