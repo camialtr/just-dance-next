@@ -1772,12 +1772,12 @@ MonoBehaviour:
       Rotation: 0
       Enabled: 0
     Border:
-      Color: {r: 0, g: 0.40784314, b: 0.827451, a: 1}
+      Color: {r: 1, g: 1, b: 1, a: 1}
       Width:
         Raw: 5
         Type: 0
-      Enabled: 0
-      Direction: 2
+      Enabled: 1
+      Direction: 0
     Shadow:
       Color: {r: 0, g: 0, b: 0, a: 0.5}
       Width:
@@ -3826,12 +3826,12 @@ MonoBehaviour:
       Rotation: 0
       Enabled: 0
     Border:
-      Color: {r: 0, g: 0.40784314, b: 0.827451, a: 1}
+      Color: {r: 1, g: 1, b: 1, a: 1}
       Width:
         Raw: 5
         Type: 0
-      Enabled: 0
-      Direction: 2
+      Enabled: 1
+      Direction: 0
     Shadow:
       Color: {r: 0, g: 0, b: 0, a: 0.5}
       Width:
@@ -10551,12 +10551,12 @@ MonoBehaviour:
       Rotation: 0
       Enabled: 0
     Border:
-      Color: {r: 0, g: 0.40784314, b: 0.827451, a: 1}
+      Color: {r: 1, g: 1, b: 1, a: 1}
       Width:
         Raw: 5
         Type: 0
-      Enabled: 0
-      Direction: 2
+      Enabled: 1
+      Direction: 0
     Shadow:
       Color: {r: 0, g: 0, b: 0, a: 0.5}
       Width:
@@ -11498,12 +11498,12 @@ MonoBehaviour:
       Rotation: 0
       Enabled: 0
     Border:
-      Color: {r: 0, g: 0.40784314, b: 0.827451, a: 1}
+      Color: {r: 1, g: 1, b: 1, a: 1}
       Width:
         Raw: 5
         Type: 0
-      Enabled: 0
-      Direction: 2
+      Enabled: 1
+      Direction: 0
     Shadow:
       Color: {r: 0, g: 0, b: 0, a: 0.5}
       Width:

@@ -1,15 +1,22 @@
 using System.IO;
 using UnityEngine;
 using UnityEngine.Video;
+using System.Diagnostics;
 using System.Collections;
 using UnityEngine.Networking;
 
+
 public class MediaElements : MonoBehaviour
 {
+    [HideInInspector] public MusicTrack musicTrack;
+
     [SerializeField] public VideoPlayer videoPlayer;
     [SerializeField] AudioSource audioPlayer;
+    [HideInInspector] public Stopwatch timeManager;
+    [HideInInspector] public GameObject background;
 
     [HideInInspector] public bool isLoaded = false;
+    int atualBeat = 0;
 
     UnityWebRequestAsyncOperation audioClip;
 
@@ -54,5 +61,38 @@ public class MediaElements : MonoBehaviour
         videoPlayer.time = musicTrack.videoStartTime - musicTrack.beats[musicTrack.startBeat];
         videoPlayer.Play();
         audioPlayer.Play();
+    }
+
+    private void Update()
+    {
+        if (timeManager == null || !timeManager.IsRunning) { return; }
+
+        if (atualBeat < musicTrack.beats.Count && timeManager.ElapsedMilliseconds / 1000f >= musicTrack.beats[atualBeat])
+        {
+            if (atualBeat > 10)
+            {
+                if (background.activeInHierarchy)
+                {
+                    background.SetActive(false);
+                }
+
+                float correctionFactor = musicTrack.videoStartTime - musicTrack.beats[musicTrack.startBeat];
+                float timeInMS = timeManager.ElapsedMilliseconds / 1000f;
+
+                if (videoPlayer.time < timeInMS + correctionFactor - 0.25f || videoPlayer.time > timeInMS + correctionFactor + 0.25f)
+                {
+                    videoPlayer.Pause();
+                    videoPlayer.time = timeInMS + correctionFactor;
+                    videoPlayer.Play();
+                }
+                if (audioPlayer.time < timeInMS - 0.1f || audioPlayer.time > timeInMS + 0.1f)
+                {
+                    audioPlayer.Pause();
+                    audioPlayer.time = timeInMS;
+                    audioPlayer.Play();
+                }
+            }            
+            atualBeat++;
+        }
     }
 }

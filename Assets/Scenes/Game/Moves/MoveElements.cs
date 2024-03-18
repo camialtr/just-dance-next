@@ -67,19 +67,19 @@ public class MoveElements : MonoBehaviour
                         switch (scoreResult.rating)
                         {
                             case 0:
-                                UnityEngine.Debug.LogError("X");
+                                //UnityEngine.Debug.LogError("X");
                                 break;
                             case 1:
-                                UnityEngine.Debug.LogError("OK");
+                                //UnityEngine.Debug.LogError("OK");
                                 break;
                             case 2:
-                                UnityEngine.Debug.LogError("GOOD");
+                                //UnityEngine.Debug.LogError("GOOD");
                                 break;
                             case 3:
-                                UnityEngine.Debug.LogError("PERFECT");
+                                //UnityEngine.Debug.LogError("PERFECT");
                                 break;
                             case 4:
-                                UnityEngine.Debug.LogError("YEAH");
+                                //UnityEngine.Debug.LogError("YEAH");
                                 break;
                         }
                         atualRating[i]++;

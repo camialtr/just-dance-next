@@ -161,7 +161,7 @@ public class MapSelectionManager : MonoBehaviour
                 LeanTween.value(-378f, 0f, 0.2f).setOnUpdate((float value) =>
                 {
                     coverCluster.Position.X = value;
-                }).setEaseInOutCirc().setOnComplete(async () =>
+                }).setEaseInOutCirc().setOnComplete(() =>
                 {                    
                     if (titleIsText)
                     {

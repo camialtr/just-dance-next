@@ -66,6 +66,10 @@ public class GameManager : MonoBehaviour
         moveElements.selectedCoach = selectedCoach;
         moveElements.timeManager = timeManager;
 
+        mediaElements.musicTrack = musicTrack;
+        mediaElements.timeManager = timeManager;
+        mediaElements.background = background;
+
         lyricElements.LoadAllLyrics();
 
         pictoElements.ApplyPictobarColor();
@@ -89,8 +93,6 @@ public class GameManager : MonoBehaviour
             mediaElements.Play(musicTrack);
             timeManager.Start();
 
-            started = true;
-
             await Task.Delay(500);
 
             UIBlock2D videoTexture = mediaElements.videoPlayer.gameObject.GetComponent<UIBlock2D>();
@@ -100,7 +102,7 @@ public class GameManager : MonoBehaviour
                 videoTexture.Color = new(1f, 1f, 1f, value);
             }).setOnComplete(() =>
             {
-                background.SetActive(false);
+                started = true;
             });
 
         }
