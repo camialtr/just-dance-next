@@ -1,11 +1,9 @@
+using Nova;
 using System.IO;
 using UnityEngine;
 using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using Nova;
-using UnityEngine.Video;
-using System.Transactions;
 
 public class GameManager : MonoBehaviour
 {
@@ -61,15 +59,22 @@ public class GameManager : MonoBehaviour
         pictoElements.accentColor = accentColor;
         pictoElements.timeManager = timeManager;
 
+        moveElements.songDesc = songDesc;
+        moveElements.musicTrack = musicTrack;
+        moveElements.timeline = timeline;
+        moveElements.playerConnected = playerConnected;
+        moveElements.selectedCoach = selectedCoach;
+        moveElements.timeManager = timeManager;
+
         lyricElements.LoadAllLyrics();
 
         pictoElements.ApplyPictobarColor();
 
-        mediaElements.LoadMediaAssets(mapName);
+        mediaElements.LoadMediaAssets(mapName, path);
 
         await pictoElements.LoadPictoAssets(mapName, path);
 
-        await moveElements.LoadAndAssociateAllMoves(mapName, playerConnected, selectedCoach, songDesc,timeline);
+        await moveElements.LoadAndAssociateAllMoves(mapName, path);
 
         LeanTween.value(0f, 1f, 0.5f).setOnUpdate((float value) =>
         {

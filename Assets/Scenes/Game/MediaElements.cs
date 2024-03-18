@@ -3,8 +3,6 @@ using UnityEngine;
 using UnityEngine.Video;
 using System.Collections;
 using UnityEngine.Networking;
-using Nova;
-using System.Threading.Tasks;
 
 public class MediaElements : MonoBehaviour
 {
@@ -15,18 +13,8 @@ public class MediaElements : MonoBehaviour
 
     UnityWebRequestAsyncOperation audioClip;
 
-    public void LoadMediaAssets(string mapName)
+    public void LoadMediaAssets(string mapName, string path)
     {
-        string path;
-        if (Application.platform == RuntimePlatform.WindowsPlayer)
-        {
-            path = Application.dataPath;
-        }
-        else
-        {
-            path = Path.Combine(Directory.GetCurrentDirectory(), "Build/Just Dance Next_Data");
-        }
-
         videoPlayer.url = "file://" + Path.Combine(path, "Maps", mapName, "media", mapName + ".webm");
         videoPlayer.prepareCompleted += VideoPlayer_prepareCompleted;
         videoPlayer.Prepare();

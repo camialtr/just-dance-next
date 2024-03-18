@@ -1,60 +1,89 @@
+using System.IO;
 using UnityEngine;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using System.IO;
-using System;
 
 public class MoveElements : MonoBehaviour
 {
-    SongDesc songDesc;
-    Timeline timeline;
+    [HideInInspector] public SongDesc songDesc;
+    [HideInInspector] public MusicTrack musicTrack;
+    [HideInInspector] public Timeline timeline;
+    [HideInInspector] public Stopwatch timeManager;
 
-    bool[] playerConnected;
-    int[] selectedCoach;
+    [HideInInspector] public bool[] playerConnected;
+    [HideInInspector] public int[] selectedCoach;
 
-    public Scoring[] scoring;
+    [HideInInspector] public Scoring[] scoring;
+    List<Moves>[] movesInfo;
+    int[] atualRating;
 
-    public async Task LoadAndAssociateAllMoves(string mapName, bool[] paramPlayerConnected, int[] paramSelectedCoach, SongDesc paramSongDesc, Timeline paramTimeline)
+    public async Task LoadAndAssociateAllMoves(string mapName, string path)
     {
-        string path;
-        if (Application.platform == RuntimePlatform.WindowsPlayer)
-        {
-            path = Application.dataPath;
-        }
-        else
-        {
-            path = Path.Combine(Directory.GetCurrentDirectory(), "Build/Just Dance Next_Data");
-        }
-
-        timeline = paramTimeline;
-        songDesc = paramSongDesc;
-
-        playerConnected = paramPlayerConnected;
-        selectedCoach = paramSelectedCoach;
-
         scoring = new Scoring[4] { null, null, null, null };
+        movesInfo = new List<Moves>[4] { null, null, null, null };
+        atualRating = new int[4] { 0, 0, 0, 0};
 
         for (int i = 0; i < 4; i++)
         {
             if (playerConnected[i])
             {
                 scoring[i] = new();
-                List<Moves> movesInfo = new();
+                movesInfo[i] = new();
                 for (int movesCounter = 0; movesCounter < timeline.moves.Count; movesCounter++)
                 {
                     if (timeline.moves[movesCounter].coachID == selectedCoach[i] - 1)
                     {
-                        movesInfo.Add(timeline.moves[movesCounter]);
+                        movesInfo[i].Add(timeline.moves[movesCounter]);
                     }
                 }
-                for (int moveIndex = 0; moveIndex < movesInfo.Count; moveIndex++)
+                int movesLoaded = 0;
+                for (int moveIndex = 0; moveIndex < movesInfo[i].Count; moveIndex++)
                 {
-                    bool isLastOne = moveIndex == movesInfo.Count - 1;                    
+                    bool isLastOne = moveIndex == movesInfo[i].Count - 1;                    
                     bool isGoldMove = false;
-                    if (movesInfo[moveIndex].goldMove == 1) { isGoldMove = true; }
-                    Debug.LogError(scoring[i].LoadClassifier(movesInfo[moveIndex].name, await File.ReadAllBytesAsync(Path.Combine(path, "Maps", mapName, "moves", movesInfo[moveIndex].name + ".msm"))));
-                    Debug.LogError(scoring[i].LoadMove(movesInfo[moveIndex].name, (int)(movesInfo[moveIndex].time * 1000), (int)(movesInfo[moveIndex].duration * 1000), isGoldMove, isLastOne));
-                    if (isLastOne) { Debug.LogError("Last One Loaded!"); }
+                    if (movesInfo[i][moveIndex].goldMove == 1) { isGoldMove = true; }
+                    scoring[i].LoadClassifier(movesInfo[i][moveIndex].name, await File.ReadAllBytesAsync(Path.Combine(path, "Maps", mapName, "moves", movesInfo[i][moveIndex].name + ".msm")));
+                    scoring[i].LoadMove(movesInfo[i][moveIndex].name, (int)(movesInfo[i][moveIndex].time * 1000), (int)(movesInfo[i][moveIndex].duration * 1000), isGoldMove, isLastOne);
+                    movesLoaded++;
+                }
+            }
+        }
+    }
+
+    private void Update()
+    {
+        if (timeManager == null || !timeManager.IsRunning || (float)(timeManager.ElapsedMilliseconds / 1000f) < musicTrack.beats[musicTrack.startBeat] ) { return; }
+
+        for (int i = 0; i < 4; i++)
+        {
+            if (playerConnected[i])
+            {
+                if (scoring[i].AddSample(DancerIdentifier.dancers[i].accelermeterData.Value.x, DancerIdentifier.dancers[i].accelermeterData.Value.y, DancerIdentifier.dancers[i].accelermeterData.Value.z, (float)(timeManager.ElapsedMilliseconds / 1000f) - musicTrack.beats[musicTrack.startBeat]))
+                {
+                    ScoreResult scoreResult = scoring[i].GetLastScore();
+                    if (scoreResult.moveNum == atualRating[i])
+                    {
+                        switch (scoreResult.rating)
+                        {
+                            case 0:
+                                UnityEngine.Debug.LogError("X");
+                                break;
+                            case 1:
+                                UnityEngine.Debug.LogError("OK");
+                                break;
+                            case 2:
+                                UnityEngine.Debug.LogError("GOOD");
+                                break;
+                            case 3:
+                                UnityEngine.Debug.LogError("PERFECT");
+                                break;
+                            case 4:
+                                UnityEngine.Debug.LogError("YEAH");
+                                break;
+                        }
+                        atualRating[i]++;
+                    }
                 }
             }
         }

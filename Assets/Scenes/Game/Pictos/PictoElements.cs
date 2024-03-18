@@ -73,7 +73,7 @@ public class PictoElements : MonoBehaviour
 
     private void Update()
     {
-        if (timeManager == null) { return; }
+        if (timeManager == null || !timeManager.IsRunning) { return; }
 
         if (atualBeat < musicTrack.beats.Count && timeManager.ElapsedMilliseconds / 1000f >= musicTrack.beats[atualBeat])
         {
@@ -85,9 +85,6 @@ public class PictoElements : MonoBehaviour
 
         if (timeManager.ElapsedMilliseconds / 1000f >= timeline.pictos[atualPicto].time + musicTrack.beats[musicTrack.startBeat] - 1.7999f)
         {
-            //pictoObjects[atualPicto].GetComponent<Picto>().picto.SetImage(pictos[atualPicto]);
-            //pictoObjects[atualPicto].GetComponent<Picto>().shadow.SetImage(pictos[atualPicto]);
-
             pictoObjects[atualPicto].SetActive(true);
 
             atualPicto++;

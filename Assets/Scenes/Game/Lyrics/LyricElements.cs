@@ -44,7 +44,7 @@ public class LyricElements : MonoBehaviour
 
     private void Update()
     {
-        if (timeManager == null) { return; }
+        if (timeManager == null || !timeManager.IsRunning) { return; }
 
         if (firstLyric)
         {
