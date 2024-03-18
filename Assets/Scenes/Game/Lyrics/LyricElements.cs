@@ -84,8 +84,6 @@ public class LyricElements : MonoBehaviour
                 lyrics[atualLine - 3].destroy = true;
                 lyrics[atualLine - 3] = null;
             }
-            //lyrics.Add(Instantiate(lyricPrefab).GetComponent<Lyric>());
-            //lyrics[atualLine].transform.SetParent(gameObject.transform, false);
             for (; atualLyric < timeline.lyrics.Count; atualLyric++)
             {
                 if (startOfLine)

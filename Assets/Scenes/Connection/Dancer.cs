@@ -1,9 +1,11 @@
 using UnityEngine;
 using Unity.Netcode;
+using System;
 
 public class Dancer : NetworkBehaviour
 {
-    public NetworkVariable<Vector3> accelermeterData = new NetworkVariable<Vector3>(readPerm: NetworkVariableReadPermission.Everyone, writePerm: NetworkVariableWritePermission.Owner);
+    public NetworkVariable<Vector3> accelermeterData = new(readPerm: NetworkVariableReadPermission.Everyone, writePerm: NetworkVariableWritePermission.Owner);
+    public float pingData;
 
     private void Start()
     {
@@ -18,6 +20,7 @@ public class Dancer : NetworkBehaviour
         if (!IsServer && IsOwner)
         {
             accelermeterData.Value = Input.acceleration;
+            UpdatePingServerRpc();
             if (InputManager.input != NetworkInput.None)
             {
                 InputServerRpc(DancerIdentifier.index, InputManager.input);
@@ -38,10 +41,6 @@ public class Dancer : NetworkBehaviour
         {
             NetworkManager.Singleton.DisconnectClient(OwnerClientId);
         }
-        for (int i = 0; i < 4; i++)
-        {
-            Debug.Log(DancerIdentifier.dancers[i]);
-        }
     }
 
     [ServerRpc]
@@ -49,5 +48,11 @@ public class Dancer : NetworkBehaviour
     {
         InputManager.source = (InputSource)dancerIndex;
         InputManager.input = input;
-    }    
+    }
+
+    [ServerRpc]
+    public void UpdatePingServerRpc()
+    {
+        pingData = NetworkManager.Singleton.NetworkConfig.NetworkTransport.GetCurrentRtt(OwnerClientId) / 1000f;
+    }
 }
