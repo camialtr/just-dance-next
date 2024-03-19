@@ -45,6 +45,10 @@ public class CoachSelectionManager : MonoBehaviour
         {
             path = Application.dataPath;
         }
+        else if (Application.platform == RuntimePlatform.WSAPlayerX86)
+        {
+            path = Application.persistentDataPath;
+        }
         else
         {
             path = Path.Combine(Directory.GetCurrentDirectory(), "Build/Just Dance Next_Data");

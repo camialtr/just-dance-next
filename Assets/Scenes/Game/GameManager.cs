@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
 
     readonly Stopwatch timeManager = new();
     bool started = false;
+    bool movesLoaded = false;
 
     public bool[] playerConnected;
     public int[] selectedCoach;
@@ -36,6 +37,10 @@ public class GameManager : MonoBehaviour
         if (Application.platform == RuntimePlatform.WindowsPlayer)
         {
             path = Application.dataPath;
+        }
+        else if (Application.platform == RuntimePlatform.WSAPlayerX86)
+        {
+            path = Application.persistentDataPath;
         }
         else
         {
@@ -74,11 +79,11 @@ public class GameManager : MonoBehaviour
 
         pictoElements.ApplyPictobarColor();
 
-        mediaElements.LoadMediaAssets(mapName, path);
+        mediaElements.LoadMediaAssets(mapName, path);        
 
-        await pictoElements.LoadPictoAssets(mapName, path);
+        await pictoElements.LoadPictoAssets(mapName, path);        
 
-        await moveElements.LoadAndAssociateAllMoves(mapName, path);
+        movesLoaded = await moveElements.LoadAndAssociateAllMoves(mapName, path);
 
         LeanTween.value(0f, 1f, 0.5f).setOnUpdate((float value) =>
         {
@@ -86,18 +91,16 @@ public class GameManager : MonoBehaviour
         });
     }
 
-    private async void Update()
+    private void Update()
     {
-        if (!started && mediaElements.isLoaded && pictoElements.isLoaded && !mediaElements.videoPlayer.isPlaying)
+        if (!started && mediaElements.isLoaded && pictoElements.isLoaded && !mediaElements.videoPlayer.isPlaying && movesLoaded)
         {
             mediaElements.Play(musicTrack);
             timeManager.Start();
 
-            await Task.Delay(500);
-
             UIBlock2D videoTexture = mediaElements.videoPlayer.gameObject.GetComponent<UIBlock2D>();
 
-            LeanTween.value(0f, 1f, 0.5f).setOnUpdate((float value) =>
+            LeanTween.value(0f, 1f, 0.1f).setOnUpdate((float value) =>
             {
                 videoTexture.Color = new(1f, 1f, 1f, value);
             }).setOnComplete(() =>

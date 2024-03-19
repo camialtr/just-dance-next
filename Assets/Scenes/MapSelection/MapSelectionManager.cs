@@ -49,6 +49,10 @@ public class MapSelectionManager : MonoBehaviour
         {
             path = Application.dataPath;
         }
+        else if (Application.platform == RuntimePlatform.WSAPlayerX86)
+        {
+            path = Application.persistentDataPath;
+        }
         else
         {
             path = Path.Combine(Directory.GetCurrentDirectory(), "Build/Just Dance Next_Data");
@@ -333,6 +337,10 @@ public class MapSelectionManager : MonoBehaviour
         if (Application.platform == RuntimePlatform.WindowsPlayer)
         {
             path = Application.dataPath;
+        }
+        else if (Application.platform == RuntimePlatform.WSAPlayerX86)
+        {
+            path = Application.persistentDataPath;
         }
         else
         {

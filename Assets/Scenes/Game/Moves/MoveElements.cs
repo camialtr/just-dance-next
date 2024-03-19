@@ -3,6 +3,8 @@ using UnityEngine;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using Nova;
+using System.Linq.Expressions;
 
 public class MoveElements : MonoBehaviour
 {
@@ -17,13 +19,17 @@ public class MoveElements : MonoBehaviour
     [HideInInspector] public Scoring[] scoring;
     List<Moves>[] movesInfo;
     int[] atualRating;
+    public GameObject dancerPrefab;
+    public FeedbackElements[] feedbackElements;
 
-    public async Task LoadAndAssociateAllMoves(string mapName, string path)
+    public async Task<bool> LoadAndAssociateAllMoves(string mapName, string path)
     {
         scoring = new Scoring[4] { null, null, null, null };
         movesInfo = new List<Moves>[4] { null, null, null, null };
         atualRating = new int[4] { 0, 0, 0, 0};
+        feedbackElements = new FeedbackElements[4] { null, null, null, null };
 
+        int dancersCount = 0;
         for (int i = 0; i < 4; i++)
         {
             if (playerConnected[i])
@@ -47,45 +53,91 @@ public class MoveElements : MonoBehaviour
                     scoring[i].LoadMove(movesInfo[i][moveIndex].name, (int)(movesInfo[i][moveIndex].time * 1000), (int)(movesInfo[i][moveIndex].duration * 1000), isGoldMove, isLastOne);
                     movesLoaded++;
                 }
+                feedbackElements[i] = Instantiate(dancerPrefab).GetComponent<FeedbackElements>();
+                feedbackElements[i].gameObject.transform.SetParent(transform, false);
+                feedbackElements[i].DancerID = i;
+                feedbackElements[i].SetUpDancer();
+                dancersCount++;
             }
         }
+        if (dancersCount != 0)
+        {
+            List<FeedbackElements> tempFeedbackElements = new();
+            for (int i = 0; i < 4; i++)
+            {
+                if (playerConnected[i])
+                {
+                    tempFeedbackElements.Add(feedbackElements[i]);
+                }
+            }
+            switch (dancersCount)
+            {
+                case 2:
+                    tempFeedbackElements[0].gameObject.GetComponent<UIBlock>().Position.X = -200f;
+                    tempFeedbackElements[1].gameObject.GetComponent<UIBlock>().Position.X = 200f;
+                    break;
+                case 3:
+                    tempFeedbackElements[0].gameObject.GetComponent<UIBlock>().Position.X = -300f;
+                    tempFeedbackElements[1].gameObject.GetComponent<UIBlock>().Position.X = 0f;
+                    tempFeedbackElements[2].gameObject.GetComponent<UIBlock>().Position.X = -300f;
+                    break;
+                case 4:
+                    tempFeedbackElements[0].gameObject.GetComponent<UIBlock>().Position.X = -400f;
+                    tempFeedbackElements[1].gameObject.GetComponent<UIBlock>().Position.X = -200f;
+                    tempFeedbackElements[2].gameObject.GetComponent<UIBlock>().Position.X = 200f;
+                    tempFeedbackElements[3].gameObject.GetComponent<UIBlock>().Position.X = 400f;
+                    break;
+            }
+        }
+        return true;
     }
 
     private void Update()
     {
-        if (timeManager == null || !timeManager.IsRunning || (float)(timeManager.ElapsedMilliseconds / 1000f) < musicTrack.beats[musicTrack.startBeat] ) { return; }
+        if (timeManager == null || !timeManager.IsRunning || (float)(timeManager.ElapsedMilliseconds / 1000f) < musicTrack.beats[musicTrack.startBeat]) { return; }
 
-        for (int i = 0; i < 4; i++)
+        try
         {
-            if (playerConnected[i])
+            for (int i = 0; i < 4; i++)
             {
-                if (scoring[i].AddSample(DancerIdentifier.dancers[i].accelermeterData.Value.x, DancerIdentifier.dancers[i].accelermeterData.Value.y, DancerIdentifier.dancers[i].accelermeterData.Value.z, (float)(timeManager.ElapsedMilliseconds / 1000f) - musicTrack.beats[musicTrack.startBeat] - DancerIdentifier.dancers[i].pingData))
+                if (playerConnected[i] && DancerIdentifier.dancers[i] != null)
                 {
-                    ScoreResult scoreResult = scoring[i].GetLastScore();
-                    if (scoreResult.moveNum == atualRating[i])
+                    if (scoring[i].AddSample(DancerIdentifier.dancers[i].accelermeterData.Value.x, DancerIdentifier.dancers[i].accelermeterData.Value.y, DancerIdentifier.dancers[i].accelermeterData.Value.z, (float)(timeManager.ElapsedMilliseconds / 1000f) - musicTrack.beats[musicTrack.startBeat] - DancerIdentifier.dancers[i].pingData))
                     {
-                        switch (scoreResult.rating)
+                        ScoreResult scoreResult = scoring[i].GetLastScore();
+                        if (scoreResult.moveNum == atualRating[i])
                         {
-                            case 0:
-                                //UnityEngine.Debug.LogError("X");
-                                break;
-                            case 1:
-                                //UnityEngine.Debug.LogError("OK");
-                                break;
-                            case 2:
-                                //UnityEngine.Debug.LogError("GOOD");
-                                break;
-                            case 3:
-                                //UnityEngine.Debug.LogError("PERFECT");
-                                break;
-                            case 4:
-                                //UnityEngine.Debug.LogError("YEAH");
-                                break;
+                            switch (scoreResult.rating)
+                            {
+                                case 0:
+                                    if (scoreResult.isGoldMove)
+                                    {
+                                        feedbackElements[i].TriggerFeedback(Feedbacks.goldmiss);
+                                    }
+                                    else
+                                    {
+                                        feedbackElements[i].TriggerFeedback(Feedbacks.miss);
+                                    }
+                                    break;
+                                case 1:
+                                    feedbackElements[i].TriggerFeedback(Feedbacks.ok);
+                                    break;
+                                case 2:
+                                    feedbackElements[i].TriggerFeedback(Feedbacks.good);
+                                    break;
+                                case 3:
+                                    feedbackElements[i].TriggerFeedback(Feedbacks.perfect);
+                                    break;
+                                case 4:
+                                    feedbackElements[i].TriggerFeedback(Feedbacks.yeah);
+                                    break;
+                            }
+                            atualRating[i]++;
                         }
-                        atualRating[i]++;
                     }
                 }
             }
         }
+        catch { }        
     }
 }

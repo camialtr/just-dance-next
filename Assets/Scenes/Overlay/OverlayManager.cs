@@ -21,7 +21,7 @@ public class OverlayManager : MonoBehaviour
             Instantiate(mobileConnectionUI);
             gameObject.SetActive(false);
         }
-        if (Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.WindowsPlayer)
+        if (Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.WSAPlayerX86)
         {
             LeanTween.init(5000);
             if (Application.platform == RuntimePlatform.WindowsPlayer)
