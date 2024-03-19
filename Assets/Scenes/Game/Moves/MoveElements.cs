@@ -21,6 +21,8 @@ public class MoveElements : MonoBehaviour
     int[] atualRating;
     public GameObject dancerPrefab;
     public FeedbackElements[] feedbackElements;
+    public GameObject[] dancersIndicator;
+    public UIBlock2D[] dancersIndicatorUIBlock;
 
     public async Task<bool> LoadAndAssociateAllMoves(string mapName, string path)
     {
@@ -28,7 +30,7 @@ public class MoveElements : MonoBehaviour
         movesInfo = new List<Moves>[4] { null, null, null, null };
         atualRating = new int[4] { 0, 0, 0, 0};
         feedbackElements = new FeedbackElements[4] { null, null, null, null };
-
+        dancersIndicatorUIBlock = new UIBlock2D[4] { null, null, null, null };
         int dancersCount = 0;
         for (int i = 0; i < 4; i++)
         {
@@ -57,6 +59,8 @@ public class MoveElements : MonoBehaviour
                 feedbackElements[i].gameObject.transform.SetParent(transform, false);
                 feedbackElements[i].DancerID = i;
                 feedbackElements[i].SetUpDancer();
+                dancersIndicator[i].SetActive(true);
+                dancersIndicatorUIBlock[i] = dancersIndicator[i].GetComponent<UIBlock2D>();
                 dancersCount++;
             }
         }
@@ -96,48 +100,46 @@ public class MoveElements : MonoBehaviour
     {
         if (timeManager == null || !timeManager.IsRunning || (float)(timeManager.ElapsedMilliseconds / 1000f) < musicTrack.beats[musicTrack.startBeat]) { return; }
 
-        try
+        for (int i = 0; i < 4; i++)
         {
-            for (int i = 0; i < 4; i++)
+            if (playerConnected[i] && DancerIdentifier.dancers[i] != null)
             {
-                if (playerConnected[i] && DancerIdentifier.dancers[i] != null)
+                if (scoring[i].AddSample(DancerIdentifier.dancers[i].accelermeterData.Value.x, DancerIdentifier.dancers[i].accelermeterData.Value.y, DancerIdentifier.dancers[i].accelermeterData.Value.z, (float)(timeManager.ElapsedMilliseconds / 1000f) - musicTrack.beats[musicTrack.startBeat] - DancerIdentifier.dancers[i].pingData))
                 {
-                    if (scoring[i].AddSample(DancerIdentifier.dancers[i].accelermeterData.Value.x, DancerIdentifier.dancers[i].accelermeterData.Value.y, DancerIdentifier.dancers[i].accelermeterData.Value.z, (float)(timeManager.ElapsedMilliseconds / 1000f) - musicTrack.beats[musicTrack.startBeat] - DancerIdentifier.dancers[i].pingData))
+                    ScoreResult scoreResult = scoring[i].GetLastScore();
+                    if (scoreResult.moveNum == atualRating[i])
                     {
-                        ScoreResult scoreResult = scoring[i].GetLastScore();
-                        if (scoreResult.moveNum == atualRating[i])
+                        switch (scoreResult.rating)
                         {
-                            switch (scoreResult.rating)
-                            {
-                                case 0:
-                                    if (scoreResult.isGoldMove)
-                                    {
-                                        feedbackElements[i].TriggerFeedback(Feedbacks.goldmiss);
-                                    }
-                                    else
-                                    {
-                                        feedbackElements[i].TriggerFeedback(Feedbacks.miss);
-                                    }
-                                    break;
-                                case 1:
-                                    feedbackElements[i].TriggerFeedback(Feedbacks.ok);
-                                    break;
-                                case 2:
-                                    feedbackElements[i].TriggerFeedback(Feedbacks.good);
-                                    break;
-                                case 3:
-                                    feedbackElements[i].TriggerFeedback(Feedbacks.perfect);
-                                    break;
-                                case 4:
-                                    feedbackElements[i].TriggerFeedback(Feedbacks.yeah);
-                                    break;
-                            }
-                            atualRating[i]++;
+                            case 0:
+                                if (scoreResult.isGoldMove)
+                                {
+                                    feedbackElements[i].TriggerFeedback(Feedbacks.goldmiss);
+                                }
+                                else
+                                {
+                                    feedbackElements[i].TriggerFeedback(Feedbacks.miss);
+                                }
+                                break;
+                            case 1:
+                                feedbackElements[i].TriggerFeedback(Feedbacks.ok);
+                                break;
+                            case 2:
+                                feedbackElements[i].TriggerFeedback(Feedbacks.good);
+                                break;
+                            case 3:
+                                feedbackElements[i].TriggerFeedback(Feedbacks.perfect);
+                                break;
+                            case 4:
+                                feedbackElements[i].TriggerFeedback(Feedbacks.yeah);
+                                break;
                         }
+                        float scorePercentage = Mathf.InverseLerp(0f, 12000f, scoreResult.totalScore);
+                        dancersIndicatorUIBlock[i].Position.Y = Mathf.Lerp(-300, 300, scorePercentage);
+                        atualRating[i]++;
                     }
                 }
             }
         }
-        catch { }        
     }
 }

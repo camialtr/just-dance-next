@@ -91,12 +91,14 @@ public class GameManager : MonoBehaviour
         });
     }
 
-    private void Update()
+    private async void Update()
     {
         if (!started && mediaElements.isLoaded && pictoElements.isLoaded && !mediaElements.videoPlayer.isPlaying && movesLoaded)
         {
             mediaElements.Play(musicTrack);
             timeManager.Start();
+
+            await Task.Delay(250);
 
             UIBlock2D videoTexture = mediaElements.videoPlayer.gameObject.GetComponent<UIBlock2D>();
 
@@ -119,7 +121,7 @@ public class GameManager : MonoBehaviour
                 if (moveElements.scoring[i] != null)
                 {
                     moveElements.scoring[i].EndScore();
-                }                
+                }
             }
 
             Instantiate(mapSelection);

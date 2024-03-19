@@ -1774,7 +1774,7 @@ MonoBehaviour:
     Border:
       Color: {r: 1, g: 1, b: 1, a: 1}
       Width:
-        Raw: 5
+        Raw: 7
         Type: 0
       Enabled: 1
       Direction: 0
@@ -3828,7 +3828,7 @@ MonoBehaviour:
     Border:
       Color: {r: 1, g: 1, b: 1, a: 1}
       Width:
-        Raw: 5
+        Raw: 7
         Type: 0
       Enabled: 1
       Direction: 0
@@ -10553,7 +10553,7 @@ MonoBehaviour:
     Border:
       Color: {r: 1, g: 1, b: 1, a: 1}
       Width:
-        Raw: 5
+        Raw: 7
         Type: 0
       Enabled: 1
       Direction: 0
@@ -11500,7 +11500,7 @@ MonoBehaviour:
     Border:
       Color: {r: 1, g: 1, b: 1, a: 1}
       Width:
-        Raw: 5
+        Raw: 7
         Type: 0
       Enabled: 1
       Direction: 0

@@ -23,7 +23,7 @@ public class OverlayManager : MonoBehaviour
         }
         if (Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.WSAPlayerX86)
         {
-            LeanTween.init(5000);
+            LeanTween.init(2500);
             if (Application.platform == RuntimePlatform.WindowsPlayer)
             {
                 Cursor.visible = false;
