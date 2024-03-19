@@ -23,7 +23,7 @@ public class MoveElements : MonoBehaviour
     public GameObject[] dancersIndicator;
     public UIBlock2D[] dancersIndicatorUIBlock;
     public StarElements starElement;
-    bool[] starRevealed = new bool[5] { false, false, false, false, false };
+    bool[] starRevealed = new bool[7] { false, false, false, false, false, false, false };
 
     public async Task<bool> LoadAndAssociateAllMoves(string mapName, string path)
     {
@@ -138,27 +138,96 @@ public class MoveElements : MonoBehaviour
                         float scorePercentage = Mathf.InverseLerp(0f, 12000f, scoreResult.totalScore);
                         dancersIndicatorUIBlock[i].Position.Y = Mathf.Lerp(-300, 300, scorePercentage);
 
-                        if (scoreResult.totalScore >= 2000f && !starRevealed[0])
+                        if (scoreResult.totalScore >= 2000f)
                         {
-                            starRevealed[0] = true;
-                            starElement.TriggerStar1();                            
+                            if (!starRevealed[0])
+                            {
+                                starRevealed[0] = true;
+                                starElement.TriggerStar1();
+                            }
+                            if (!feedbackElements[i].starRevealed[0])
+                            {
+                                feedbackElements[i].starRevealed[0] = true;
+                                feedbackElements[i].TriggerStar1();
+                            }
                         }
-                        else if (scoreResult.totalScore >= 4000f && !starRevealed[1])
+                        if (scoreResult.totalScore >= 4000f)
                         {
-                            starRevealed[1] = true;
-                            starElement.TriggerStar2();
+                            if (!starRevealed[1])
+                            {
+                                starRevealed[1] = true;
+                                starElement.TriggerStar2();
+                            }
+                            if (!feedbackElements[i].starRevealed[1])
+                            {
+                                feedbackElements[i].starRevealed[1] = true;
+                                feedbackElements[i].TriggerStar2();
+                            }
                         }
-                        else if (scoreResult.totalScore >= 6000f && !starRevealed[2])
+                        if (scoreResult.totalScore >= 6000f)
                         {
-                            starRevealed[2] = true;
+                            if (!starRevealed[2])
+                            {
+                                starRevealed[2] = true;
+                                starElement.TriggerStar3();
+                            }
+                            if (!feedbackElements[i].starRevealed[2])
+                            {
+                                feedbackElements[i].starRevealed[2] = true;
+                                feedbackElements[i].TriggerStar3();
+                            }
                         }
-                        else if (scoreResult.totalScore >= 8000f && !starRevealed[3])
+                        if (scoreResult.totalScore >= 8000f)
                         {
-                            starRevealed[3] = true;
+                            if (!starRevealed[3])
+                            {
+                                starRevealed[3] = true;
+                                starElement.TriggerStar4();
+                            }
+                            if (!feedbackElements[i].starRevealed[3])
+                            {
+                                feedbackElements[i].starRevealed[3] = true;
+                                feedbackElements[i].TriggerStar4();
+                            }
                         }
-                        else if (scoreResult.totalScore >= 10000f && !starRevealed[4])
+                        if (scoreResult.totalScore >= 10000f)
                         {
-                            starRevealed[4] = true;
+                            if (!starRevealed[4])
+                            {
+                                starRevealed[4] = true;
+                                starElement.TriggerStar5();
+                            }
+                            if (!feedbackElements[i].starRevealed[4])
+                            {
+                                feedbackElements[i].starRevealed[4] = true;
+                                feedbackElements[i].TriggerStar5();
+                            }
+                        }
+                        if (scoreResult.totalScore >= 11000f)
+                        {
+                            if (!starRevealed[5])
+                            {
+                                starRevealed[5] = true;
+                                starElement.TriggerSuperstar();
+                            }
+                            if (!feedbackElements[i].starRevealed[5])
+                            {
+                                feedbackElements[i].starRevealed[5] = true;
+                                feedbackElements[i].TriggerSuperstar();
+                            }
+                        }
+                        if (scoreResult.totalScore >= 12000f)
+                        {
+                            if (!starRevealed[6])
+                            {
+                                starRevealed[6] = true;
+                                starElement.TriggerMegastar();
+                            }
+                            if (!feedbackElements[i].starRevealed[6])
+                            {
+                                feedbackElements[i].starRevealed[6] = true;
+                                feedbackElements[i].TriggerMegastar();
+                            }
                         }
 
                         atualRating[i]++;
