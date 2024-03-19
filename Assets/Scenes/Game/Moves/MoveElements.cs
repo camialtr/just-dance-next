@@ -1,10 +1,9 @@
+using Nova;
 using System.IO;
 using UnityEngine;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using Nova;
-using System.Linq.Expressions;
 
 public class MoveElements : MonoBehaviour
 {
@@ -23,6 +22,8 @@ public class MoveElements : MonoBehaviour
     public FeedbackElements[] feedbackElements;
     public GameObject[] dancersIndicator;
     public UIBlock2D[] dancersIndicatorUIBlock;
+    public StarElements starElement;
+    bool[] starRevealed = new bool[5] { false, false, false, false, false };
 
     public async Task<bool> LoadAndAssociateAllMoves(string mapName, string path)
     {
@@ -136,6 +137,30 @@ public class MoveElements : MonoBehaviour
                         }
                         float scorePercentage = Mathf.InverseLerp(0f, 12000f, scoreResult.totalScore);
                         dancersIndicatorUIBlock[i].Position.Y = Mathf.Lerp(-300, 300, scorePercentage);
+
+                        if (scoreResult.totalScore >= 2000f && !starRevealed[0])
+                        {
+                            starRevealed[0] = true;
+                            starElement.TriggerStar1();                            
+                        }
+                        else if (scoreResult.totalScore >= 4000f && !starRevealed[1])
+                        {
+                            starRevealed[1] = true;
+                            starElement.TriggerStar2();
+                        }
+                        else if (scoreResult.totalScore >= 6000f && !starRevealed[2])
+                        {
+                            starRevealed[2] = true;
+                        }
+                        else if (scoreResult.totalScore >= 8000f && !starRevealed[3])
+                        {
+                            starRevealed[3] = true;
+                        }
+                        else if (scoreResult.totalScore >= 10000f && !starRevealed[4])
+                        {
+                            starRevealed[4] = true;
+                        }
+
                         atualRating[i]++;
                     }
                 }
