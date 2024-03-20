@@ -24,6 +24,7 @@ public class MoveElements : MonoBehaviour
     public UIBlock2D[] dancersIndicatorUIBlock;
     public StarElements starElement;
     bool[] starRevealed = new bool[7] { false, false, false, false, false, false, false };
+    bool[] scoreShowed = new bool[4] { false, false, false, false };
 
     public async Task<bool> LoadAndAssociateAllMoves(string mapName, string path)
     {
@@ -99,13 +100,14 @@ public class MoveElements : MonoBehaviour
 
     private void Update()
     {
-        if (timeManager == null || !timeManager.IsRunning || (float)(timeManager.ElapsedMilliseconds / 1000f) < musicTrack.beats[musicTrack.startBeat]) { return; }
+        if (timeManager == null || !timeManager.IsRunning || (float)(timeManager.ElapsedMilliseconds / 1000f) < musicTrack.beats[musicTrack.startBeat]) { return; }        
 
         for (int i = 0; i < 4; i++)
         {
             if (playerConnected[i] && DancerIdentifier.dancers[i] != null)
             {
-                if (scoring[i].AddSample(DancerIdentifier.dancers[i].accelermeterData.Value.x, DancerIdentifier.dancers[i].accelermeterData.Value.y, DancerIdentifier.dancers[i].accelermeterData.Value.z, (float)(timeManager.ElapsedMilliseconds / 1000f) - musicTrack.beats[musicTrack.startBeat] - DancerIdentifier.dancers[i].pingData))
+                //UnityEngine.Debug.LogError(DancerIdentifier.dancers[i].pingData);
+                if (scoring[i].AddSample(DancerIdentifier.dancers[i].accelermeterData.Value.x, DancerIdentifier.dancers[i].accelermeterData.Value.y, DancerIdentifier.dancers[i].accelermeterData.Value.z, (float)(timeManager.ElapsedMilliseconds / 1000f) - musicTrack.beats[musicTrack.startBeat] - 0.1f))
                 {
                     ScoreResult scoreResult = scoring[i].GetLastScore();
                     if (scoreResult.moveNum == atualRating[i])
@@ -229,8 +231,12 @@ public class MoveElements : MonoBehaviour
                                 feedbackElements[i].TriggerMegastar();
                             }
                         }
-
                         atualRating[i]++;
+                    }
+                    if ((float)(timeManager.ElapsedMilliseconds / 1000f) >= musicTrack.videoEndTime && !scoreShowed[i])
+                    {
+                        scoreShowed[i] = true;
+                        UnityEngine.Debug.LogError("Dancer " + i + " | Total Score: " + scoreResult.totalScore + " | Total Calories " + scoreResult.totalCalories);
                     }
                 }
             }
