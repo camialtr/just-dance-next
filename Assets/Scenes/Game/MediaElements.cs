@@ -4,6 +4,8 @@ using UnityEngine.Video;
 using System.Diagnostics;
 using System.Collections;
 using UnityEngine.Networking;
+using System.Threading.Tasks;
+using Nova;
 
 
 public class MediaElements : MonoBehaviour
@@ -12,6 +14,7 @@ public class MediaElements : MonoBehaviour
 
     [SerializeField] public VideoPlayer videoPlayer;
     [SerializeField] AudioSource audioPlayer;
+    [SerializeField] RenderTexture[] textures;
     [HideInInspector] public Stopwatch timeManager;
     [HideInInspector] public GameObject background;
 
@@ -23,6 +26,8 @@ public class MediaElements : MonoBehaviour
     public void LoadMediaAssets(string mapName, string path)
     {
         videoPlayer.url = "file://" + Path.Combine(path, "Maps", mapName, "media", mapName + ".webm");
+        videoPlayer.targetTexture = textures[(int)GlobalSettings.gameSettings.videoResolution];
+        videoPlayer.GetComponent<UIBlock2D>().SetImage(textures[(int)GlobalSettings.gameSettings.videoResolution]);
         videoPlayer.prepareCompleted += VideoPlayer_prepareCompleted;
         videoPlayer.Prepare();
         StartCoroutine(LoadMedia(mapName));
@@ -78,24 +83,23 @@ public class MediaElements : MonoBehaviour
                 if (background.activeInHierarchy)
                 {
                     background.SetActive(false);
-                }
+                }                
+            }
+            float correctionFactor = musicTrack.videoStartTime - musicTrack.beats[musicTrack.startBeat];
+            float timeInMS = timeManager.ElapsedMilliseconds / 1000f;
 
-                float correctionFactor = musicTrack.videoStartTime - musicTrack.beats[musicTrack.startBeat];
-                float timeInMS = timeManager.ElapsedMilliseconds / 1000f;
-
-                if (videoPlayer.time < timeInMS + correctionFactor - 0.25f || videoPlayer.time > timeInMS + correctionFactor + 0.25f)
-                {
-                    videoPlayer.Pause();
-                    videoPlayer.time = timeInMS + correctionFactor;
-                    videoPlayer.Play();
-                }
-                if (audioPlayer.time < timeInMS - 0.1f || audioPlayer.time > timeInMS + 0.1f)
-                {
-                    audioPlayer.Pause();
-                    audioPlayer.time = timeInMS;
-                    audioPlayer.Play();
-                }
-            }            
+            if (videoPlayer.time < timeInMS + correctionFactor - 0.25f || videoPlayer.time > timeInMS + correctionFactor + 0.25f)
+            {
+                videoPlayer.Pause();
+                videoPlayer.time = timeInMS + correctionFactor;
+                videoPlayer.Play();
+            }
+            if (audioPlayer.time < timeInMS - 0.1f || audioPlayer.time > timeInMS + 0.1f)
+            {
+                audioPlayer.Pause();
+                audioPlayer.time = timeInMS;
+                audioPlayer.Play();
+            }
             atualBeat++;
         }
     }

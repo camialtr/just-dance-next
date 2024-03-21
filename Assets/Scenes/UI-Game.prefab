@@ -9476,6 +9476,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   videoPlayer: {fileID: 7191162144582671570}
   audioPlayer: {fileID: 1358116479971426460}
+  textures:
+  - {fileID: 8400000, guid: 7995c51e99adca842a5ba25edf52f598, type: 2}
+  - {fileID: 8400000, guid: 4235667c02bab7844b301281eee02619, type: 2}
+  - {fileID: 8400000, guid: 9d07f863c3f39324aae177bacc7f3b64, type: 2}
+  - {fileID: 8400000, guid: 4c1c1f9da257d754e80c903517b767b6, type: 2}
   background: {fileID: 0}
   isLoaded: 0
 --- !u!1 &8865812698533432677

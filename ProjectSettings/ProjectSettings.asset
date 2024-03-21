@@ -9,7 +9,7 @@ PlayerSettings:
   AndroidFilterTouchesWhenObscured: 0
   AndroidEnableSustainedPerformanceMode: 0
   defaultScreenOrientation: 0
-  targetDevice: 2
+  targetDevice: 0
   useOnDemandResources: 0
   accelerometerFrequency: 60
   companyName: Insight Interactive
@@ -163,6 +163,7 @@ PlayerSettings:
   applicationIdentifier:
     Android: com.insight.jdnext
     Standalone: com.DefaultCompany.2DProject
+    iPhone: com.insight.jdnext
   buildNumber:
     Standalone: 0
     VisionOS: 0

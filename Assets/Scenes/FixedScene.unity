@@ -361,6 +361,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1491124935}
     - target: {fileID: 4897757792177499532, guid: 71e05712a83c7944e9dbad6b41c699f4, type: 3}
+      propertyPath: blurEffect
+      value: 
+      objectReference: {fileID: 700871926}
+    - target: {fileID: 4897757792177499532, guid: 71e05712a83c7944e9dbad6b41c699f4, type: 3}
       propertyPath: connectionUI
       value: 
       objectReference: {fileID: 0}
@@ -372,6 +376,26 @@ PrefabInstance:
       propertyPath: mobileConnectionUI
       value: 
       objectReference: {fileID: 1484531566846504745, guid: ef3dd15adf3d3ed4a8f9217a5efd7bf3, type: 3}
+    - target: {fileID: 4897757792177499532, guid: 71e05712a83c7944e9dbad6b41c699f4, type: 3}
+      propertyPath: textures.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4897757792177499532, guid: 71e05712a83c7944e9dbad6b41c699f4, type: 3}
+      propertyPath: textures.Array.data[0]
+      value: 
+      objectReference: {fileID: 8400000, guid: d111133d41eb9d44493067225012732d, type: 2}
+    - target: {fileID: 4897757792177499532, guid: 71e05712a83c7944e9dbad6b41c699f4, type: 3}
+      propertyPath: textures.Array.data[1]
+      value: 
+      objectReference: {fileID: 8400000, guid: 5f1bbd7e6f6ea504488a7ec44b2cbcc7, type: 2}
+    - target: {fileID: 4897757792177499532, guid: 71e05712a83c7944e9dbad6b41c699f4, type: 3}
+      propertyPath: textures.Array.data[2]
+      value: 
+      objectReference: {fileID: 8400000, guid: e93589fe6abda37438b09690b75e54bd, type: 2}
+    - target: {fileID: 4897757792177499532, guid: 71e05712a83c7944e9dbad6b41c699f4, type: 3}
+      propertyPath: textures.Array.data[3]
+      value: 
+      objectReference: {fileID: 8400000, guid: 577c3ebeb5f249947b39badf5b9ee5d0, type: 2}
     - target: {fileID: 5140253258894978223, guid: 71e05712a83c7944e9dbad6b41c699f4, type: 3}
       propertyPath: targetCamera
       value: 
@@ -413,6 +437,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 71e05712a83c7944e9dbad6b41c699f4, type: 3}
+--- !u!114 &700871926 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9115343484999253767, guid: 71e05712a83c7944e9dbad6b41c699f4, type: 3}
+  m_PrefabInstance: {fileID: 700871925}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1490519802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6f0e9230aa97be4e8a1144a29cf82e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &756969169
 GameObject:
   m_ObjectHideFlags: 0
