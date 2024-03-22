@@ -106,7 +106,6 @@ public class MoveElements : MonoBehaviour
         {
             if (playerConnected[i] && DancerIdentifier.dancers[i] != null)
             {
-                //UnityEngine.Debug.LogError(DancerIdentifier.dancers[i].pingData);
                 if (scoring[i].AddSample(DancerIdentifier.dancers[i].accelermeterData.Value.x, DancerIdentifier.dancers[i].accelermeterData.Value.y, DancerIdentifier.dancers[i].accelermeterData.Value.z, (float)(timeManager.ElapsedMilliseconds / 1000f) - musicTrack.beats[musicTrack.startBeat] - 0.1f))
                 {
                     ScoreResult scoreResult = scoring[i].GetLastScore();
@@ -139,7 +138,6 @@ public class MoveElements : MonoBehaviour
                         }
                         float scorePercentage = Mathf.InverseLerp(0f, 12000f, scoreResult.totalScore);
                         dancersIndicatorUIBlock[i].Position.Y = Mathf.Lerp(-300, 300, scorePercentage);
-
                         if (scoreResult.totalScore >= 2000f)
                         {
                             if (!starRevealed[0])
