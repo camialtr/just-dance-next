@@ -1,11 +1,11 @@
 using Nova;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 using Newtonsoft.Json;
 using UnityEngine.Video;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using System.Linq;
 
 public class MapSelectionManager : MonoBehaviour
 {
@@ -21,12 +21,14 @@ public class MapSelectionManager : MonoBehaviour
     [SerializeField] UIBlock2D backgroundUIBlock;
     [SerializeField] UIBlock coverCluster;
     [SerializeField] UIBlock2D[] covers;
+    [SerializeField] UIBlock2D coverPreview;
     [SerializeField] UIBlock2D titleUIBlock;
     [SerializeField] TextBlock titleTextBlock;
     [SerializeField] TextBlock artist;
     [SerializeField] Texture2D[] difficulties;
     [SerializeField] UIBlock2D difficultiesUIBlock;
     [SerializeField] TextBlock difficultiesTextBlock;
+    [SerializeField] RenderTexture videoPreviewRT;
 
     [SerializeField] GameObject connectionUI;
     [SerializeField] GameObject coachSelectionUI;
@@ -383,7 +385,8 @@ public class MapSelectionManager : MonoBehaviour
 
         artist.Text = songDesc.artist;
 
-        difficultiesUIBlock.SetImage(difficulties[songDesc.difficulty - 1]);
+        if (songDesc.difficulty != 0) { difficultiesUIBlock.SetImage(difficulties[songDesc.difficulty - 1]); }
+        
         switch (songDesc.difficulty)
         {
             case 1:
@@ -400,15 +403,27 @@ public class MapSelectionManager : MonoBehaviour
                 break;
         }
 
-        previewPlayer.url = "file://" + Path.Combine(path, "Maps", playlists.playlistCluster[0].maps[selectedMap].name, "media", "preview.mp4"); ;
-        previewPlayer.Play();
+        previewPlayer.Pause();
+
+        if (!File.Exists(Path.Combine(path, "Maps", playlists.playlistCluster[0].maps[selectedMap].name, "media", "preview.webm")))
+        {
+            Texture2D texture = new(1024, 512, TextureFormat.RGBA32, false);
+            texture.LoadImage(File.ReadAllBytes(Path.Combine(path, "Maps", playlists.playlistCluster[0].maps[selectedMap].name, "menuart", "cover.png")));
+            coverPreview.SetImage(texture);
+        }
+        else
+        {
+            coverPreview.SetImage(videoPreviewRT);
+            previewPlayer.url = "file://" + Path.Combine(path, "Maps", playlists.playlistCluster[0].maps[selectedMap].name, "media", "preview.webm"); ;
+            previewPlayer.Play();
+        }        
 
         if (File.Exists(Path.Combine(path, "Maps", playlists.playlistCluster[0].maps[selectedMap].name, "menuart", "bkg.png")))
         {
             Texture2D texture = new(2048, 1024, TextureFormat.RGBA32, false);
             texture.LoadImage(File.ReadAllBytes(Path.Combine(path, "Maps", playlists.playlistCluster[0].maps[selectedMap].name, "menuart", "bkg.png")));
             backgroundUIBlock.SetImage(texture);
-        }        
+        }
 
         Resources.UnloadUnusedAssets();
     }

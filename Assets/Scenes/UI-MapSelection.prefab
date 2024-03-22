@@ -572,6 +572,7 @@ MonoBehaviour:
   - {fileID: 1496302314360174510}
   - {fileID: 2214305455277300612}
   - {fileID: 3994841854200450301}
+  coverPreview: {fileID: 2510073878816640537}
   titleUIBlock: {fileID: 7810189335910655738}
   titleTextBlock: {fileID: 8971558451116759922}
   artist: {fileID: 902141444566785048}
@@ -582,6 +583,7 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 93bc6b35766eaa643b90c5de22cd1600, type: 3}
   difficultiesUIBlock: {fileID: 7013020956910835004}
   difficultiesTextBlock: {fileID: 7722711659869667508}
+  videoPreviewRT: {fileID: 8400000, guid: eea4ed45e94944e4b84ae6364739508e, type: 2}
   connectionUI: {fileID: 6543517384467166990, guid: fd7446d91b005ff4a9bec3e61b289a73, type: 3}
   coachSelectionUI: {fileID: 7929658333123378317, guid: 0d42f71a50deab7479d1b6de7dae8d5a, type: 3}
   canInteract: 0
