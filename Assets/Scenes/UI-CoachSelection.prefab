@@ -1472,10 +1472,10 @@ MonoBehaviour:
       Direction: 0
     Image:
       Adjustment:
-        CenterUV: {x: 0, y: 0}
+        CenterUV: {x: 0, y: -0.01}
         UVScale: {x: 1, y: 1}
         PixelsPerUnitMultiplier: 1
-        scaleMode: 1
+        scaleMode: 0
       Mode: 1
     SoftenEdges: 1
     FillEnabled: 1
@@ -2436,10 +2436,10 @@ MonoBehaviour:
       Direction: 0
     Image:
       Adjustment:
-        CenterUV: {x: 0, y: 0}
+        CenterUV: {x: 0, y: -0.01}
         UVScale: {x: 1, y: 1}
         PixelsPerUnitMultiplier: 1
-        scaleMode: 1
+        scaleMode: 0
       Mode: 1
     SoftenEdges: 1
     FillEnabled: 1
@@ -4504,10 +4504,10 @@ MonoBehaviour:
       Direction: 0
     Image:
       Adjustment:
-        CenterUV: {x: 0, y: 0}
+        CenterUV: {x: 0, y: -0.01}
         UVScale: {x: 1, y: 1}
         PixelsPerUnitMultiplier: 1
-        scaleMode: 1
+        scaleMode: 0
       Mode: 1
     SoftenEdges: 1
     FillEnabled: 1
@@ -5347,10 +5347,10 @@ MonoBehaviour:
       Direction: 0
     Image:
       Adjustment:
-        CenterUV: {x: 0, y: 0}
+        CenterUV: {x: 0, y: -0.01}
         UVScale: {x: 1, y: 1}
         PixelsPerUnitMultiplier: 1
-        scaleMode: 1
+        scaleMode: 0
       Mode: 1
     SoftenEdges: 1
     FillEnabled: 1
@@ -5949,10 +5949,10 @@ MonoBehaviour:
       Direction: 0
     Image:
       Adjustment:
-        CenterUV: {x: 0, y: 0}
+        CenterUV: {x: 0, y: -0.01}
         UVScale: {x: 1, y: 1}
         PixelsPerUnitMultiplier: 1
-        scaleMode: 1
+        scaleMode: 0
       Mode: 1
     SoftenEdges: 1
     FillEnabled: 1
@@ -7137,10 +7137,10 @@ MonoBehaviour:
       Direction: 0
     Image:
       Adjustment:
-        CenterUV: {x: 0, y: 0}
+        CenterUV: {x: 0, y: -0.01}
         UVScale: {x: 1, y: 1}
         PixelsPerUnitMultiplier: 1
-        scaleMode: 1
+        scaleMode: 0
       Mode: 1
     SoftenEdges: 1
     FillEnabled: 1
@@ -8031,10 +8031,10 @@ MonoBehaviour:
       Direction: 0
     Image:
       Adjustment:
-        CenterUV: {x: 0, y: 0}
+        CenterUV: {x: 0, y: -0.01}
         UVScale: {x: 1, y: 1}
         PixelsPerUnitMultiplier: 1
-        scaleMode: 1
+        scaleMode: 0
       Mode: 1
     SoftenEdges: 1
     FillEnabled: 1
@@ -10161,10 +10161,10 @@ MonoBehaviour:
       Direction: 0
     Image:
       Adjustment:
-        CenterUV: {x: 0, y: 0}
+        CenterUV: {x: 0, y: -0.01}
         UVScale: {x: 1, y: 1}
         PixelsPerUnitMultiplier: 1
-        scaleMode: 1
+        scaleMode: 0
       Mode: 1
     SoftenEdges: 1
     FillEnabled: 1
@@ -11348,10 +11348,10 @@ MonoBehaviour:
       Direction: 0
     Image:
       Adjustment:
-        CenterUV: {x: 0, y: 0}
+        CenterUV: {x: 0, y: -0.01}
         UVScale: {x: 1, y: 1}
         PixelsPerUnitMultiplier: 1
-        scaleMode: 1
+        scaleMode: 0
       Mode: 1
     SoftenEdges: 1
     FillEnabled: 1
@@ -14592,10 +14592,10 @@ MonoBehaviour:
       Direction: 0
     Image:
       Adjustment:
-        CenterUV: {x: 0, y: 0}
+        CenterUV: {x: 0, y: -0.01}
         UVScale: {x: 1, y: 1}
         PixelsPerUnitMultiplier: 1
-        scaleMode: 1
+        scaleMode: 0
       Mode: 1
     SoftenEdges: 1
     FillEnabled: 1

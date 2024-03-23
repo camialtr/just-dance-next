@@ -115,10 +115,7 @@ public class GameManager : MonoBehaviour
         {
             LeanTween.cancelAll();
 
-            while (LeanTween.tweensRunning != 0)
-            {
-                await Task.Delay(1);
-            }
+            await Task.Delay(1000);
 
             background.SetActive(true);
 
