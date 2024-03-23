@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
 
     readonly Stopwatch timeManager = new();
     bool started = false;
-    bool movesLoaded = false;
+    bool pausePressed = false;
 
     public bool[] playerConnected;
     public int[] selectedCoach;
@@ -83,7 +83,7 @@ public class GameManager : MonoBehaviour
 
         await pictoElements.LoadPictoAssets(mapName, path);        
 
-        movesLoaded = await moveElements.LoadAndAssociateAllMoves(mapName, path);
+        await moveElements.LoadAndAssociateAllMoves(mapName, path);
 
         LeanTween.value(0f, 1f, 0.5f).setOnUpdate((float value) =>
         {
@@ -93,7 +93,7 @@ public class GameManager : MonoBehaviour
 
     private async void Update()
     {
-        if (!started && mediaElements.isLoaded && pictoElements.isLoaded && !mediaElements.videoPlayer.isPlaying && movesLoaded)
+        if (!started && mediaElements.isLoaded && pictoElements.isLoaded && !mediaElements.videoPlayer.isPlaying && moveElements.isLoaded)
         {
             mediaElements.Play(musicTrack);
             timeManager.Start();
@@ -111,14 +111,14 @@ public class GameManager : MonoBehaviour
             });
 
         }
-        if (started && InputManager.Undo() && InputManager.source == InputManager.controller | InputManager.source == InputSource.Local)
+        if (!pausePressed && started && InputManager.Undo() && InputManager.source == InputManager.controller | InputManager.source == InputSource.Local)
         {
+            pausePressed = true;
+            timeManager.Stop();
             LeanTween.cancelAll();
-
-            await Task.Delay(1000);
-
+            await Task.Delay(500);
+            LeanTween.cancelAll();
             background.SetActive(true);
-
             for (int i = 0; i < 4; i++)
             {
                 if (moveElements.scoring[i] != null)
@@ -126,7 +126,6 @@ public class GameManager : MonoBehaviour
                     moveElements.scoring[i].EndScore();
                 }
             }
-
             Instantiate(mapSelection);
             Destroy(gameObject);
         }

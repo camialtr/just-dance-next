@@ -47,13 +47,14 @@ public class OverlayManager : MonoBehaviour
             if (!File.Exists(Path.Combine(path + "/settings.json")))
             {
                 GlobalSettings.gameSettings = new();
+                GlobalSettings.gameSettings.vSyncCount = 1;
                 GlobalSettings.gameSettings.resolution = Resolution.high;
                 GlobalSettings.gameSettings.videoResolution = Resolution.ultra;
-                GlobalSettings.gameSettings.accelerometerCorrectionMS = 0.100f;
                 File.WriteAllText(Path.Combine(path + "/settings.json"), JsonConvert.SerializeObject(GlobalSettings.gameSettings, Formatting.Indented));
             }
 
             GlobalSettings.gameSettings = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(Path.Combine(path + "/settings.json")));
+            QualitySettings.vSyncCount = GlobalSettings.gameSettings.vSyncCount;
             Camera.main.targetTexture = textures[(int)GlobalSettings.gameSettings.resolution];
             blurEffect.InputTexture = textures[(int)GlobalSettings.gameSettings.resolution];
 
@@ -95,9 +96,9 @@ public class OverlayManager : MonoBehaviour
 
 public struct Settings
 {
+    public int vSyncCount;
     public Resolution resolution;
     public Resolution videoResolution;
-    public float accelerometerCorrectionMS;
 }
 
 public enum Resolution

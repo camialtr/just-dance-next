@@ -14,6 +14,7 @@ public class MoveElements : MonoBehaviour
 
     [HideInInspector] public bool[] playerConnected;
     [HideInInspector] public int[] selectedCoach;
+    [HideInInspector] public bool isLoaded = false;
 
     [HideInInspector] public Scoring[] scoring;
     List<Moves>[] movesInfo;
@@ -26,7 +27,7 @@ public class MoveElements : MonoBehaviour
     bool[] starRevealed = new bool[7] { false, false, false, false, false, false, false };
     bool[] scoreShowed = new bool[4] { false, false, false, false };
 
-    public async Task<bool> LoadAndAssociateAllMoves(string mapName, string path)
+    public async Task LoadAndAssociateAllMoves(string mapName, string path)
     {
         scoring = new Scoring[4] { null, null, null, null };
         movesInfo = new List<Moves>[4] { null, null, null, null };
@@ -95,7 +96,7 @@ public class MoveElements : MonoBehaviour
                     break;
             }
         }
-        return true;
+        isLoaded = true;
     }
 
     private void Update()
@@ -106,7 +107,7 @@ public class MoveElements : MonoBehaviour
         {
             if (playerConnected[i] && DancerIdentifier.dancers[i] != null)
             {
-                if (scoring[i].AddSample(DancerIdentifier.dancers[i].accelermeterData.Value.x, DancerIdentifier.dancers[i].accelermeterData.Value.y, DancerIdentifier.dancers[i].accelermeterData.Value.z, (float)(timeManager.ElapsedMilliseconds / 1000f) - musicTrack.beats[musicTrack.startBeat] - GlobalSettings.gameSettings.accelerometerCorrectionMS))
+                if (scoring[i].AddSample(DancerIdentifier.dancers[i].accelermeterData.Value.x, DancerIdentifier.dancers[i].accelermeterData.Value.y, DancerIdentifier.dancers[i].accelermeterData.Value.z, (float)(timeManager.ElapsedMilliseconds / 1000f) - musicTrack.beats[musicTrack.startBeat] - 0.1f))
                 {
                     ScoreResult scoreResult = scoring[i].GetLastScore();
                     if (scoreResult.moveNum == atualRating[i])
