@@ -49,12 +49,29 @@ public class OverlayManager : MonoBehaviour
                 GlobalSettings.gameSettings = new();
                 GlobalSettings.gameSettings.resolution = Resolution.high;
                 GlobalSettings.gameSettings.videoResolution = Resolution.ultra;
+                GlobalSettings.gameSettings.accelerometerCorrectionMS = 0.100f;
                 File.WriteAllText(Path.Combine(path + "/settings.json"), JsonConvert.SerializeObject(GlobalSettings.gameSettings, Formatting.Indented));
             }
 
             GlobalSettings.gameSettings = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(Path.Combine(path + "/settings.json")));
             Camera.main.targetTexture = textures[(int)GlobalSettings.gameSettings.resolution];
             blurEffect.InputTexture = textures[(int)GlobalSettings.gameSettings.resolution];
+
+            switch (GlobalSettings.gameSettings.resolution)
+            {
+                case Resolution.low:
+                    Screen.SetResolution(854, 480, true);
+                    break;
+                case Resolution.medium:
+                    Screen.SetResolution(1280, 720, true);
+                    break;
+                case Resolution.high:
+                    Screen.SetResolution(1920, 1080, true);
+                    break;
+                case Resolution.ultra:
+                    Screen.SetResolution(3840, 2160, true);
+                    break;
+            }
 
             LeanTween.init(2500);
             if (Application.platform == RuntimePlatform.WindowsPlayer)
@@ -80,6 +97,7 @@ public struct Settings
 {
     public Resolution resolution;
     public Resolution videoResolution;
+    public float accelerometerCorrectionMS;
 }
 
 public enum Resolution

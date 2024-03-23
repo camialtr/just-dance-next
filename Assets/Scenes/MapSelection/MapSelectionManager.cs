@@ -163,11 +163,11 @@ public class MapSelectionManager : MonoBehaviour
 
                 UpdateMenu();
 
-                coverCluster.Position.X = -378f;
+                coverCluster.Position.X = -972f;
 
                 await Task.Delay(25);
 
-                LeanTween.value(-378f, 0f, 0.2f).setOnUpdate((float value) =>
+                LeanTween.value(-972f, -594f, 0.2f).setOnUpdate((float value) =>
                 {
                     coverCluster.Position.X = value;
                 }).setEaseInOutCirc().setOnComplete(() =>
@@ -276,14 +276,14 @@ public class MapSelectionManager : MonoBehaviour
                     backgroundUIBlock.Color = new(1f, 1f, 1f, value);
                 });
 
-                LeanTween.value(0f, -378f, 0.2f).setOnUpdate((float value) =>
+                LeanTween.value(-594f, -972f, 0.2f).setOnUpdate((float value) =>
                 {
                     coverCluster.Position.X = value;
                 }).setEaseInOutCirc().setOnComplete(async () =>
                 {
                     await Task.Delay(25);
                     UpdateMenu();
-                    coverCluster.Position.X = 0f;
+                    coverCluster.Position.X = -594f;
                     await Task.Delay(25);
                     if (titleIsText)
                     {
@@ -352,22 +352,22 @@ public class MapSelectionManager : MonoBehaviour
         songDesc = JsonConvert.DeserializeObject<SongDesc>(File.ReadAllText(Path.Combine(path, "Maps", playlists.playlistCluster[0].maps[selectedMap].name, "songdesc.json")));
 
         for (int i = 0; i < covers.Length; i++)
-        {
+        {            
             if (i != 0)
             {
                 int iSelectedMap;
-                if (selectedMap + i >= playlists.playlistCluster[0].maps.Count)
+                if (selectedMap - 1 + i >= playlists.playlistCluster[0].maps.Count)
                 {
-                    iSelectedMap = selectedMap + i - playlists.playlistCluster[0].maps.Count;
+                    iSelectedMap = selectedMap - 1 + i - playlists.playlistCluster[0].maps.Count;
                 }
                 else
                 {
-                    iSelectedMap = selectedMap + i;
+                    iSelectedMap = selectedMap - 1 + i;
                 }
                 Texture2D texture = new(1024, 512, TextureFormat.RGBA32, false);
                 texture.LoadImage(File.ReadAllBytes(Path.Combine(path, "Maps", playlists.playlistCluster[0].maps[iSelectedMap].name, "menuart", "cover.png")));
                 covers[i].SetImage(texture);
-            }            
+            }
         }
 
         if (File.Exists(Path.Combine(path, "Maps", playlists.playlistCluster[0].maps[selectedMap].name, "menuart", "title.png")))

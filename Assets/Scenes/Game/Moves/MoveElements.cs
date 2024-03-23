@@ -106,7 +106,7 @@ public class MoveElements : MonoBehaviour
         {
             if (playerConnected[i] && DancerIdentifier.dancers[i] != null)
             {
-                if (scoring[i].AddSample(DancerIdentifier.dancers[i].accelermeterData.Value.x, DancerIdentifier.dancers[i].accelermeterData.Value.y, DancerIdentifier.dancers[i].accelermeterData.Value.z, (float)(timeManager.ElapsedMilliseconds / 1000f) - musicTrack.beats[musicTrack.startBeat] - 0.1f))
+                if (scoring[i].AddSample(DancerIdentifier.dancers[i].accelermeterData.Value.x, DancerIdentifier.dancers[i].accelermeterData.Value.y, DancerIdentifier.dancers[i].accelermeterData.Value.z, (float)(timeManager.ElapsedMilliseconds / 1000f) - musicTrack.beats[musicTrack.startBeat] - GlobalSettings.gameSettings.accelerometerCorrectionMS))
                 {
                     ScoreResult scoreResult = scoring[i].GetLastScore();
                     if (scoreResult.moveNum == atualRating[i])

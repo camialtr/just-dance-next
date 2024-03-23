@@ -114,6 +114,12 @@ public class GameManager : MonoBehaviour
         if (started && InputManager.Undo() && InputManager.source == InputManager.controller | InputManager.source == InputSource.Local)
         {
             LeanTween.cancelAll();
+
+            while (LeanTween.tweensRunning != 0)
+            {
+                await Task.Delay(1);
+            }
+
             background.SetActive(true);
 
             for (int i = 0; i < 4; i++)
