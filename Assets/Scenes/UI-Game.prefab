@@ -5400,6 +5400,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerConnected: 
   selectedCoach: 
+  isLoaded: 0
   dancerPrefab: {fileID: 3626150529775651533, guid: df047b1d5ed879b40ae47432aff8f583, type: 3}
   feedbackElements: []
   dancersIndicator:
@@ -7920,6 +7921,7 @@ MonoBehaviour:
   selectedCoach: 
   UIGameClipMask: {fileID: 935223390443977647}
   mapSelection: {fileID: 576116797420771612, guid: f9f70a62eb98ebd488a693bfefbf5b55, type: 3}
+  scoreViewer: {fileID: 7929658333123378317, guid: 4afbb2b69ac2bbd4a9d0374122f13948, type: 3}
 --- !u!114 &935223390443977647
 MonoBehaviour:
   m_ObjectHideFlags: 0

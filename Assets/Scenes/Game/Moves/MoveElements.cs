@@ -25,7 +25,6 @@ public class MoveElements : MonoBehaviour
     public UIBlock2D[] dancersIndicatorUIBlock;
     public StarElements starElement;
     bool[] starRevealed = new bool[7] { false, false, false, false, false, false, false };
-    bool[] scoreShowed = new bool[4] { false, false, false, false };
 
     public async Task LoadAndAssociateAllMoves(string mapName, string path)
     {
@@ -51,7 +50,7 @@ public class MoveElements : MonoBehaviour
                 int movesLoaded = 0;
                 for (int moveIndex = 0; moveIndex < movesInfo[i].Count; moveIndex++)
                 {
-                    bool isLastOne = moveIndex == movesInfo[i].Count - 1;                    
+                    bool isLastOne = moveIndex == movesInfo[i].Count - 1;
                     bool isGoldMove = false;
                     if (movesInfo[i][moveIndex].goldMove == 1) { isGoldMove = true; }
                     scoring[i].LoadClassifier(movesInfo[i][moveIndex].name, await File.ReadAllBytesAsync(Path.Combine(path, "Maps", mapName, "moves", movesInfo[i][moveIndex].name + ".msm")));
@@ -231,11 +230,6 @@ public class MoveElements : MonoBehaviour
                             }
                         }
                         atualRating[i]++;
-                    }
-                    if ((float)(timeManager.ElapsedMilliseconds / 1000f) >= musicTrack.videoEndTime && !scoreShowed[i])
-                    {
-                        scoreShowed[i] = true;
-                        UnityEngine.Debug.LogError("Dancer " + i + " | Total Score: " + scoreResult.totalScore + " | Total Calories " + scoreResult.totalCalories);
                     }
                 }
             }

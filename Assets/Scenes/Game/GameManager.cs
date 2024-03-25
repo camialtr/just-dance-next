@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] ClipMask UIGameClipMask;
     [SerializeField] GameObject mapSelection;
+    [SerializeField] GameObject scoreViewer;
     GameObject background;
 
     private async void Start()
@@ -128,6 +129,44 @@ public class GameManager : MonoBehaviour
             }
             Instantiate(mapSelection);
             Destroy(gameObject);
+        }
+
+        if (timeManager == null || !timeManager.IsRunning || (float)(timeManager.ElapsedMilliseconds / 1000f) < musicTrack.beats[musicTrack.startBeat]) { return; }
+
+        if (!mediaElements.audioPlayer.isPlaying)
+        {
+            pausePressed = true;
+            timeManager.Stop();
+            LeanTween.cancelAll();
+            background.SetActive(true);
+
+            RecapManager recapManager = scoreViewer.GetComponent<RecapManager>();
+            recapManager.playerConnected = playerConnected;
+
+            int[] score = new int[4];
+
+            for (int i = 0; i < 4; i++)
+            {
+                if (moveElements.scoring[i] != null)
+                {
+                    ScoreResult scoreResult = moveElements.scoring[i].GetLastScore();
+                    score[i] = (int)scoreResult.totalScore;
+                    moveElements.scoring[i].EndScore();
+                }
+            }
+
+            recapManager.playerScore = score;
+            recapManager.backgroundManager = background.GetComponent<BackgroundManager>();
+
+            LeanTween.value(1f, 0f, 0.5f).setOnUpdate((float value) =>
+            {
+                UIGameClipMask.Tint = new(1f, 1f, 1f, value);
+            }).setOnComplete(() =>
+            {
+                LeanTween.cancelAll();
+                Instantiate(scoreViewer);
+                Destroy(gameObject);
+            });
         }
     }
 }

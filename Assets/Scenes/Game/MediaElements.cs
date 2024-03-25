@@ -12,7 +12,7 @@ public class MediaElements : MonoBehaviour
     [HideInInspector] public MusicTrack musicTrack;
 
     [SerializeField] public VideoPlayer videoPlayer;
-    [SerializeField] AudioSource audioPlayer;
+    [SerializeField] public AudioSource audioPlayer;
     [SerializeField] RenderTexture[] textures;
     [HideInInspector] public Stopwatch timeManager;
     [HideInInspector] public GameObject background;
@@ -54,7 +54,7 @@ public class MediaElements : MonoBehaviour
         else
         {
             path = Path.Combine(Directory.GetCurrentDirectory(), "Build/Just Dance Next_Data");
-        }
+        };
 
         yield return audioClip = UnityWebRequestMultimedia.GetAudioClip(Path.Combine(path, "Maps", mapName, "media", mapName + ".ogg"), AudioType.OGGVORBIS).SendWebRequest();
         audioPlayer.clip = DownloadHandlerAudioClip.GetContent(audioClip.webRequest);
@@ -75,7 +75,7 @@ public class MediaElements : MonoBehaviour
     {
         if (timeManager == null || !timeManager.IsRunning) { return; }
 
-        if (atualBeat < musicTrack.beats.Count && timeManager.ElapsedMilliseconds / 1000f >= musicTrack.beats[atualBeat])
+        if (atualBeat < musicTrack.beats.Count && timeManager.ElapsedMilliseconds / 1000f >= musicTrack.beats[atualBeat] && audioPlayer.isPlaying)
         {
             if (atualBeat > 10)
             {
