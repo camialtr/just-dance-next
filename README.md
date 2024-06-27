@@ -1,4 +1,4 @@
-<h1 align="center">Just Dance: PC EDITION</h1>
+<h1 align="center">Just Dance Next: PC EDITION</h1>
 
 <p align="center">Screenshots</p>
 <img src="https://cdn.discordapp.com/attachments/1222254597087957022/1222557132851773540/main_next.png?ex=667ecc8e&is=667d7b0e&hm=32fcd8458f3e146ada614c322a7f8ca57d978b66bc2e83c997cf9c3bff0d29ad&"></img>
